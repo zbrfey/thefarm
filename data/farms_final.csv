@@ -1,0 +1,21 @@
+﻿,score,finnkode,place,fylke,pris_kr,total_daa,arable_daa,forest_daa,beite,annet,arable_ok,coast,creek,iso,water_power,konsesjon,losore,url
+1,76.8,460136298,Indre Nærøy,Trøndelag,1150000,245,78.5,5.4,7.0,149.7,OK,strandlinje/naust,elv/vann,-,vann,-,-,https://www.finn.no/realestate/homes/ad.html?finnkode=460136298
+2,76.4,474654074,Sylte,Møre og Romsdal,1733600,316,33.2,55.9,7.0,214.9,OK,strandlinje/naust,elv/vann,-,-,ja,-,https://www.finn.no/realestate/homes/ad.html?finnkode=474654074
+3,73.0,475438557,Vik i Sogn,Vestland,913340,207,8.8,98.1,13.6,85.4,OK,strandlinje/naust,elv/vann,ja,-,-,-,https://www.finn.no/realestate/homes/ad.html?finnkode=475438557
+4,72.8,475527762,Sandstad,Trøndelag,1425840,1383,14.6,294.5,0.0,1063.6,OK,strandlinje/naust,elv/vann,ja,-,-,-,https://www.finn.no/realestate/homes/ad.html?finnkode=475527762
+5,72.6,428653800,Kjeldebotn,Nordland,1144750,134,11.9,103.3,0.0,15.0,OK,strandlinje/naust,elv/vann,ja,-,ja,-,https://www.finn.no/realestate/homes/ad.html?finnkode=428653800
+6,69.6,420640875,Ålen,Trøndelag,1118340,188,26.1,86.0,0.9,74.1,OK,-,elv/vann,-,-,ja,-,https://www.finn.no/realestate/homes/ad.html?finnkode=420640875
+7,69.1,467875724,Brøstadbotn,Troms,1384840,105,20.6,53.2,0.0,28.2,OK,strandlinje/naust,elv/vann,ja,-,ja,-,https://www.finn.no/realestate/homes/ad.html?finnkode=467875724
+8,69.0,467387890,Midsund,Møre og Romsdal,1743850,117,14.6,31.5,1.4,66.3,OK,strandlinje/naust,elv/vann,ja,-,-,-,https://www.finn.no/realestate/homes/ad.html?finnkode=467387890
+9,67.9,407956817,Rebbenes,Troms,1538590,425,9.1,0.0,0.0,415.9,OK,strandlinje/naust,elv/vann,ja,-,ja,-,https://www.finn.no/realestate/homes/ad.html?finnkode=407956817
+10,67.8,467679110,Leirfjord,Nordland,1600000,480,24.2,0.0,5.0,0.0,OK,strandlinje/naust,bekk/vassdrag,-,vann,ja,ja,https://www.finn.no/realestate/homes/ad.html?finnkode=467679110
+11,67.2,464983010,Naustdal,Vestland,923850,43,12.8,19.1,2.8,6.7,OK,strandlinje/naust,bekk/vassdrag,-,vann,ja,ja,https://www.finn.no/realestate/homes/ad.html?finnkode=464983010
+12,66.3,476406700,Gjerstad,Agder,1220840,242,0.0,198.7,4.3,38.6,LOW(<5),sjø nevnt,elv/vann,-,-,-,-,https://www.finn.no/realestate/homes/ad.html?finnkode=476406700
+13,65.8,465020062,Silsand,Troms,821090,185,0.0,29.5,14.3,136.3,LOW(<5),strandlinje/naust,elv/vann,ja,-,-,-,https://www.finn.no/realestate/homes/ad.html?finnkode=465020062
+14,65.1,472114307,Gjerstad,Agder,1250000,105,15.1,37.0,0.0,51.5,OK,-,bekk/vassdrag,ja,vann,ja,-,https://www.finn.no/realestate/homes/ad.html?finnkode=472114307
+15,65.1,475516012,Stonglandseidet,Troms,1538590,286,10.4,63.2,0.0,211.2,OK,sjø nevnt,elv/vann,ja,-,-,-,https://www.finn.no/realestate/homes/ad.html?finnkode=475516012
+16,63.7,472124111,Frosta,Trøndelag,1487340,27,25.3,0.2,0.0,0.0,OK,strandlinje/naust,elv/vann,-,-,-,-,https://www.finn.no/realestate/homes/ad.html?finnkode=472124111
+17,63.0,454487275,Jøvika,Troms,1527250,169,4.2,16.6,6.2,141.0,LOW(<5),strandlinje/naust,elv/vann,-,strøm,ja,-,https://www.finn.no/realestate/homes/ad.html?finnkode=454487275
+18,62.5,416541143,Sortland,Nordland,1085000,75,16.7,32.6,0.0,24.2,OK,sjø nevnt,elv/vann,ja,vann+strøm,ja,-,https://www.finn.no/realestate/homes/ad.html?finnkode=416541143
+19,60.6,457049923,Velfjord,Nordland,1487340,43,0.0,36.5,0.0,6.0,LOW(<5),sjø nevnt,bekk/vassdrag,ja,vann+strøm,-,-,https://www.finn.no/realestate/homes/ad.html?finnkode=457049923
+20,58.9,467178758,Lebesby,Finnmark,646840,83,27.5,0.0,17.1,35.7,OK,sjø nevnt,bekk/vassdrag,-,-,-,-,https://www.finn.no/realestate/homes/ad.html?finnkode=467178758

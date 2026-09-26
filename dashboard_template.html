@@ -1,0 +1,1335 @@
+<!DOCTYPE html>
+<html lang="nn">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gårdsjakt</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,500;8..60,600&display=swap">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<style>
+:root{
+  --bg:#f3f1ec; --panel:#faf9f6; --card:#ffffff; --ink:#1a1916; --muted:#5c5850;
+  --faint:#8a857c; --line:#ddd8ce; --line2:#ece8e0; --accent:#243f32; --accent-ink:#faf9f6;
+  --score:#243f32; --warn:#8a5720; --bad:#8a3530; --info:#3d5263; --gold:#b0892e;
+  --c-fulldyrka:#c9a227; --c-overflatedyrka:#d4b84a; --c-beite:#a3b36a;
+  --c-skog:#3d6b47; --c-annet:#a89880; --c-bebygd:#b88990; --c-ikke:#9a9790;
+  --r:2px;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#141311; --panel:#1b1a17; --card:#22211d; --ink:#eceae4; --muted:#a8a398;
+    --faint:#7c786f; --line:#2e2c27; --line2:#26251f; --accent:#c5c0b4; --accent-ink:#141311;
+    --score:#c5d4c4; --warn:#d4a05c; --bad:#d48982; --info:#9bb0c4;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#141311; --panel:#1b1a17; --card:#22211d; --ink:#eceae4; --muted:#a8a398;
+  --faint:#7c786f; --line:#2e2c27; --line2:#26251f; --accent:#c5c0b4; --accent-ink:#141311;
+  --score:#c5d4c4; --warn:#d4a05c; --bad:#d48982; --info:#9bb0c4;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:"Schibsted Grotesk",ui-sans-serif,system-ui,sans-serif;font-size:14px;line-height:1.5;
+  font-feature-settings:"ss01","cv11";-webkit-font-smoothing:antialiased}
+h1,h2,h3{font-family:"Source Serif 4",Georgia,serif;font-weight:600;margin:0;letter-spacing:-.015em;
+  font-variation-settings:"opsz" 24}
+.mono{font-family:inherit;font-variant-numeric:tabular-nums lining-nums;font-feature-settings:"tnum"}
+button{font-family:inherit;color:inherit}
+a{color:var(--accent)}
+::selection{background:#d8d3c8;color:var(--ink)}
+:focus-visible{outline:1px solid var(--ink);outline-offset:2px}
+.app{display:flex;flex-direction:column;height:100%}
+header.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--panel);
+  border-top:2px solid var(--ink);border-bottom:1px solid var(--line);padding:8px 16px;display:flex;flex-direction:column;gap:8px}
+.brand{display:flex;align-items:center;gap:12px;width:100%;flex-wrap:nowrap}
+.brand h1{font-size:20px;font-weight:600;flex:0 0 auto}
+.brand .sub{color:var(--muted);font-size:12px;font-weight:400;flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.brand .viewseg{margin-left:0;flex:0 0 auto}
+.controls{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.seg{display:flex;border:1px solid var(--line);border-radius:var(--r);padding:0;overflow:hidden;background:var(--card)}
+.seg button{border:0;background:transparent;border-radius:0;padding:5px 11px;font-size:12px;font-weight:500;cursor:pointer;color:var(--muted);border-right:1px solid var(--line)}
+.seg button:last-child{border-right:0}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
+select,.toggle{font-size:12px;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:var(--r);padding:5px 8px;cursor:pointer}
+.toggle{display:inline-flex;align-items:center;gap:6px;user-select:none;border:0;background:transparent;padding:0}
+.toggle input{accent-color:var(--ink)}
+.body{display:grid;grid-template-columns:minmax(280px,340px) 1fr;flex:1;min-height:0}
+.list{overflow-y:auto;border-right:1px solid var(--line);background:var(--bg);padding:0}
+.row{width:100%;text-align:left;border:0;border-bottom:1px solid var(--line2);background:transparent;border-radius:0;
+  padding:9px 14px;margin:0;cursor:pointer;display:grid;grid-template-columns:28px minmax(0,1fr) auto;gap:6px 10px;align-items:start}
+.row:hover{background:var(--panel)}
+.row[aria-current="true"]{background:var(--card);box-shadow:inset 2px 0 0 var(--ink)}
+.rank{font-variant-numeric:tabular-nums;font-weight:500;font-size:12px;color:var(--faint);min-width:22px;text-align:right;padding-top:2px}
+.row .nm{font-weight:600;font-size:13px;line-height:1.25;letter-spacing:-.01em}
+.row .pl{color:var(--muted);font-size:11.5px;margin-top:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.row .rt{text-align:right;padding-top:1px}.row .sc{font-variant-numeric:tabular-nums;font-weight:600;font-size:13px;color:var(--ink)}
+.row .pr{color:var(--muted);font-size:11px}
+.mixbar{grid-column:1/-1;height:3px;border-radius:0;overflow:hidden;display:flex;gap:1px;background:var(--line2);margin-top:1px;width:100%}
+.mixbar i{height:100%}
+.chips{grid-column:1/-1;display:flex;gap:4px;flex-wrap:wrap;margin-top:1px}
+.chip{font-size:10.5px;font-weight:500;padding:0 5px;border-radius:var(--r);border:1px solid var(--line);color:var(--muted);white-space:nowrap;background:transparent}
+.chip.reg{border-color:var(--line);color:var(--ink)}.chip.w{border-color:color-mix(in srgb,var(--warn) 40%,var(--line));color:var(--warn)}
+.detail{overflow-y:auto;padding:18px clamp(16px,3vw,28px) 40px}
+.dhead{display:flex;justify-content:space-between;gap:16px;align-items:flex-start;flex-wrap:wrap}
+.dhead h2{font-size:clamp(20px,2.4vw,26px)}.dhead .loc{color:var(--muted);margin-top:4px;font-size:13px;max-width:62ch}
+.scorebox{text-align:right;flex-shrink:0}
+.scorebox .n{font-family:inherit;font-variant-numeric:tabular-nums;font-weight:600;font-size:28px;color:var(--ink);line-height:1}
+.scorebox .l{font-size:11px;letter-spacing:0;text-transform:none;color:var(--faint);margin-top:2px}
+.price{margin-top:4px;font-variant-numeric:tabular-nums;font-size:14px;font-weight:600}.price small{color:var(--muted);font-weight:400}
+.badges{display:flex;gap:5px;flex-wrap:wrap;margin:12px 0}
+.badge{font-size:11px;font-weight:500;padding:2px 7px;border-radius:var(--r);border:1px solid var(--line);background:transparent;display:inline-flex;gap:5px;align-items:center}
+.badge.good{border-color:color-mix(in srgb,var(--score) 40%,var(--line));color:var(--score)}.badge.warn{border-color:color-mix(in srgb,var(--warn) 40%,var(--line));color:var(--warn)}
+.badge.bad{border-color:color-mix(in srgb,var(--bad) 40%,var(--line));color:var(--bad)}.badge.info{border-color:var(--line);color:var(--info)}
+
+/* media viewer */
+.mtabs{display:flex;border:1px solid var(--line);border-radius:var(--r);padding:0;width:max-content;max-width:100%;flex-wrap:wrap;margin-bottom:10px;overflow:hidden;background:var(--card)}
+.mtabs button{border:0;background:transparent;border-radius:0;padding:6px 12px;font-size:12.5px;font-weight:500;color:var(--muted);cursor:pointer;border-right:1px solid var(--line)}
+.mtabs button:last-child{border-right:0}
+.mtabs button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
+.stage{position:relative;border:1px solid var(--line);border-radius:var(--r);overflow:hidden;background:var(--line2);aspect-ratio:16/10;max-height:60vh}
+.stage.mapmode{aspect-ratio:16/11;max-height:72vh;min-height:420px}
+.stage > img,.stage > canvas{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+.stage #gkmap{position:absolute;inset:0;width:100%;height:100%}
+.stage .leaflet-container{width:100%;height:100%;background:#d4d0c6;font-family:inherit}
+.stage .leaflet-control-attribution{font-size:10px;background:rgba(255,255,255,.82)}
+.mapctl{position:absolute;right:10px;top:10px;z-index:1100;display:flex;flex-direction:column;gap:4px;pointer-events:auto}
+.mapctl button,.mapctl a{border:0;background:rgba(20,19,17,.78);color:#fff;font-size:11px;padding:5px 9px;border-radius:var(--r);cursor:pointer;text-align:left;text-decoration:none}
+.mapctl button[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink)}
+.mapinfo{position:absolute;left:10px;bottom:10px;z-index:1100;max-width:min(360px,72%);background:rgba(20,19,17,.88);color:#fff;border-radius:var(--r);padding:8px 10px;font-size:12px;line-height:1.35;pointer-events:none}
+.mapinfo b{display:block;font-size:13px;margin-bottom:2px}
+.mapinfo .k{color:#c9d4c4;font-size:11px}
+.mapleg{position:absolute;left:10px;top:10px;z-index:1100;background:rgba(250,249,246,.94);color:var(--ink);border:1px solid var(--line);border-radius:var(--r);padding:7px 9px;font-size:10.5px;display:grid;grid-template-columns:1fr 1fr;gap:2px 12px;pointer-events:none;max-width:280px}
+.mapleg b{grid-column:1/-1;font-size:10px;margin-bottom:2px}
+.mapleg span{display:flex;align-items:center;gap:6px;white-space:nowrap}
+.mapleg i{width:11px;height:11px;border-radius:2px;flex:0 0 auto}
+.stage .bnd{pointer-events:none}
+.stage .cross{position:absolute;inset:0;display:grid;place-items:center;pointer-events:none}
+.stage .cross svg{width:34px;height:34px;filter:drop-shadow(0 1px 2px rgba(0,0,0,.7))}
+.stage .tag{position:absolute;left:10px;bottom:10px;background:rgba(20,19,17,.75);color:#fff;font-size:11px;padding:3px 8px;border-radius:var(--r);font-variant-numeric:tabular-nums}
+.stage .tr{position:absolute;right:10px;top:10px;display:flex;gap:6px}
+.stage .tr a,.stage .tr button{background:rgba(20,19,17,.75);color:#fff;font-size:11px;padding:5px 9px;border-radius:var(--r);text-decoration:none;border:0;cursor:pointer}
+.stage .gnav{position:absolute;top:50%;transform:translateY(-50%);border:0;width:32px;height:32px;border-radius:var(--r);background:rgba(20,19,17,.7);color:#fff;font-size:17px;cursor:pointer}
+.stage .gnav.prev{left:10px}.stage .gnav.next{right:10px}
+.stage .gcount{position:absolute;right:10px;bottom:10px;background:rgba(20,19,17,.75);color:#fff;font-size:11px;padding:2px 7px;border-radius:var(--r);font-variant-numeric:tabular-nums}
+.compass{position:absolute;left:10px;top:10px;width:34px;height:34px;border-radius:50%;background:rgba(0,0,0,.55);color:#fff;display:grid;place-items:center;font-size:11px;font-weight:700}
+.compass svg{position:absolute;width:34px;height:34px}
+.soldline{margin-top:3px;font-size:12px;color:var(--muted)}
+.saleitem{display:flex;justify-content:space-between;gap:12px;padding:6px 0;border-bottom:1px dashed var(--line);font-size:13px;max-width:360px}
+.saleitem .p{font-variant-numeric:tabular-nums;font-weight:600}
+.d3ctl{position:absolute;left:10px;top:10px;display:flex;gap:8px;align-items:center;background:rgba(20,19,17,.75);padding:6px 10px;border-radius:var(--r);color:#fff;font-size:11px}
+.d3ctl input[type=range]{width:90px;accent-color:var(--gold)}
+.thumbs{display:flex;gap:6px;overflow-x:auto;margin-top:8px}
+.thumbs img{height:52px;width:70px;object-fit:cover;border-radius:var(--r);cursor:pointer;border:1px solid var(--line);flex:0 0 auto;position:static}
+.thumbs img[aria-current="true"]{border-color:var(--accent)}
+.hint{color:var(--faint);font-size:11px;margin-top:6px}
+
+.sec{margin:22px 0}
+.sec h3{font-size:15px;text-transform:none;letter-spacing:-.01em;color:var(--ink);font-family:"Source Serif 4",Georgia,serif;font-weight:600;margin-bottom:10px}
+.landbar{height:28px;border-radius:var(--r);overflow:hidden;display:flex;gap:1px;background:var(--line2)}
+.landbar i{height:100%;min-width:2px}
+.legend{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px 16px;margin-top:14px}
+.leg{display:flex;align-items:center;gap:8px;font-size:12.5px}
+.leg .sw{width:12px;height:12px;border-radius:3px;flex:0 0 auto}
+.leg .nm{flex:1;color:var(--muted)}.leg .v{font-variant-numeric:tabular-nums;font-weight:600}
+.leg .pct{color:var(--faint);font-size:11px;font-variant-numeric:tabular-nums;min-width:38px;text-align:right}
+.tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:8px}
+.tile{border:1px solid var(--line);background:var(--card);border-radius:var(--r);padding:9px 11px}
+.tile .l{font-size:11px;letter-spacing:0;text-transform:none;color:var(--muted);font-weight:500}
+.tile .v{font-variant-numeric:tabular-nums;font-weight:600;font-size:17px;margin-top:2px;white-space:nowrap}
+.tile .v small{font-size:12px;color:var(--muted);font-weight:400}
+.tile .note{font-size:11px;color:var(--muted);margin-top:2px}
+.tile.hl{background:var(--card);border-color:var(--ink)}
+.tile .v.warn{color:var(--warn)}.tile .v.bad{color:var(--bad)}.tile .v.good{color:var(--score)}
+.desc{font-size:13.5px;max-width:70ch;line-height:1.6;white-space:pre-line}
+.links{display:flex;gap:10px;flex-wrap:wrap;margin-top:8px}
+.btn{display:inline-flex;align-items:center;gap:7px;text-decoration:none;border:1px solid var(--line);background:var(--card);border-radius:var(--r);padding:7px 12px;font-size:13px;font-weight:500;color:var(--ink);cursor:pointer}
+.btn.primary{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.tggrid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px}
+.tgcell{border:1px solid var(--line);border-radius:var(--r);padding:9px 8px;text-align:center;background:var(--card)}
+.tgcell .k{font-size:11px;letter-spacing:0;text-transform:none;color:var(--muted);font-weight:500}
+.tgcell .n{font-variant-numeric:tabular-nums;font-size:20px;font-weight:600;margin-top:2px}
+.tgcell .s{font-size:11px;color:var(--muted);margin-top:2px;line-height:1.25}
+.tgcell.good{border-color:var(--accent)}.tgcell.good .n{color:var(--score)}
+.tgcell.warn{border-color:var(--warn)}.tgcell.warn .n{color:var(--warn)}
+.tgcell.bad{border-color:var(--bad)}.tgcell.bad .n{color:var(--bad)}
+.tgmix{display:flex;height:6px;border-radius:0;overflow:hidden;background:var(--line2);margin:10px 0 16px;gap:1px}
+.tgmix i{height:100%;min-width:2px}
+.partgrid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.partcol h4{font-size:12.5px;margin:0 0 8px;font-family:inherit;font-weight:600}
+.partlist{margin:0;padding-left:18px;font-size:13px;line-height:1.45}
+.partlist li{margin:0 0 7px}
+@media (max-width:720px){
+  .tggrid{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .partgrid{grid-template-columns:1fr}
+}
+.footnote{color:var(--faint);font-size:11.5px;margin-top:26px;border-top:1px solid var(--line);padding-top:12px;max-width:78ch}
+
+.app[data-view="home"] .body,.app[data-view="home"] #browsectl{display:none}
+.app[data-view="browse"] .overview{display:none}
+.overview{flex:1;min-height:0;overflow-y:auto;padding:18px clamp(16px,3vw,36px) 48px;width:100%}
+.ov-inner{max-width:1080px;margin:0 auto}
+.hero{display:flex;flex-direction:column;align-items:flex-start;gap:10px;margin-bottom:18px;padding-bottom:16px;border-bottom:1px solid var(--line)}
+.hero h2{font-size:clamp(20px,2.6vw,26px);font-weight:600;letter-spacing:-.02em;max-width:22ch}
+.hero .lede{color:var(--muted);font-size:14px;line-height:1.55;max-width:58ch;margin-top:2px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:8px;margin:8px 0 24px}
+.shortgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:10px}
+.scard{text-align:left;border:1px solid var(--line);background:var(--card);border-radius:var(--r);overflow:hidden;cursor:pointer;padding:0;color:inherit}
+.scard:hover{border-color:var(--ink)}
+.scard:focus-visible{outline:1px solid var(--ink);outline-offset:2px}
+.scard .thumb{display:block;width:100%;height:132px;object-fit:cover;background:var(--line2)}
+.scard-b{padding:10px 12px 12px;display:grid;grid-template-columns:auto 1fr auto;gap:8px;align-items:center}
+.scard-b .nm{font-weight:600;font-size:13.5px;line-height:1.2}
+.scard-b .pl{color:var(--muted);font-size:11.5px;margin-top:1px}
+.scard-b .sc{font-variant-numeric:tabular-nums;font-weight:600;font-size:15px;color:var(--ink)}
+.scard .why{grid-column:1/-1;font-size:12px;color:var(--muted);line-height:1.4;margin-top:2px}
+.scard .k{grid-column:1/-1;font-size:11.5px;font-variant-numeric:tabular-nums;color:var(--faint);margin-top:4px}
+.lenses{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px}
+.lens{border:1px solid var(--line);background:var(--card);border-radius:var(--r);padding:12px 14px;cursor:pointer;text-align:left;color:inherit}
+.lens:hover{border-color:var(--ink)}
+.lens .kicker{font-size:12px;letter-spacing:0;text-transform:none;color:var(--muted);font-weight:500}
+.lens h4{font-family:"Source Serif 4",Georgia,serif;font-size:18px;font-weight:600;margin:4px 0 6px}
+.lens p{margin:0;color:var(--muted);font-size:13px;line-height:1.5}
+.cmp{overflow-x:auto;border:1px solid var(--line);border-radius:var(--r);background:var(--card)}
+.cmp table{width:100%;border-collapse:collapse;font-size:12.5px}
+.cmp th,.cmp td{padding:8px 10px;text-align:right;border-bottom:1px solid var(--line2);white-space:nowrap}
+.cmp th:nth-child(1),.cmp td:nth-child(1),.cmp th:nth-child(2),.cmp td:nth-child(2),.cmp th:nth-child(3),.cmp td:nth-child(3){text-align:left}
+.cmp tbody tr{cursor:pointer}
+.cmp tbody tr:hover{background:var(--line2)}
+.cmp th{font-size:11px;text-transform:none;letter-spacing:0;color:var(--muted);font-weight:600}
+.cmp .nm{font-weight:600}.cmp .warn{color:var(--warn)}.cmp .bad{color:var(--bad)}.cmp .good{color:var(--score)}
+.lede{color:var(--muted);font-size:14px;line-height:1.55;max-width:68ch;margin:0 0 14px}
+.freq{display:flex;flex-direction:column;gap:6px}
+.freqrow{display:grid;grid-template-columns:minmax(120px,1.15fr) 1fr 28px 36px;gap:8px;align-items:center;font-size:12.5px}
+.freqrow .lab{font-weight:500}
+.freqrow .n{color:var(--faint);font-variant-numeric:tabular-nums;text-align:right}
+.bartrk.bad i{background:var(--bad)}
+.bartrk.warn i{background:var(--warn)}
+.split2{display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:start}
+.bars{display:flex;flex-direction:column;gap:7px}
+.barrow{display:grid;grid-template-columns:26px minmax(70px,1fr) 1fr 36px;gap:10px;align-items:center;font-size:12.5px}
+.barrow b{cursor:pointer;background:none;border:0;padding:0;text-align:left;font-weight:600;color:inherit}
+.barrow b:hover{color:var(--accent)}
+.bartrk{height:5px;background:var(--line2);border-radius:0;overflow:hidden}
+.bartrk i{display:block;height:100%;background:var(--ink);border-radius:0}
+.wts{display:flex;flex-wrap:wrap;gap:5px}
+.wt{font-size:11.5px;border:1px solid var(--line);border-radius:var(--r);padding:2px 7px;background:var(--card)}
+.wt em{font-style:normal;font-variant-numeric:tabular-nums;font-weight:600;margin-right:4px;color:var(--ink)}
+.findcol{display:grid;grid-template-columns:1.2fr .8fr;gap:28px;align-items:start}
+.insights{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:12px}
+.insight{border:1px solid var(--line);background:var(--card);border-radius:var(--r);padding:12px 14px}
+.insight .kicker{font-size:12px;letter-spacing:0;text-transform:none;color:var(--muted);font-weight:500}
+.insight h4{font-family:"Source Serif 4",Georgia,serif;font-size:16px;font-weight:600;margin:3px 0 6px;letter-spacing:-.015em}
+.insight p{margin:0;color:var(--muted);font-size:13px;line-height:1.5}
+.corr{display:flex;flex-direction:column;gap:8px}
+.corrrow{display:grid;grid-template-columns:minmax(92px,.85fr) 1fr 44px 28px;gap:8px;align-items:center;font-size:12.5px}
+.corrrow .lab{color:var(--ink)}
+.corrrow .n{color:var(--faint);font-size:10.5px;font-variant-numeric:tabular-nums;text-align:right}
+.corrtrk{height:5px;background:var(--line2);border-radius:0;position:relative;overflow:hidden}
+.corrtrk::before{content:"";position:absolute;left:50%;top:0;bottom:0;width:1px;background:var(--line);z-index:1}
+.corrtrk i{position:absolute;top:0;height:100%;border-radius:0}
+.corrtrk i.pos{background:var(--accent)}
+.corrtrk i.neg{background:var(--warn)}
+.gtable{overflow-x:auto;border:1px solid var(--line);border-radius:var(--r);background:var(--card)}
+.gtable table{width:100%;border-collapse:collapse;font-size:12.5px}
+.gtable th,.gtable td{padding:7px 10px;text-align:right;border-bottom:1px solid var(--line2);white-space:nowrap}
+.gtable th:first-child,.gtable td:first-child{text-align:left}
+.gtable th{font-size:11px;text-transform:none;letter-spacing:0;color:var(--muted);font-weight:600}
+.gtable .up{color:var(--bad)}.gtable .dn{color:var(--score)}
+.gtable .grp td,.gtable td.grp{text-align:left;color:var(--muted);font-size:12px;font-weight:500;background:var(--line2)}
+.tgbar{height:10px;border-radius:0;overflow:hidden;display:flex;gap:1px;background:var(--line2);margin:8px 0 10px}
+.tgbar i{height:100%;min-width:2px}
+.tgcounts{display:flex;flex-wrap:wrap;gap:8px 14px;font-size:12px;margin-bottom:10px}
+.tgcounts b{font-variant-numeric:tabular-nums}
+.tglist{margin:0;padding-left:18px;font-size:13px;line-height:1.45;color:var(--muted);max-width:72ch}
+.tglist li{margin:3px 0}
+.tglist.bad{color:var(--bad)}
+@media (max-width:820px){
+  .body{grid-template-columns:1fr}.list{max-height:36vh;border-right:0;border-bottom:1px solid var(--line)}
+  .findcol,.split2{grid-template-columns:1fr}
+  .barrow{grid-template-columns:22px 1fr 1fr 32px}
+  .brand{flex-wrap:wrap}
+  .brand .sub{white-space:normal;flex-basis:100%;order:3}
+  .brand .viewseg{margin-left:auto}
+}
+</style>
+</head>
+<body>
+<div class="app" data-view="home">
+  <header class="top">
+    <div class="brand"><h1>Gårdsjakt</h1>
+      <span class="sub" id="brandsub">småbruk og einebustader ≥5 mål · ≤ 2 mill (2,5 for Møre) · data: finn.no · NIBIO · Kartverket · Open-Meteo</span>
+      <div class="seg viewseg" id="viewseg" role="tablist" aria-label="Visning">
+        <button data-view="home" aria-pressed="true">Oversikt</button>
+        <button data-view="browse">Gårdar</button>
+      </div></div>
+    <div class="controls" id="browsectl">
+      <label class="toggle" for="sort">Sortér</label>
+      <select id="sort">
+        <option value="score">Poeng (rangering)</option><option value="price">Pris lav→høy</option>
+        <option value="arable">Mest dyrka</option><option value="forest">Mest skog</option>
+        <option value="anchor">Nærmest Storås</option><option value="productive">Mest produktiv jord</option>
+        <option value="daylight">Mest dagslys &gt;10 t</option><option value="frost">Færrest frostdagar</option>
+        <option value="snow">Færrest snødagar</option>
+      </select>
+      <div class="seg" id="regfilter" role="group" aria-label="Region">
+        <button data-reg="all" aria-pressed="true">Alle</button>
+        <button data-reg="sornorge">Sør-Norge</button>
+        <button data-reg="ostlandet">Østlandet</button>
+        <button data-reg="midtnorge">Midt-Norge</button>
+        <button data-reg="nordnorge">Nord-Norge</button></div>
+      <div class="seg" id="kindfilter" role="group" aria-label="Boligtype">
+        <button data-kind="all" aria-pressed="true">Alle typar</button>
+        <button data-kind="farm">Gårdsbruk</button>
+        <button data-kind="house">Enebolig</button></div>
+      <label class="toggle"><input type="checkbox" id="hidelow"> Skjul &lt;5 daa dyrka</label>
+      <label class="toggle"><input type="checkbox" id="hidefar"> Skjul &gt;6 t til Storås</label>
+    </div>
+  </header>
+  <div class="overview" id="overview"></div>
+  <div class="body" id="browse"><div class="list" id="list" role="listbox" aria-label="Gårder"></div><div class="detail" id="detail"></div></div>
+</div>
+
+<script>
+const FARMS = __FARMS_JSON__;
+const LAND=[["fulldyrka","Fulldyrka jord","var(--c-fulldyrka)"],["overflatedyrka","Overflatedyrka","var(--c-overflatedyrka)"],
+["beite","Innmarksbeite","var(--c-beite)"],["skog","Produktiv skog","var(--c-skog)"],["annet","Anna markslag","var(--c-annet)"],
+["bebygd_vann","Bebygd / vann","var(--c-bebygd)"],["ikke_klass","Ikkje klassifisert","var(--c-ikke)"]];
+const fmt=n=>(n==null||isNaN(n))?"–":Math.round(n).toLocaleString("nb-NO");
+const fmt1=n=>(n==null||isNaN(n))?"–":Number(n).toLocaleString("nb-NO",{maximumFractionDigits:1});
+const kr=n=>(n==null)?"–":fmt(n)+" kr";
+const arable=f=>{const a=f.land.fulldyrka,b=f.land.overflatedyrka;return (a==null&&b==null)?null:(a||0)+(b||0);};
+const landEst=f=>(f.land.source||"nibio")!=="nibio";
+const ANCHOR="Storås";
+const anchorMin=f=>f.anchors.storas_km??9e9;
+const anchorMinH=f=>f.anchors.storas_h??9e9;
+const productive=f=>f.land.fulldyrka+f.land.overflatedyrka+f.land.skog+f.land.beite+0.075*f.land.annet;
+const LANDSDEL={
+  "Agder":"sornorge","Rogaland":"sornorge","Vestland":"sornorge",
+  "Oslo":"ostlandet","Akershus":"ostlandet","Østfold":"ostlandet","Buskerud":"ostlandet",
+  "Innlandet":"ostlandet","Vestfold":"ostlandet","Telemark":"ostlandet",
+  "Møre og Romsdal":"midtnorge","Trøndelag":"midtnorge",
+  "Nordland":"nordnorge","Troms":"nordnorge","Finnmark":"nordnorge",
+};
+const PLACE_FYLKE={
+  "Uvdal":"Buskerud","Harran":"Trøndelag","Begnadalen":"Innlandet","Moldjord":"Nordland",
+  "Skiptvet":"Østfold","Lena":"Innlandet","Haltdalen":"Trøndelag","Smøla":"Møre og Romsdal",
+};
+const REG_NAME={sornorge:"Sør-Norge",ostlandet:"Østlandet",midtnorge:"Midt-Norge",nordnorge:"Nord-Norge"};
+const REG_ORDER=["sornorge","ostlandet","midtnorge","nordnorge"];
+function fylkeOf(f){
+  const raw=f.fylke||"";
+  if(LANDSDEL[raw]) return raw;
+  return PLACE_FYLKE[f.place]||raw;
+}
+function landsdel(f){return LANDSDEL[fylkeOf(f)]||"other";}
+function landsdelName(f){return REG_NAME[landsdel(f)]||fylkeOf(f)||"–";}
+const isHouse=f=>(f.listing_kind||"farm")==="house";
+const cl=f=>f.climate||null;
+const clv=(f,k)=> (f.climate && f.climate[k]!=null) ? f.climate[k] : null;
+const WEIGHTS=[["price","Pris",15],["forest","Skog",11],["anchor","Nærleik anker",10],["dyrka","Dyrka",10],
+  ["region","Fylke",9],["coast","Kyst",9],["condition","Tilstand",9],["shading","Sol/skugge",8],
+  ["slope","Helling",6],["productive","Produktiv jord",5],["creek","Bekk",4],["isolation","Usjenert",2],
+  ["water_power","Vatn/straum",1],["konsesjon","Konsesjon",1]];
+
+let state={view:"home",sort:"score",reg:"all",kind:"all",hidelow:false,hidefar:false,sel:FARMS[0].finnkode,photo:0,mtab:"aerial",exagg:1.6,showbnd:true,mapAr5:true,mapBnd:true,mapFly:true};
+try{Object.assign(state,JSON.parse(localStorage.getItem("gj2")||"{}"));}catch(e){}
+if(!state.view)state.view="home";
+if(!["all","sornorge","ostlandet","midtnorge","nordnorge"].includes(state.reg))state.reg="all";
+if(!FARMS.some(f=>f.finnkode===state.sel))state.sel=FARMS[0].finnkode;
+const save=()=>{try{localStorage.setItem("gj2",JSON.stringify(state));}catch(e){}};
+function openFarm(fk){
+  state.sel=fk; state.view="browse"; state.photo=0; state.mtab="aerial"; save(); applyView();
+  const d=document.getElementById("detail"); if(d)d.scrollTop=0;
+}
+
+function visible(){
+  let a=FARMS.filter(f=>{
+    if(state.reg!=="all"&&landsdel(f)!==state.reg)return false;
+    if(state.kind==="farm"&&isHouse(f))return false;
+    if(state.kind==="house"&&!isHouse(f))return false;
+    if(state.hidelow&&arable(f)!=null&&arable(f)<5)return false;
+    if(state.hidefar&&anchorMinH(f)>6)return false;return true;});
+  const s=state.sort;
+  a.sort((x,y)=>s==="score"?y.score-x.score:s==="price"?x.pris_kr-y.pris_kr:s==="arable"?arable(y)-arable(x)
+    :s==="forest"?y.land.skog-x.land.skog:s==="anchor"?anchorMin(x)-anchorMin(y):s==="productive"?productive(y)-productive(x)
+    :s==="daylight"?(clv(y,"daylight_gt10h")||0)-(clv(x,"daylight_gt10h")||0)
+    :s==="frost"?(clv(x,"frost_days")??9e9)-(clv(y,"frost_days")??9e9)
+    :s==="snow"?(clv(x,"snow_days")??9e9)-(clv(y,"snow_days")??9e9):0);
+  return a;
+}
+function miniMix(f){const t=f.land.total_daa||1;
+  return `<div class="mixbar">`+LAND.map(([k,,c])=>{const w=100*(f.land[k]||0)/t;return w>0.3?`<i style="width:${w}%;background:${c}"></i>`:"";}).join("")+`</div>`;}
+function farmChips(f){const c=[`<span class="chip reg">${landsdelName(f)}</span>`];
+  if(isHouse(f)) c.push(`<span class="chip">enebolig</span>`);
+  if(tg3n(f)!=null && (hasTg(f)||tg3n(f)>0)){const n=tg3n(f);c.push(`<span class="chip ${n>=3?"w":""}">TG3 ${n}${hasTg(f)?"":"*"}</span>`);}
+  (f.flags||"").split(/\s+/).filter(Boolean).forEach(fl=>{
+    if(fl==="TG3-HEAVY"||fl==="TG-OK") return;
+    const cls=/ARABLE|STEEP|SHADE|VÅTROM/.test(fl)?"w":"";
+    const lab={"LOW-ARABLE":"lite dyrka","STEEP":"bratt","WINTER-SHADE":"vinterskugge","reno":"oppussing","road-fee":"veiavgift","BAD-VÅTROM":"våtrom-behov","NYTT-BAD":"nyare bad","land-est":"areal est."}[fl]||fl;
+    c.push(`<span class="chip ${cls}">${lab}</span>`);});return `<div class="chips">${c.join("")}</div>`;}
+function renderList(){const el=document.getElementById("list");el.innerHTML="";
+  visible().forEach(f=>{const b=document.createElement("button");b.className="row";b.setAttribute("role","option");
+    b.setAttribute("aria-current",f.finnkode===state.sel);
+    b.innerHTML=`<div class="rank">${f.rank}</div><div><div class="nm">${f.place}</div><div class="pl">${(f.title||"").slice(0,42)}</div></div>
+      <div class="rt"><div class="sc mono">${f.score.toFixed(0)}</div><div class="pr">${(Math.round(f.pris_kr/1e5)/10)} mill</div></div>${miniMix(f)}${farmChips(f)}`;
+    b.onclick=()=>openFarm(f.finnkode);
+    el.appendChild(b);});}
+function tile(l,v,note,cls){return `<div class="tile${cls&&cls.box?" "+cls.box:""}"><div class="l">${l}</div><div class="v ${cls&&cls.v||""}">${v}</div>${note?`<div class="note">${note}</div>`:""}</div>`;}
+
+function whyShort(f){
+  const bits=[], ar=arable(f);
+  if((f.land.skog||0)>=150) bits.push("skog i målsona");
+  else if((f.land.skog||0)>=80) bits.push("brukbar skog");
+  if(ar!=null && ar>=25) bits.push("godt med dyrka");
+  else if(ar!=null && ar>=5) bits.push("dyrka over minstekrav");
+  if(anchorMinH(f)<=3) bits.push("kort veg til Storås");
+  if(isHouse(f)) bits.push("enebolig ≥5 mål");
+  if((f.flags||"").includes("reno")) bits.push("oppussing");
+  if((f.flags||"").includes("WINTER-SHADE")) bits.push("vinterskugge");
+  if((f.flags||"").includes("TG3-HEAVY")) bits.push("mange TG3");
+  if((f.flags||"").includes("TG-OK")) bits.push("få avvik");
+  if(landEst(f)) bits.push("areal estimert");
+  return bits.slice(0,3).join(" · ") || "sjå detaljar";
+}
+function pickMax(arr, fn){ return arr.length?arr.reduce((b,x)=>fn(x)>fn(b)?x:b):null; }
+function pickMin(arr, fn){ return arr.length?arr.reduce((b,x)=>fn(x)<fn(b)?x:b):null; }
+const mill=n=>(n==null||isNaN(n))?"–":(n/1e6).toLocaleString("nb-NO",{minimumFractionDigits:2,maximumFractionDigits:2});
+function med(arr){const a=arr.filter(x=>x!=null&&!isNaN(x)).map(Number).sort((x,y)=>x-y);return a.length?a[Math.floor(a.length/2)]:null;}
+function pearson(xs,ys){
+  const pts=[];
+  for(let i=0;i<xs.length;i++) if(xs[i]!=null&&ys[i]!=null&&!isNaN(xs[i])&&!isNaN(ys[i])) pts.push([+xs[i],+ys[i]]);
+  if(pts.length<8) return {r:null,n:pts.length};
+  const n=pts.length, mx=pts.reduce((s,p)=>s+p[0],0)/n, my=pts.reduce((s,p)=>s+p[1],0)/n;
+  let num=0,dx=0,dy=0;
+  for(const [x,y] of pts){num+=(x-mx)*(y-my);dx+=(x-mx)**2;dy+=(y-my)**2;}
+  if(!dx||!dy) return {r:null,n};
+  return {r:num/Math.sqrt(dx*dy),n};
+}
+function parseBra(f){const m=String(f.bruksareal||"").replace(",",".").match(/[\d.]+/);return m?+m[0]:null;}
+function parseYear(f){const y=parseInt(String(f.byggeaar||"").slice(0,4),10);return (y>1800&&y<2027)?y:null;}
+function isCoast(f){return !!(f.coast&&f.coast!=="-");}
+function hasTg(f){const t=f.condition&&f.condition.tg;return !!(t&&t.tg0!=null);}
+function hasFlag(f,k){return (f.flags||"").split(/\s+/).includes(k);}
+function tg3n(f){const t=f.condition&&f.condition.tg;return (t&&t.tg3!=null)?t.tg3:null;}
+function tgSc(f){return (f.condition&&f.condition.tg_score!=null)?f.condition.tg_score:null;}
+function hasTgAny(f){const t=f.condition&&f.condition.tg;return !!(t&&(t.tg2!=null||t.tg3!=null||t.tg0!=null));}
+function partCat(s){
+  const raw=String(s||"").replace(/\s+/g," ").trim();
+  const head=raw.split(/[:–—]/)[0].toLowerCase().trim();
+  const t=raw.toLowerCase();
+  if(head.length<3) return null;
+  if(/^\(?tg[23]\)?$|\(tg2\) eller 3 \(tg3\)|følgende|folgende|kostnadsestimat|bygningsdeler har fått|har fått$|^innvendig$|^utvendig$|^tekniske installasjon|^tiltak$|^andre tiltak$|^og tg3$|, tg3|finn\.no|vend marketplaces|målt høydeforskjell/.test(head)) return null;
+  if(/våtrom|v.atrom|\bbad\b|vaskerom|\bwc\b/.test(t)) return "Våtrom";
+  if(/taktekk|takrenn|nedl[øo]p|beslag|takkonst|\bloft\b/.test(t)) return "Tak / loft";
+  if(/vindu|d[øo]r|innsettingsdetalj/.test(t)) return "Vindauge og dører";
+  if(/yttervegg|fasade|veggkonstr/.test(t)) return "Yttervegg / fasade";
+  if(/drener|grunnmur|fundament|fuktsik|rom under terreng|kjellar|kjeller|forst[øo]tt|st[øo]ttemur/.test(t)) return "Drenering / grunnmur";
+  if(/kj[øo]kken|kj[øo]ken/.test(t)) return "Kjøkken";
+  if(/vannled|vassleid|avl[øo]p|vvs|varmtvass|ventilasjon/.test(t)) return "VVS / ventilasjon";
+  if(/etasjeskil|gulv|overflate/.test(t)) return "Golv / etasjeskilje";
+  if(/pipe|ildsted|skorstein/.test(t)) return "Pipe / ildstad";
+  if(/balkong|veranda|altan|\btrapp/.test(t)) return "Trapp / balkong";
+  if(/radon|skadedyr|gnagesik|musetetting|terrengforhold|\bterreng\b/.test(t)) return "Tomt / terreng";
+  return "Anna";
+}
+function partCatsOf(f, grade){
+  const parts=((f.condition||{})[grade])||[];
+  const cats=new Set();
+  for(const p of parts){const c=partCat(p); if(c&&c!=="Anna") cats.add(c);}
+  return cats;
+}
+function catFreq(grade){
+  const counts={}; let n=0;
+  for(const f of FARMS){
+    const cats=partCatsOf(f, grade);
+    if(!cats.size) continue;
+    n++;
+    for(const c of cats) counts[c]=(counts[c]||0)+1;
+  }
+  return {n, rows:Object.entries(counts).sort((a,b)=>b[1]-a[1])};
+}
+function freqHtml(rows, nFarms, cls){
+  if(!nFarms||!rows.length) return `<p class="hint">For få namngitte bygningsdelar i utdraga.</p>`;
+  return `<div class="freq">`+rows.map(([lab,c])=>`<div class="freqrow"><span class="lab">${lab}</span>
+    <div class="bartrk ${cls||""}"><i style="width:${Math.round(100*c/nFarms)}%"></i></div>
+    <span class="mono">${c}</span><span class="n">${Math.round(100*c/nFarms)}%</span></div>`).join("")+`</div>`;
+}
+function condSection(){
+  const n=FARMS.length;
+  const withNum=FARMS.filter(hasTgAny);
+  const full=FARMS.filter(hasTg);
+  const n3=withNum.filter(f=>tg3n(f)>0);
+  const n3heavy=withNum.filter(f=>tg3n(f)>=5);
+  const n30=withNum.filter(f=>tg3n(f)===0);
+  const n3mid=withNum.filter(f=>tg3n(f)>=1&&tg3n(f)<5);
+  const none=FARMS.filter(f=>!hasTgAny(f));
+  const bathNeg=FARMS.filter(f=>(f.condition||{}).bath_neg);
+  const tg3medBad=med(n3.map(tg3n));
+  const freq3=catFreq("tg3"), freq2=catFreq("tg2");
+  const buckets=[
+    ["TG3 = 0", n30, "ingen alvorlege avvik i utdraget"],
+    ["TG3 1–4", n3mid, "noko å rekne med"],
+    ["TG3 ≥ 5", n3heavy, "tung tilstand"],
+    ["Ikkje TG-tal", none, "opne salsoppgåva"],
+  ];
+  const bucketHtml=buckets.map(([lab,g,note])=>{
+    const p=med(g.map(f=>f.pris_kr));
+    return `<tr><td>${lab}</td><td class="mono">${g.length}</td>
+      <td class="mono">${n?Math.round(100*g.length/n):0}%</td>
+      <td class="mono">${g.length?mill(p):"–"}</td><td>${note}</td></tr>`;
+  }).join("");
+  const distRows=[
+    ["0 TG3", n30.length],
+    ["1–4 TG3", n3mid.length],
+    ["≥5 TG3", n3heavy.length],
+  ];
+  const distN=withNum.length||1;
+  const top3=freq3.rows.slice(0,3).map(([l])=>l.toLowerCase()).join(", ");
+  const top2=freq2.rows.slice(0,3).map(([l])=>l.toLowerCase()).join(", ");
+  const topNote=freq3.n?`Vanlegast: ${top3}`:"for få namngitte TG3-delar";
+  return `<div class="sec"><h3>Tilstand i poolen</h3>
+    <p class="lede">${withNum.length} av ${n} annonsar har TG-tal i Finn-utdraget
+      (${full.length} med full TG0–TG3-tabell, resten berre TG2/TG3-lister).
+      ${n3.length} av dei ${withNum.length} har minst éin TG3
+      (${n3heavy.length} har fem eller fleire; median ${fmt1(tg3medBad)} TG3 der det finst).
+      ${bathNeg.length} annonsar nemner våtromsproblem i teksten, òg der TG manglar.</p>
+    <div class="kpis">
+      ${tile("Med TG-tal", withNum.length+" / "+n, full.length+" med komplett tabell")}
+      ${tile("Utan TG3", n30.length+" / "+withNum.length, "av dei med TG-tal")}
+      ${tile("Med TG3", n3.length+" / "+withNum.length, n3.length?("median "+fmt1(tg3medBad)+" TG3 der det finst"):"")}
+      ${tile("TG3 ≥ 5", String(n3heavy.length), "tung tilstand")}
+      ${tile("Våtrom i tekst", bathNeg.length+" / "+n, "annonsen nemner avvik / behov")}
+    </div>
+    <div class="split2">
+      <div>
+        <h3>Fordeling av TG3</h3>
+        ${freqHtml(distRows, distN, "bad")}
+        <div class="gtable" style="margin-top:14px"><table>
+          <thead><tr><th>Gruppe</th><th>n</th><th>Av pool</th><th>Median, mill</th><th></th></tr></thead>
+          <tbody>${bucketHtml}</tbody>
+        </table></div>
+        <p class="hint" style="margin-top:10px">Medianpris på TG3 ≥ 5 er ${n3heavy.length?mill(med(n3heavy.map(f=>f.pris_kr)))+" mill":"–"} mot ${n30.length?mill(med(n30.map(f=>f.pris_kr)))+" mill":"–"} der TG3 = 0. Asking prisar inn tilstand berre delvis.</p>
+      </div>
+      <div>
+        <h3>Kva som vanlegvis er gale</h3>
+        <p class="hint" style="margin:0 0 8px">Andel av eigedommar med namngitt TG3-liste (${freq3.n} stk). ${topNote}.</p>
+        ${freqHtml(freq3.rows, freq3.n, "bad")}
+        <h3 style="margin-top:18px">TG2 — kan krevje tiltak</h3>
+        <p class="hint" style="margin:0 0 8px">Av ${freq2.n} med namngitt TG2-liste. Vanlegast: ${top2||"–"}.</p>
+        ${freqHtml(freq2.rows, freq2.n, "warn")}
+        <p class="hint" style="margin-top:10px">Kategoriane er slått saman frå NS 3600-namn i utdraget (t.d. «Utvendig · Taktekking»). Parseren droppar overskrifter utan bygningsdel. Full salsoppgåve har meir enn Finn-utdraget.</p>
+      </div>
+    </div></div>`;
+}
+function esc(s){return String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[c]));}
+function sogLabel(d){
+  const u=(d.url||"").toLowerCase(), k=d.kind||"";
+  if(u.includes("/hent")||u.endsWith(".pdf")||u.includes(".pdf?")) return "Salsoppgåve (PDF)";
+  if(k==="tilstandsrapport") return "Tilstandsrapport";
+  if(k==="bestill") return "Bestill salsoppgåve";
+  if(k==="pdf") return "Dokument (PDF)";
+  return "Salsoppgåve";
+}
+function sogLinks(f){
+  const docs=(f.docs||[]).filter(d=>d&&d.url);
+  const seen=new Set();
+  const out=[];
+  for(const d of docs){
+    const u=d.url.replace(/&amp;/g,"&");
+    if(seen.has(u)) continue; seen.add(u);
+    out.push({url:u, kind:d.kind, label:sogLabel({...d,url:u})});
+  }
+  if(f.salgsoppgave){
+    const u=String(f.salgsoppgave).replace(/&amp;/g,"&");
+    if(!seen.has(u)) out.unshift({url:u, kind:"salgsoppgave", label:sogLabel({url:u,kind:"salgsoppgave"})});
+  }
+  return out.slice(0,5);
+}
+function tgSection(f){
+  const cd=f.condition||{};
+  const tg=cd.tg;
+  const links=sogLinks(f);
+  const complete=hasTg(f);
+  const src=cd.source==="pdf"?"Utdrag frå vedlagt PDF":(cd.source==="salgsoppgave"?"Utdrag frå salsoppgåva":(cd.source==="ad-excerpt"?"Utdrag i Finn-annonsen — same TG-oversikt som i salsoppgåva":""));
+  let body="";
+  if(tg){
+    const dash=v=>v==null?"–":v;
+    const cells=[
+      ["TG0","ingen avvik",tg.tg0,"good"],
+      ["TG1","mindre avvik",tg.tg1,""],
+      ["TG2","kan krevje tiltak",tg.tg2,"warn"],
+      ["TG3","alvorleg avvik",tg.tg3,"bad"],
+      ["TGIU","ikkje undersøkt",tg.iu||0,""],
+    ];
+    const tot=cells.reduce((s,x)=>s+(+x[2]||0),0)||1;
+    const mix=[["#3c6b48",tg.tg0],["#8aa37a",tg.tg1],["#d79a4e",tg.tg2],["#a33a2e",tg.tg3],["#9aa0a6",tg.iu||0]]
+      .filter(([,n])=>n>0).map(([c,n])=>`<i style="width:${100*n/tot}%;background:${c}" title="${n}"></i>`).join("");
+    const list=(title, arr, empty)=>{
+      if(!arr||!arr.length) return `<div class="partcol"><h4>${title}</h4><p class="hint">${empty}</p></div>`;
+      return `<div class="partcol"><h4>${title} (${arr.length})</h4><ul class="partlist">${arr.map(x=>`<li>${esc(x)}</li>`).join("")}</ul></div>`;
+    };
+    body=`<div class="tggrid">${cells.map(([k,s,n,cl])=>`<div class="tgcell ${n?" "+cl:""}"><div class="k">${k}</div><div class="n">${dash(n)}</div><div class="s">${s}</div></div>`).join("")}</div>
+      ${mix?`<div class="tgmix">${mix}</div>`:""}
+      <div class="partgrid">${list("Bygningsdelar med TG3", cd.tg3||[], "Ingen TG3-delar i utdraget")}
+      ${list("Bygningsdelar med TG2", cd.tg2||[], "Ingen TG2-delar i utdraget")}</div>
+      ${(cd.tgiu&&cd.tgiu.length)?`<p class="hint" style="margin-top:10px">TGIU: ${cd.tgiu.map(esc).join("; ")}</p>`:""}
+      <p class="hint" style="margin-top:10px">${complete?src:(src||"TG2/TG3-lista er henta frå annonse/salsoppgåve; TG0/TG1 er ikkje oppgitt i utdraget.")}${cd.tg_score!=null?" · TG-score "+cd.tg_score:""}. TG0/TG1 får vanlegvis ikkje skriftleg grunngjeving.</p>`;
+  } else {
+    const note=(cd.notes&&cd.notes.length)?cd.notes.join("; "):(cd.has_report?"tilstandsrapport er nemnt, men TG-tal vart ikkje funne i annonsen":"ingen TG-utdrag i annonsen — opne salsoppgåva");
+    const list=(title, arr)=>{
+      if(!arr||!arr.length) return "";
+      return `<div class="partcol"><h4>${title} (${arr.length})</h4><ul class="partlist">${arr.map(x=>`<li>${esc(x)}</li>`).join("")}</ul></div>`;
+    };
+    const lists=list("Bygningsdelar med TG3", cd.tg3||[])+list("Bygningsdelar med TG2", cd.tg2||[]);
+    body=`<p class="hint">${esc(note)}</p>${lists?`<div class="partgrid" style="margin-top:12px">${lists}</div>`:""}`;
+  }
+  const btns=links.map((d,i)=>`<a class="btn ${i===0?"primary":""}" href="${esc(d.url)}" target="_blank" rel="noopener">${esc(d.label)}</a>`).join("");
+  return `<div class="sec"><h3>Tilstand · TG0–TG3</h3>${body}
+    <div class="links" style="margin-top:12px">${btns||`<span class="hint">Ingen direkte dokumentlenkje funnen — bruk Finn-annonsen.</span>`}</div></div>`;
+}
+function tertiles(arr, fn){
+  const g=arr.filter(f=>fn(f)!=null).sort((a,b)=>fn(a)-fn(b));
+  const k=Math.max(1,Math.floor(g.length/3));
+  return {lo:g.slice(0,k), hi:g.slice(-k), n:g.length};
+}
+function corrBar(r){
+  if(r==null) return `<div class="corrtrk"></div>`;
+  const w=Math.min(50, Math.abs(r)*50);
+  if(r>=0) return `<div class="corrtrk"><i class="pos" style="left:50%;width:${w}%"></i></div>`;
+  return `<div class="corrtrk"><i class="neg" style="left:${50-w}%;width:${w}%"></i></div>`;
+}
+function fmtR(r){ if(r==null) return "–"; return (r>=0?"+":"−")+Math.abs(r).toFixed(2); }
+function krDaa(f){ const t=f.land.total_daa; return (t&&t>=5)?f.pris_kr/t:null; }
+function poolSection(){
+  const price=FARMS.map(f=>f.pris_kr);
+  const prMed=med(price), n=FARMS.length;
+  const series=[
+    ["Frostdagar", FARMS.map(f=>clv(f,"frost_days"))],
+    ["Høgd (moh)", FARMS.map(f=>f.geo.elev_m)],
+    ["Produktiv skog", FARMS.map(f=>f.land.skog)],
+    ["Bruksareal", FARMS.map(parseBra)],
+    ["Tid til anker", FARMS.map(f=>anchorMinH(f)<9e8?anchorMinH(f):null)],
+    ["Dyrka", FARMS.map(arable)],
+    ["Totalareal", FARMS.map(f=>f.land.total_daa)],
+    ["Snøfalldagar", FARMS.map(f=>clv(f,"snow_days"))],
+    ["Helling", FARMS.map(f=>f.geo.slope_pct)],
+    ["Byggeår", FARMS.map(parseYear)],
+    ["Dagslys >10 t", FARMS.map(f=>clv(f,"daylight_gt10h"))],
+    ["TG3-tal", FARMS.map(tg3n)],
+    ["TG-score", FARMS.map(tgSc)],
+  ].map(([lab,xs])=>{const {r,n}=pearson(xs,price);return {lab,r,n};})
+   .filter(x=>x.n>=8).sort((a,b)=>Math.abs(b.r||0)-Math.abs(a.r||0));
+
+  const corrHtml=series.map(s=>`<div class="corrrow"><span class="lab">${s.lab}</span>${corrBar(s.r)}<span class="mono">${fmtR(s.r)}</span><span class="n">n=${s.n}</span></div>`).join("");
+
+  function row(name, g, extra){
+    if(!g.length) return "";
+    const p=med(g.map(f=>f.pris_kr)), t=med(g.map(f=>anchorMinH(f)<9e8?anchorMinH(f):null));
+    const d=p-prMed, cls=d>50000?"up":(d<-50000?"dn":"");
+    const sign=d>50000?"+":"";
+    return `<tr><td>${name}</td><td class="mono">${g.length}</td><td class="mono ${cls}">${mill(p)}</td>
+      <td class="mono ${cls}">${sign}${mill(d)}</td><td class="mono">${t==null?"–":fmt1(t)+" t"}</td>
+      <td>${extra||""}</td></tr>`;
+  }
+  const frostT=tertiles(FARMS, f=>clv(f,"frost_days"));
+  const elevT=tertiles(FARMS, f=>f.geo.elev_m);
+  const fylkeN={};
+  FARMS.forEach(f=>{const k=fylkeOf(f)||"?"; if(/^\d+$/.test(k)) return; fylkeN[k]=(fylkeN[k]||[]).concat([f]);});
+  const fylkeRows=Object.entries(fylkeN).filter(([,g])=>g.length>=4)
+    .sort((a,b)=>med(b[1].map(f=>f.pris_kr))-med(a[1].map(f=>f.pris_kr)))
+    .map(([k,g])=>row(k, g, `${g.filter(f=>arable(f)>=5).length} med ≥5 daa dyrka`)).join("");
+  const regs=REG_ORDER.map(id=>{
+    const g=FARMS.filter(f=>landsdel(f)===id);
+    return {id, name:REG_NAME[id], g, n:g.length,
+      p:med(g.map(f=>f.pris_kr)),
+      t:med(g.map(f=>anchorMinH(f)<9e8?anchorMinH(f):null)),
+      k:med(g.map(krDaa))};
+  }).filter(r=>r.n);
+
+  const groupRows=[
+    row("Gårdsbruk / småbruk", FARMS.filter(f=>!isHouse(f)), "median tomt "+fmt(med(FARMS.filter(f=>!isHouse(f)).map(f=>f.land.total_daa)))+" daa"),
+    row("Enebolig ≥5 mål", FARMS.filter(isHouse), "median tomt "+fmt(med(FARMS.filter(isHouse).map(f=>f.land.total_daa)))+" daa"),
+    row("Oppussing merka", FARMS.filter(f=>hasFlag(f,"reno")||f.costs.reno_needed), ""),
+    row("Ikkje oppussing merka", FARMS.filter(f=>!hasFlag(f,"reno")&&!f.costs.reno_needed), ""),
+    row("Våtrom-behov", FARMS.filter(f=>hasFlag(f,"BAD-VÅTROM")), ""),
+    row("Med TG-utdrag", FARMS.filter(hasTg), FARMS.filter(hasTg).length+" av "+n),
+    row("TG3 = 0 (få alvorlege avvik)", FARMS.filter(f=>hasTg(f)&&f.condition.tg.tg3===0), ""),
+    row("TG3 ≥ 5 (tung tilstand)", FARMS.filter(f=>tg3n(f)>=5), ""),
+    row("Kyst i annonsen", FARMS.filter(isCoast), "strandlinje/sjø nemnt"),
+    row("Ikkje kyst-signal", FARMS.filter(f=>!isCoast(f)), ""),
+    row("Innan 6 t til Storås", FARMS.filter(f=>anchorMinH(f)<=6), ""),
+    row("Lenger enn 6 t", FARMS.filter(f=>anchorMinH(f)>6), ""),
+    row("Få frostdagar (lågaste 1/3)", frostT.lo, "median "+fmt1(med(frostT.lo.map(f=>clv(f,"frost_days"))))+" d"),
+    row("Mange frostdagar (høgaste 1/3)", frostT.hi, "median "+fmt1(med(frostT.hi.map(f=>clv(f,"frost_days"))))+" d"),
+    row("Lågland (lågaste 1/3 høgd)", elevT.lo, "median "+fmt(med(elevT.lo.map(f=>f.geo.elev_m)))+" moh"),
+    row("Høgland (høgaste 1/3 høgd)", elevT.hi, "median "+fmt(med(elevT.hi.map(f=>f.geo.elev_m)))+" moh"),
+  ].join("");
+
+  const farms=FARMS.filter(f=>!isHouse(f)), houses=FARMS.filter(isHouse);
+  const finn=FARMS.filter(f=>fylkeOf(f)==="Finnmark");
+  const krFarm=med(farms.map(krDaa)), krHouse=med(houses.map(krDaa)), krAll=med(FARMS.map(krDaa));
+  const cheapDaa=FARMS.map(f=>({f,k:krDaa(f)})).filter(x=>x.k!=null).sort((a,b)=>a.k-b.k);
+  const dearDaa=cheapDaa.slice(-1)[0], cheap1=cheapDaa[0];
+  const rFrost=pearson(FARMS.map(f=>clv(f,"frost_days")), price);
+  const rElev=pearson(FARMS.map(f=>f.geo.elev_m), price);
+  const rSkog=pearson(FARMS.map(f=>f.land.skog), price);
+  const rScore=pearson(FARMS.map(f=>f.score), price);
+  const rElevFrost=pearson(FARMS.map(f=>f.geo.elev_m), FARMS.map(f=>clv(f,"frost_days")));
+  const reno=FARMS.filter(f=>hasFlag(f,"reno")||f.costs.reno_needed);
+  const notReno=FARMS.filter(f=>!hasFlag(f,"reno")&&!f.costs.reno_needed);
+  const withTg=FARMS.filter(hasTg);
+  const tgHeavy=FARMS.filter(f=>tg3n(f)>=5);
+  const tgOk=FARMS.filter(f=>hasTg(f)&&f.condition.tg.tg3===0);
+  const rTg3=pearson(FARMS.map(tg3n), price);
+  const rTgSc=pearson(FARMS.map(tgSc), price);
+  const skog150=FARMS.filter(f=>(f.land.skog||0)>=150).length;
+  const nibN=FARMS.filter(f=>(f.land.source||"nibio")==="nibio").length;
+  const loP=[...FARMS].sort((a,b)=>a.pris_kr-b.pris_kr).slice(0,Math.floor(n/3));
+  const hiP=[...FARMS].sort((a,b)=>a.pris_kr-b.pris_kr).slice(-Math.floor(n/3));
+  const hiSet=new Set(hiP.map(f=>f.finnkode));
+  const regLine=regs.map(r=>{
+    const inHi=r.g.filter(f=>hiSet.has(f.finnkode)).length;
+    return `${r.name} (${r.n}): median ${mill(r.p)} mill og ${fmt1(r.t)} t til ${ANCHOR}${inHi?`, ${inHi} i dyreste tredjedel`:""}`;
+  }).join(". ");
+  const dear=regs.reduce((a,b)=>(b.p||0)>(a.p||0)?b:a);
+  const kom=med(FARMS.map(f=>f.costs.kommunale_avg));
+  const komN=FARMS.filter(f=>f.costs.kommunale_avg!=null).length;
+
+  const insights=[
+    {k:"Stad, ikkje skog", t:dear.name+" kostar ~"+mill(dear.p)+" mill",
+     p:`${regLine}. Prisforskjellen følgjer landsdel og reisetid til ${ANCHOR}, ikkje skog.`},
+    {k:"Kulde-rabatt", t:fmtR(rFrost.r)+" mot frostdagar",
+     p:`Høgare og kaldare stadar er billegare (høgd mot pris ${fmtR(rElev.r)}, frost mot pris ${fmtR(rFrost.r)}). Høgd og frost heng tett saman (${fmtR(rElevFrost.r)}). Den kaldaste tredjedelen kostar ${mill(med(frostT.hi.map(f=>f.pris_kr)))} mill mot ${mill(med(frostT.lo.map(f=>f.pris_kr)))} mill i den mildaste — i praksis Innlandet/nord mot kyst.`},
+    {k:"Tilstand i prisen?", t:withTg.length?`${withTg.length} med TG-utdrag`:"Berre annonsetekst",
+     p:withTg.length
+       ? `Ad-flagget «oppussing» (${reno.length} objekt) har same median som resten (${mill(med(reno.map(f=>f.pris_kr)))} mot ${mill(med(notReno.map(f=>f.pris_kr)))} mill) — det flagget er for grovt. På ${withTg.length} objekt med TG-tal: ${tgOk.length} utan TG3 kostar ${mill(med(tgOk.map(f=>f.pris_kr)))} mill, ${tgHeavy.length} med ≥5 TG3 kostar ${mill(med(tgHeavy.map(f=>f.pris_kr)))} mill (r TG3 mot pris ${fmtR(rTg3.r)}, r TG-score ${fmtR(rTgSc.r)}). Asking prisar inn tilstand berre delvis; opne salsoppgåva.`
+       : `Merka oppussing (${reno.length}) har same median som resten. Vi har ikkje TG-tal enno — det kjem frå utdraget i Finn-annonsen, ikkje frå ei nedlasta PDF.`},
+    {k:"Gård mot eining", t:fmt(med(farms.map(f=>f.land.total_daa)))+" daa vs "+fmt(med(houses.map(f=>f.land.total_daa)))+" daa",
+     p:`Gårdsbruka (${farms.length}) og eneboligane (${houses.length}) kostar om lag det same, men kr/daa er ${fmt(krFarm)} mot ${fmt(krHouse)}. Same to millionar kjøper anten mykje mark eller eit hus på minstekrav-tomt — ikkje begge delar i kvalitet.`},
+    {k:"Skog er sjeldan", t:skog150+" av "+n+" over 150 daa",
+     p:`Berre ${rSkog.n} objekt har skogtal, og samanhengen med pris er svak (${fmtR(rSkog.r)}). Rangeringa premierer likevel skog, derfor kan ein billeg, stor eigedom vinne utan å vere dyr. NIBIO-areal finst for ${nibN} objekt; resten er annonsetekst.`},
+    {k:"Kyst kostar ikkje meir", t:FARMS.filter(isCoast).length+" med kyst-signal",
+     p:`Strand/sjø i annonsen heng ikkje saman med høgare pris (median ${mill(med(FARMS.filter(isCoast).map(f=>f.pris_kr)))} mot ${mill(med(FARMS.filter(f=>!isCoast(f)).map(f=>f.pris_kr)))} mill), og dei ligg oftare lenger unna ${ANCHOR}. Kyst er eit tekstsignal, ikkje ein prisdrivar i denne poolen.`},
+  ];
+
+  const pdaaNote=cheap1&&dearDaa?`Billigaste mark: ${cheap1.f.place} på ${fmt(cheap1.k)} kr/daa (${fmt(cheap1.f.land.total_daa)} daa). Dyraste tomt: ${dearDaa.f.place} på ${fmt(dearDaa.k)} kr/daa (${fmt1(dearDaa.f.land.total_daa)} daa). Median i poolen er ${fmt(krAll)} kr/daa.`:" ";
+
+  return `
+    <div class="sec"><h3>Heile poolen · kva som trekkjer prisen</h3>
+      <p class="lede" style="max-width:68ch;margin:0 0 16px;color:var(--muted);font-size:14.5px;line-height:1.55">Asking i dette utsnittet (median ${mill(prMed)} mill, n=${n}) er eit <b>stad- og klimamarknad</b>, ikkje eit skog- eller tilstandsmarknad. Pearson r mot totalpris; n er talet med data. Rangeringa har pris innebygd, derfor er poeng mot pris negativt (${fmtR(rScore.r)}) med vilje.</p>
+      <div class="findcol">
+        <div>
+          <h3 style="margin-top:0">Korrelasjon mot totalpris</h3>
+          <div class="corr">${corrHtml}</div>
+          <p class="hint" style="margin-top:10px">Stolpe frå midten: høgre = heng saman med høgare pris, venstre = med lågare. r nær 0 tyder på nesten ingen samanheng i <i>denne</i> poolen.</p>
+        </div>
+        <div>
+          <h3 style="margin-top:0">Kr per dekar</h3>
+          <div class="tiles">
+            ${tile("Median", fmt(krAll)+" <small>kr/daa</small>","alle med ≥5 daa")}
+            ${tile("Gårdsbruk", fmt(krFarm)+" <small>kr/daa</small>", farms.length+" objekt")}
+            ${tile("Enebolig", fmt(krHouse)+" <small>kr/daa</small>", houses.length+" objekt")}
+            ${regs.filter(r=>r.k!=null).map(r=>tile(r.name, fmt(r.k)+" <small>kr/daa</small>", r.n+" objekt")).join("")}
+          </div>
+          <p class="hint" style="margin-top:10px">${pdaaNote}</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="sec"><h3>Medianpris mot poolen (${mill(prMed)} mill)</h3>
+      <div class="gtable"><table>
+        <thead><tr><th>Gruppe</th><th>n</th><th>Median, mill</th><th>Vs pool</th><th>Storås</th><th></th></tr></thead>
+        <tbody>
+          <tr><td colspan="6" class="grp">Landsdel</td></tr>
+          ${regs.map(r=>row(r.name, r.g, `${r.g.filter(f=>arable(f)>=5).length} med ≥5 daa dyrka`)).join("")}
+          <tr><td colspan="6" class="grp">Fylke (minst 4 objekt)</td></tr>
+          ${fylkeRows}
+          <tr><td colspan="6" class="grp">Type, tilstand, stad, klima</td></tr>
+          ${groupRows}
+        </tbody>
+      </table></div>
+      <p class="hint">Grøn = billegare enn pool-median, raud = dyrare. ${finn.length?`Finnmark (${finn.length}) er den tydelegaste rabatten. `:""}${kom!=null?`Kommunale avgifter er oppgitt for ${komN} objekt (median ${kr(kom)}/år) — for tynt til å forklare prisskilnad.` :""}</p>
+    </div>
+
+    <div class="sec"><h3>Det som er verdt å merke</h3>
+      <div class="insights">${insights.map(i=>`<div class="insight"><div class="kicker">${i.k}</div><h4>${i.t}</h4><p>${i.p}</p></div>`).join("")}</div>
+      <p class="hint" style="margin-top:12px">Den billegaste tredjedelen har median ${mill(med(loP.map(f=>f.pris_kr)))} mill, ${fmt(med(loP.map(f=>f.geo.elev_m)))} moh og ${fmt1(med(loP.map(f=>clv(f,"frost_days"))))} frostdagar.
+        Den dyreste har ${mill(med(hiP.map(f=>f.pris_kr)))} mill og ${fmt(med(hiP.map(f=>f.geo.elev_m)))} moh. Tal: Pearson på tverrsnitt, ikkje årsak.</p>
+    </div>`;
+}
+
+function renderOverview(){
+  const top=[...FARMS].sort((a,b)=>b.score-a.score);
+  const n=FARMS.length, lead=top[0], second=top[1];
+  const ge5=FARMS.filter(f=>arable(f)!=null && arable(f)>=5).length;
+  const lowA=FARMS.filter(f=>arable(f)!=null && arable(f)<5).length;
+  const est=FARMS.filter(landEst).length;
+  const h6=FARMS.filter(f=>anchorMinH(f)<=6).length;
+  const skogN=FARMS.filter(f=>(f.land.skog||0)>=150).length;
+  const renoN=FARMS.filter(f=>(f.flags||"").includes("reno")).length;
+  const meets=FARMS.filter(f=>arable(f)>=5 && anchorMinH(f)<=6).length;
+  const regCounts=REG_ORDER.map(id=>`${REG_NAME[id]} ${FARMS.filter(f=>landsdel(f)===id).length}`).join(" · ");
+  const houseN=FARMS.filter(isHouse).length;
+  const farmN=n-houseN;
+  const withCl=FARMS.filter(f=>cl(f));
+  const frostMed=(()=>{const a=withCl.map(f=>clv(f,"frost_days")).filter(x=>x!=null).sort((x,y)=>x-y);return a.length?a[Math.floor(a.length/2)]:null;})();
+  const snowMed=(()=>{const a=withCl.map(f=>clv(f,"snow_days")).filter(x=>x!=null).sort((x,y)=>x-y);return a.length?a[Math.floor(a.length/2)]:null;})();
+  const dlMed=(()=>{const a=withCl.map(f=>clv(f,"daylight_gt10h")).filter(x=>x!=null).sort((x,y)=>x-y);return a.length?a[Math.floor(a.length/2)]:null;})();
+  const mildBest=withCl.length?pickMin(withCl, f=>clv(f,"frost_days")??9e9):null;
+  const sunBest=withCl.length?pickMax(withCl, f=>clv(f,"daylight_gt10h")||0):null;
+  const prices=FARMS.map(f=>f.pris_kr).sort((a,b)=>a-b);
+  const med=prices[Math.floor(prices.length/2)];
+  const short=top.slice(0,8);
+  const maxSc=short[0].score;
+  const dyrkaBest=pickMax(FARMS.filter(f=>arable(f)!=null), f=>arable(f)||0);
+  const closeBest=pickMin(FARMS.filter(f=>arable(f)>=5), anchorMinH);
+  const skogBest=pickMax(FARMS, f=>f.land.skog||0);
+
+  const kpis=[
+    ["Pool", String(n), farmN+" gårdsbruk, "+houseN+" enebolig ≥5 mål"],
+    ["Medianpris", (med/1e6).toLocaleString("nb-NO",{maximumFractionDigits:1})+" mill", kr(prices[0])+" – "+kr(prices[n-1])],
+    ["≥5 daa dyrka", ge5+" / "+n, lowA+" under kravet, "+est+" berre annonsetal"],
+    ["Innan 6 t", h6+" / "+n, "bilveg til "+ANCHOR],
+    ["Landsdelar", String(n), regCounts],
+    ["Skog ≥150 daa", skogN+" / "+n, "ønskje 150–250 daa produktiv skog"],
+    ["Profil-treff", String(meets), "≥5 daa dyrka og ≤6 t til "+ANCHOR],
+    ["Oppussing", renoN+" / "+n, "tilstandsrapport neste steg"],
+    ["Med TG-tal", FARMS.filter(hasTgAny).length+" / "+n, FARMS.filter(hasTg).length+" med full TG0–3-tabell"],
+    ["Dagslys >10 t", dlMed==null?"–":fmt1(dlMed)+" d", "median per år · Open-Meteo 2020–2025"],
+    ["Frostdagar", frostMed==null?"–":fmt1(frostMed)+" d", "median Tmin < 0 °C"],
+    ["Snøfalldagar", snowMed==null?"–":fmt1(snowMed)+" d", "median dagar med snøfall"],
+  ];
+
+  const cards=short.map(f=>{
+    const ar=arable(f), img=(f.media&&f.media.aer)||"";
+    return `<button class="scard" data-fk="${f.finnkode}">
+      ${img?`<img class="thumb" src="${img}" alt="Flyfoto ${f.place}">`:`<div class="thumb"></div>`}
+      <div class="scard-b">
+        <div class="rank">${f.rank}</div>
+        <div><div class="nm">${f.place}</div><div class="pl">${landsdelName(f)} · ${(Math.round(f.pris_kr/1e5)/10)} mill</div></div>
+        <div class="rt"><div class="sc mono">${f.score.toFixed(0)}</div></div>
+        <div class="why">${whyShort(f)}</div>
+        <div class="k">${ar==null?"dyrka ?":fmt1(ar)+" daa dyrka"} · ${fmt(f.land.skog)} daa skog · ${fmt1(anchorMinH(f))} t</div>
+      </div></button>`;
+  }).join("");
+
+  const rows=short.map(f=>{
+    const ar=arable(f), sh=f.geo.south_horizon_deg, win=f.geo.sun_winterish_deg;
+    const shade=sh==null?"–":(win!=null && sh>win?`<span class="bad">${fmt1(sh)}°</span>`:`${fmt1(sh)}°`);
+    const sl=f.geo.slope_pct, slC=sl==null?"":(sl>25?"bad":(sl>15?"warn":""));
+    return `<tr data-fk="${f.finnkode}">
+      <td class="mono">${f.rank}</td><td class="nm">${f.place}</td><td>${landsdelName(f)}</td>
+      <td class="mono">${f.score.toFixed(0)}</td><td class="mono">${(Math.round(f.pris_kr/1e5)/10)}</td>
+      <td class="mono ${ar!=null && ar<5?"bad":(ar>=5?"good":"")}">${ar==null?"est.":fmt1(ar)}</td>
+      <td class="mono ${(f.land.skog||0)>=150?"good":""}">${fmt(f.land.skog)}</td>
+      <td class="mono">${fmt(f.land.total_daa)}</td>
+      <td class="mono">${fmt1(anchorMinH(f))} t</td>
+      <td class="mono ${slC}">${sl==null?"–":fmt1(sl)+"%"}</td>
+      <td>${shade}</td>
+      <td class="mono">${fmt1(clv(f,"daylight_gt10h"))}</td>
+      <td class="mono">${fmt1(clv(f,"frost_days"))}</td>
+      <td class="mono">${fmt1(clv(f,"snow_days"))}</td>
+      <td>${isHouse(f)?"enebolig":((f.flags||"").includes("reno")?"oppussing":"–")}</td></tr>`;
+  }).join("");
+
+  const bars=short.map(f=>`<div class="barrow">
+    <span class="rank">${f.rank}</span>
+    <b data-fk="${f.finnkode}">${f.place}</b>
+    <div class="bartrk"><i style="width:${100*f.score/maxSc}%"></i></div>
+    <span class="mono">${f.score.toFixed(0)}</span></div>`).join("");
+
+  const wts=WEIGHTS.map(([_,lab,w])=>`<span class="wt"><em>${w}</em>${lab}</span>`).join("");
+
+  document.getElementById("overview").innerHTML=`
+    <div class="ov-inner">
+      <div class="hero">
+        <div>
+          <h2>Oversikt</h2>
+          <p class="lede"><b>${lead.place}</b> ligg ${fmt1(lead.score-second.score)} poeng føre ${second.place}
+            (${lead.score.toFixed(0)} mot ${second.score.toFixed(0)}). Rangeringa premierer skog, pris og nærleik til
+            ${ANCHOR} like mykje som dyrka jord — derfor vinn ikkje den med mest åker automatisk.</p>
+        </div>
+        <button class="btn primary" id="toBrowse">Sjå alle ${n} gårdar</button>
+      </div>
+      <div class="kpis">${kpis.map(([l,v,n])=>tile(l,v,n)).join("")}</div>
+
+      ${condSection()}
+
+      <div class="sec"><h3>Tre typar kandidatar — ikkje éin vinnar</h3>
+        <div class="lenses">
+          ${skogBest?`<button class="lens" data-fk="${skogBest.finnkode}">
+            <div class="kicker">Mest skog · rang ${skogBest.rank}</div>
+            <h4>${skogBest.place}</h4>
+            <p>${fmt(skogBest.land.skog)} daa produktiv skog (ønskje 150–250) og ${fmt(skogBest.land.total_daa)} daa totalt,
+              ${fmt1(anchorMinH(skogBest))} t til anker. Dyrka er berre ${fmt1(arable(skogBest))} daa — over minstekravet, langt under ~100 daa-idealet. Oppussingsobjekt.</p>
+          </button>`:""}
+          ${dyrkaBest?`<button class="lens" data-fk="${dyrkaBest.finnkode}">
+            <div class="kicker">Mest dyrka · rang ${dyrkaBest.rank}</div>
+            <h4>${dyrkaBest.place}</h4>
+            <p>${fmt1(arable(dyrkaBest))} daa dyrka, men ${fmt(dyrkaBest.land.skog)} daa skog og ${fmt1(anchorMinH(dyrkaBest))} t unna anker.
+              Sterk på matjord, svak mot skog- og reiseprofilen.</p>
+          </button>`:""}
+          ${closeBest?`<button class="lens" data-fk="${closeBest.finnkode}">
+            <div class="kicker">Nærmast ${ANCHOR} · rang ${closeBest.rank}</div>
+            <h4>${closeBest.place}</h4>
+            <p>${fmt1(anchorMinH(closeBest))} t og ${fmt(anchorMin(closeBest))} km til Snausvegen 623.
+              ${fmt1(arable(closeBest))} daa dyrka og ${fmt(closeBest.land.skog)} daa skog. ${landsdelName(closeBest)}.</p>
+          </button>`:""}
+          ${mildBest?`<button class="lens" data-fk="${mildBest.finnkode}">
+            <div class="kicker">Mildast klima · rang ${mildBest.rank}</div>
+            <h4>${mildBest.place}</h4>
+            <p>${fmt1(clv(mildBest,"frost_days"))} frostdagar og ${fmt1(clv(mildBest,"snow_days"))} snøfalldagar i året
+              (${fmt1(clv(mildBest,"daylight_gt10h"))} dagar med &gt;10 t dagslys). Klima er vising, ikkje poeng.</p>
+          </button>`:""}
+        </div></div>
+
+      ${poolSection()}
+
+      <div class="sec"><h3>Kortlista · topp 8 mot kvarandre</h3>
+        <div class="shortgrid">${cards}</div></div>
+
+      <div class="sec findcol">
+        <div>
+          <h3>Poengavstand</h3>
+          <div class="bars">${bars}</div>
+          <p class="hint" style="margin-top:12px">${lead.place} er ikkje «litt betre» — ${fmt1(lead.score-second.score)} poeng er eit hopp. Frå rang 2 til 8 er feltet tett (70–62).
+            ${closeBest?`Næraste gard med ≥5 daa dyrka er <b>${closeBest.place}</b> (${fmt1(anchorMinH(closeBest))} t), rang ${closeBest.rank}.`:""}</p>
+        </div>
+        <div>
+          <h3>Slik er poenga vekta</h3>
+          <div class="wts">${wts}</div>
+          <p class="hint" style="margin-top:12px">Kyst er eit annonsetekst-signal for heile poolen. Dyrka/skog i rangeringa kjem frå NIBIO der det finst, elles frå annonsen (${est} gardar).</p>
+        </div>
+      </div>
+
+      <div class="sec"><h3>Samanlikning · topp 8</h3>
+        <div class="cmp"><table>
+          <thead><tr><th>#</th><th>Stad</th><th>Landsdel</th><th>Poeng</th><th>Mill</th><th>Dyrka</th><th>Skog</th><th>Total</th><th>Storås</th><th>Helling</th><th>Sørhor.</th><th>Dagslys</th><th>Frost</th><th>Snø</th><th>Merknad</th></tr></thead>
+          <tbody>${rows}</tbody>
+        </table></div>
+        <p class="hint">Tal i daa. Dyrka = fulldyrka + overflatedyrka. Storås = bilveg til Snausvegen 623, 7334 Storås. Dagslys/frost/snø = middel 2020–2025 (Open-Meteo). Klikk ei rad for detaljar.</p>
+      </div>
+
+      <div class="sec">
+        <h3>Kva dette eigentleg seier</h3>
+        <div class="findcol">
+          <div class="desc" style="white-space:normal">
+            <p>Profilen (minst 5 daa dyrka, 150–250 daa skog, under 6 t til ${ANCHOR}) er streng mot denne marknaden.
+              Berre <b>${meets} gardar</b> treff dyrka og reisetid samstundes. Skogmålet treffer nesten ingen: <b>${skogN} av ${n}</b> har ≥150 daa produktiv skog.</p>
+            <p><b>${ge5}</b> har verifisert dyrka over minstekravet; <b>${est}</b> har berre areal frå annonsen. ${renoN} er merka oppussing, så salsoppgåve og tilstandsrapport er neste filter — ikkje meir kart.</p>
+            <p>Poolen tek no òg med <b>enebolig med tomt ≥5 mål</b> (${houseN} av ${n}) under same budsjett. Klima (dagslys, snøfall, frost) er vist per stad frå Open-Meteo 2020–2025 og tel ikkje i poengsummen — sortér på det i lista om det avgjer.</p>
+            <p>Praktisk kortliste: ${lead.place} om skog og storleik tel mest${dyrkaBest?"; "+dyrkaBest.place+" om åker tel mest":""}${closeBest?"; "+closeBest.place+" om kortast veg til "+ANCHOR+" tel mest":""}${mildBest?"; "+mildBest.place+" om du vil ha færre frostdagar":""}.</p>
+          </div>
+          <div>
+            ${tile("Leiar", lead.place, lead.score.toFixed(0)+" poeng · "+fmt1(anchorMinH(lead))+" t", {box:"hl"})}
+            ${closeBest?tile("Nærast "+ANCHOR, closeBest.place, fmt1(anchorMinH(closeBest))+" t"):""}
+          </div>
+        </div>
+      </div>
+      <div class="footnote">Areal: NIBIO Gårdskart (AR5) der kjelda er NIBIO, elles estimat frå annonsen. Avstand: køyretid til Snausvegen 623, 7334 Storås. Sør-Norge = Agder, Rogaland og Vestland. Østlandet = Oslo, Akershus, Østfold, Buskerud, Innlandet, Vestfold og Telemark. Midt-Norge = Møre og Romsdal og Trøndelag. Nord-Norge = Nordland, Troms og Finnmark. Klima: Open-Meteo arkiv 2020–2025. Rangeringa er eit filter, ikkje ein takst.</div>
+    </div>`;
+  document.getElementById("toBrowse").onclick=()=>{state.view="browse";save();applyView();};
+  document.querySelectorAll("#overview [data-fk]").forEach(el=>{
+    el.onclick=()=>openFarm(el.dataset.fk);
+  });
+}
+function applyView(){
+  document.querySelector(".app").dataset.view=state.view;
+  document.querySelectorAll("#viewseg button").forEach(b=>b.setAttribute("aria-pressed", b.dataset.view===state.view));
+  const sub=document.getElementById("brandsub");
+  if(sub){const n=FARMS.length, h=FARMS.filter(isHouse).length;
+    sub.textContent=`${n} objekt (${n-h} gårdsbruk, ${h} enebolig ≥5 mål) · ≤ 2 mill (2,5 for Møre) · finn.no · NIBIO · Kartverket · Open-Meteo`;}
+  if(state.view==="home"){ disposeThree(); disposeMap(); try{ renderOverview(); }catch(e){ console.error(e);
+    document.getElementById("overview").innerHTML=`<div class="ov-inner"><p class="lede">Oversikt feila: ${String(e.message||e)}</p></div>`;} }
+  else { renderList(); renderDetail(); }
+}
+
+/* ---------- 3D terrain ---------- */
+let THREEstate=null;
+function disposeThree(){ if(THREEstate){cancelAnimationFrame(THREEstate.raf);THREEstate.renderer.dispose();THREEstate=null;} }
+let MAP=null;
+function disposeMap(){ if(MAP){ MAP.remove(); MAP=null; } }
+function initThree(farm,canvas){
+  disposeThree();
+  const T=farm.terrain; if(!T||!window.THREE)return;
+  const n=T.n, span=T.span_m, z=T.z;
+  const scene=new THREE.Scene(); scene.background=new THREE.Color(0x0f120e);
+  const cam=new THREE.PerspectiveCamera(50, canvas.clientWidth/canvas.clientHeight,1,span*8);
+  const renderer=new THREE.WebGLRenderer({canvas,antialias:true});
+  renderer.setPixelRatio(Math.min(devicePixelRatio,2)); renderer.setSize(canvas.clientWidth,canvas.clientHeight,false);
+  const geo=new THREE.PlaneGeometry(span,span,n-1,n-1);
+  const pos=geo.attributes.position;
+  function applyZ(ex){ for(let r=0;r<n;r++)for(let c=0;c<n;c++){ const i=r*n+c; pos.setZ(i, z[i]*ex); } pos.needsUpdate=true; geo.computeVertexNormals(); }
+  applyZ(state.exagg);
+  geo.rotateX(-Math.PI/2); // lay flat, +Y up; plane row0 -> +Z (south side); texture handled by flipY
+  const tex=new THREE.TextureLoader().load(farm.media.tex||farm.media.aer);
+  tex.colorSpace=THREE.SRGBColorSpace!==undefined?THREE.SRGBColorSpace:tex.colorSpace;
+  const mat=new THREE.MeshLambertMaterial({map:tex});
+  const mesh=new THREE.Mesh(geo,mat); scene.add(mesh);
+  scene.add(new THREE.AmbientLight(0xffffff,0.75));
+  const dir=new THREE.DirectionalLight(0xffffff,0.75); dir.position.set(-span*0.4,span*0.7,-span*0.5); scene.add(dir);
+  let az=Math.PI*0.15, pol=0.95, dist=span*1.25;
+  const target=new THREE.Vector3(0,(T.zmax+T.zmin)/2*state.exagg,0);
+  function place(){ cam.position.set(target.x+dist*Math.sin(pol)*Math.cos(az), target.y+dist*Math.cos(pol), target.z+dist*Math.sin(pol)*Math.sin(az)); cam.lookAt(target); }
+  place();
+  // drag + wheel controls
+  let drag=false,px=0,py=0;
+  canvas.onpointerdown=e=>{drag=true;px=e.clientX;py=e.clientY;canvas.setPointerCapture(e.pointerId);};
+  canvas.onpointermove=e=>{if(!drag)return;az-=(e.clientX-px)*0.006;pol=Math.max(0.15,Math.min(1.45,pol-(e.clientY-py)*0.005));px=e.clientX;py=e.clientY;place();};
+  canvas.onpointerup=e=>{drag=false;};
+  canvas.onwheel=e=>{e.preventDefault();dist=Math.max(span*0.5,Math.min(span*3,dist*(1+Math.sign(e.deltaY)*0.12)));place();};
+  const ro=new ResizeObserver(()=>{renderer.setSize(canvas.clientWidth,canvas.clientHeight,false);cam.aspect=canvas.clientWidth/canvas.clientHeight;cam.updateProjectionMatrix();});
+  ro.observe(canvas);
+  const arrow=document.getElementById("cmparrow");
+  function updCompass(){ if(!arrow)return;
+    const a=target.clone().project(cam), b=target.clone().add(new THREE.Vector3(0,0,-1).multiplyScalar(span*0.25)).project(cam);
+    const ax=a.x*0.5+0.5, ay=-a.y*0.5+0.5, bx=b.x*0.5+0.5, by=-b.y*0.5+0.5;
+    const ang=Math.atan2(bx-ax, -(by-ay)); arrow.style.transform=`rotate(${ang}rad)`; }
+  THREEstate={renderer,scene,cam,geo,applyZ,place,target,raf:0,ro,updCompass};
+  (function loop(){THREEstate.raf=requestAnimationFrame(loop);updCompass();renderer.render(scene,cam);})();
+}
+
+function renderDetail(){
+  const f=FARMS.find(x=>x.finnkode===state.sel);const el=document.getElementById("detail");
+  const t=f.land.total_daa||1, ar=arable(f);
+  const seg=LAND.map(([k,nm,c])=>{const v=f.land[k]||0,w=100*v/t;return w>0.15?`<i title="${nm}: ${fmt1(v)} daa" style="width:${w}%;background:${c}"></i>`:"";}).join("");
+  const legend=LAND.filter(([k])=>f.land[k]>0).map(([k,nm,c])=>{const v=f.land[k]||0;
+    return `<div class="leg"><span class="sw" style="background:${c}"></span><span class="nm">${nm}</span><span class="v mono">${fmt1(v)}</span><span class="pct">${(100*v/t).toFixed(0)}%</span></div>`;}).join("");
+  const sh=f.geo.south_horizon_deg,win=f.geo.sun_winterish_deg;
+  const shadeNote=(sh==null)?"":(sh>win?`sperrar vintersol (sol ${fmt1(win)}°)`:`open (sol ${fmt1(win)}°)`);
+  const shadeCls=(sh==null)?"":(sh>win?"bad":(sh>10?"warn":"good"));
+  const slope=f.geo.slope_pct,slopeCls=slope==null?"":(slope>25?"bad":(slope>15?"warn":"good"));
+  const bd=[ ar==null?`<span class="badge">areal ikkje verifisert</span>`
+             :`<span class="badge ${ar>=5?'good':'bad'}">${fmt1(ar)} daa dyrka</span>`];
+  if(isHouse(f)) bd.unshift(`<span class="badge info">enebolig ≥5 mål</span>`);
+  if(landEst(f))bd.push(`<span class="badge warn">areal estimert (ikkje NIBIO)</span>`);
+  if(f.land.skog>=150)bd.push(`<span class="badge good">${fmt(f.land.skog)} daa skog</span>`);
+  bd.push(`<span class="badge info">${fmt1(anchorMinH(f))} t til ${ANCHOR}</span>`);
+  (f.flags||"").split(/\s+/).filter(Boolean).filter(fl=>fl!=='land-est').forEach(fl=>{const m={"LOW-ARABLE":["bad","lite dyrka"],"STEEP":["warn","bratt terreng"],"WINTER-SHADE":["warn","vinterskugge"],"reno":["","oppussingsobjekt"],"road-fee":["","veiavgift"],"BAD-VÅTROM":["bad","våtrom-behov"],"NYTT-BAD":["good","nyare bad"],"TG3-HEAVY":["bad","mange TG3"],"TG-OK":["good","få avvik"]}[fl]||["",fl];bd.push(`<span class="badge ${m[0]}">${m[1]}</span>`);});
+  const M=f.media||{}, ph=M.photos||[], idx=Math.min(state.photo,Math.max(0,ph.length-1));
+
+  el.innerHTML=`
+    <div class="dhead"><div><h2>${f.place}</h2><div class="loc">${f.title||""} · ${f.fylke}</div></div>
+      <div class="scorebox"><div class="n mono">${f.score.toFixed(0)}</div><div class="l">poeng</div>
+        <div class="price mono">${kr(f.pris_kr)} <small>totalpris</small></div>
+        ${(f.sales&&f.sales.length)?`<div class="soldline">Sist tinglyst: <b>${kr(f.sales[0].price)}</b> (${f.sales[0].date.slice(6)})</div>`:``}</div></div>
+    <div class="badges">${bd.join("")}</div>
+    <div class="mtabs" id="mtabs">
+      <button data-m="aerial">Gårdskart</button><button data-m="3d">3D-terreng</button>
+      <button data-m="photos">Annonsefoto (${ph.length})</button></div>
+    <div class="stage" id="stage"></div>
+    <div class="hint" id="mhint"></div>
+
+    <div class="sec"><h3>Arealfordeling · ${fmt(f.land.total_daa)} daa totalt ${landEst(f)?"(estimert frå annonsen – ikkje NIBIO)":"(NIBIO AR5 13 klasser)"}</h3>
+      <div class="landbar">${seg}</div><div class="legend">${legend}</div></div>
+    ${tgSection(f)}
+    <div class="sec"><h3>Nøkkeltal</h3><div class="tiles">
+      ${tile("Dyrka (full+overfl.)",(ar==null?"?":fmt1(ar))+" <small>daa</small>","min. krav 5 daa",{box:"hl",v:ar==null?"":(ar>=5?'good':'bad')})}
+      ${tile("Produktiv skog",fmt(f.land.skog)+" <small>daa</small>","ønskje 150–250",{box:"hl",v:f.land.skog>=150?'good':''})}
+      ${tile("Produktiv jord i alt",fmt(productive(f))+" <small>daa</small>","dyrka+skog+beite")}
+      ${tile("Totalareal",fmt(f.land.total_daa)+" <small>daa</small>")}
+      ${tile("Høgd",fmt(f.geo.elev_m)+" <small>moh</small>")}
+      ${tile("Helling (terreng)",(slope==null?"–":fmt1(slope)+" <small>%</small>"),slope>25?"bratt":(slope>15?"noko bratt":"slakt"),{v:slopeCls})}
+      ${tile("Sørhorisont",(sh==null?"–":fmt1(sh)+"°"),shadeNote,{v:shadeCls})}
+      ${tile("Bilveg "+ANCHOR,fmt(f.anchors.storas_km)+" <small>km</small>",fmt1(f.anchors.storas_h)+" t · Snausvegen 623")}
+      ${tile("Kommunale avg.",f.costs.kommunale_avg?kr(f.costs.kommunale_avg)+"/år":"– <small>ikkje oppgitt</small>")}
+      ${(()=>{const cd=f.condition||{};const txt=cd.bath_pos?"Nyare / moderne":(cd.bath_neg?"Behov / avvik":"Ikkje dokumentert");const cl=cd.bath_pos?"good":(cd.bath_neg?"bad":"");const note=(cd.notes&&cd.notes.length)?cd.notes.join("; "):(cd.has_report?"tilstandsrapport finst":"lite info i annonsen");return tile("Våtrom-standard",txt,note,{v:cl});})()}
+      ${hasTg(f)?tile("TG3", String(f.condition.tg.tg3), `TG0 ${f.condition.tg.tg0} · TG1 ${f.condition.tg.tg1} · TG2 ${f.condition.tg.tg2}`, {v:f.condition.tg.tg3>=5?"bad":(f.condition.tg.tg3===0?"good":"warn")}):""}
+      ${tile("Byggeår",f.byggeaar||"–")}${tile("Bruksareal",f.bruksareal||"–")}
+      ${tile("Sist solgt",(f.sales&&f.sales.length)?kr(f.sales[0].price):"–",(f.sales&&f.sales.length)?"tinglyst "+f.sales[0].date:"ingen registrert")}</div></div>
+    ${f.climate?`<div class="sec"><h3>Klima · ${f.climate.period||"2020–2025"} (Open-Meteo, middel per år)</h3><div class="tiles">
+      ${tile("Dagslys &gt;10 t",fmt1(clv(f,"daylight_gt10h"))+" <small>dagar</small>","fotoperiode, ikkje skydekke",{box:"hl"})}
+      ${tile("Solskinn &gt;10 t",fmt1(clv(f,"sunshine_gt10h"))+" <small>dagar</small>","faktisk sol, skyer trekkjer ned")}
+      ${tile("Snøfall",fmt1(clv(f,"snow_days"))+" <small>dagar</small>","dagar med &gt;0,1 cm snø")}
+      ${tile("Frost (Tmin &lt; 0)",fmt1(clv(f,"frost_days"))+" <small>dagar</small>","netter under frysepunktet")}
+      ${tile("Soltimar/dag", (clv(f,"mean_sunshine_h")==null?"–":clv(f,"mean_sunshine_h").toFixed(1))+" <small>t</small>","middel over året")}
+    </div></div>`:`<div class="sec"><h3>Klima</h3><p class="hint">Ikkje henta enno for denne staden.</p></div>`}
+    ${(f.sales&&f.sales.length)?`<div class="sec"><h3>Tidlegare omsetning (tinglyst)</h3>${f.sales.map(s=>`<div class="saleitem"><span>${s.date}</span><span class="p">${kr(s.price)}</span></div>`).join("")}</div>`:``}
+    <div class="sec"><h3>Frå annonsen</h3><div class="desc">${(f.description||"").replace(/</g,"&lt;")||"–"}</div>
+      <div class="links"><a class="btn primary" href="${f.url}" target="_blank" rel="noopener">Finn-annonse</a>
+        ${sogLinks(f).slice(0,2).map(d=>`<a class="btn" href="${esc(d.url)}" target="_blank" rel="noopener">${esc(d.label)}</a>`).join("")}
+        ${f.gardskart?`<a class="btn" href="${f.gardskart}" target="_blank" rel="noopener">NIBIO Gårdskart</a>`:""}</div></div>
+    <div class="footnote">Areal: NIBIO AR5 13 klasser (interaktivt kart + Gårdskart). Flyfoto: Esri World Imagery. Eigedomsgrenser: Kartverket matrikkel-WMS. 3D-terreng og helling/sørhorisont: Kartverkets høgdemodell (DTM). Klima: Open-Meteo arkiv (dagslys, solskinn, snøfall, Tmin). Grenser og grunnkart er rettleiande; kostnader/oppussing må stadfestast i salsoppgåva.</div>`;
+
+  renderStage(f,idx);
+  document.querySelectorAll("#mtabs button").forEach(b=>{b.setAttribute("aria-pressed",b.dataset.m===state.mtab);
+    b.onclick=()=>{state.mtab=b.dataset.m;save();renderDetail();};});
+}
+
+function renderStage(f,idx){
+  const st=document.getElementById("stage"),hint=document.getElementById("mhint"),M=f.media||{},ph=M.photos||[];
+  disposeThree(); disposeMap();
+  st.classList.toggle("mapmode", state.mtab==="aerial");
+  st.innerHTML="";
+  if(state.mtab==="aerial"){
+    initGardskart(f, st, hint);
+  } else if(state.mtab==="3d"){
+    if(!M.aer){ st.innerHTML=`<div class="cross" style="color:#ccc">Flyfoto ikkje henta</div>`;
+      hint.innerHTML=`<a href="${f.gardskart}" target="_blank" rel="noopener">Opne i NIBIO Gårdskart</a>`; return; }
+    st.innerHTML=`<canvas id="c3d"></canvas>
+      <div class="compass" id="cmp3d" style="left:auto;right:10px"><svg viewBox="0 0 34 34" id="cmparrow" style="transform-origin:50% 50%"><path d="M17 5 L21 18 L17 15 L13 18 Z" fill="#ff5a5a"/></svg>N</div>
+      <div class="d3ctl">Overdriving <input type="range" id="exagg" min="1" max="3" step="0.1" value="${state.exagg}"> <span id="exv" class="mono">${state.exagg.toFixed(1)}×</span></div>`;
+    hint.textContent="Drag for å rotere · scroll for zoom. Terreng frå Kartverkets høgdemodell, flyfoto+grenser lagt på. Overdriving forsterkar høgdeskilnad.";
+    const cv=document.getElementById("c3d");
+    requestAnimationFrame(()=>{initThree(f,cv);});
+    const ex=document.getElementById("exagg"),exv=document.getElementById("exv");
+    ex.oninput=()=>{state.exagg=+ex.value;exv.textContent=state.exagg.toFixed(1)+"×";if(THREEstate){THREEstate.applyZ(state.exagg);THREEstate.target.y=(f.terrain.zmax+f.terrain.zmin)/2*state.exagg;THREEstate.place();}save();};
+  } else { // photos
+    if(!ph.length){st.innerHTML=`<div class="cross" style="color:#ccc">Ingen annonsefoto</div>`;hint.textContent="";return;}
+    st.innerHTML=`<img src="${ph[idx]}" alt="Annonsefoto ${idx+1}">
+      ${ph.length>1?`<button class="gnav prev">‹</button><button class="gnav next">›</button><div class="gcount mono">${idx+1}/${ph.length}</div>`:""}`;
+    hint.innerHTML=`<div class="thumbs">${ph.map((p,i)=>`<img src="${p}" data-i="${i}" aria-current="${i===idx}" alt="foto ${i+1}">`).join("")}</div>`;
+    hint.querySelectorAll(".thumbs img").forEach(im=>im.onclick=()=>{state.photo=+im.dataset.i;save();renderStage(f,+im.dataset.i);});
+    const nav=d=>{state.photo=(idx+d+ph.length)%ph.length;save();renderStage(f,state.photo);};
+    const pv=st.querySelector(".gnav.prev"),nx=st.querySelector(".gnav.next");if(pv)pv.onclick=()=>nav(-1);if(nx)nx.onclick=()=>nav(1);
+  }
+}
+
+function matrikkelOf(f){
+  if(f.matrikkel) return f.matrikkel;
+  const m=(f.gardskart||"").match(/grunneiendom\/(\d+)\/(\d+)\/(\d+)/);
+  return m?{knr:m[1],gnr:m[2],bnr:m[3]}:null;
+}
+function farmZoom(f){
+  const daa=f.land.total_daa||50;
+  if(daa>120) return 15;
+  return 16;
+}
+function gmlVal(xml, tag){
+  const m=xml.match(new RegExp("<"+tag+">([^<]*)</"+tag+">"));
+  return m?m[1].trim():"";
+}
+function ar13Name(xml){
+  const t=+gmlVal(xml,"artype")||0, b=+gmlVal(xml,"arskogbon")||0;
+  const g=+gmlVal(xml,"argrunnf")||0, tr=+gmlVal(xml,"artreslag")||0;
+  if(t===21) return "Fulldyrka jord";
+  if(t===22) return "Overflatedyrka jord";
+  if(t===23) return "Innmarksbeite";
+  if(t===30 || t===60){
+    if(b===15) return "Skog, særs høg bonitet";
+    if(b===14) return "Skog, høg bonitet";
+    if(b===13) return "Skog, middels bonitet";
+    if(b===12) return "Skog, lav bonitet";
+    if(t===30 || tr===31 || tr===32 || tr===33) return "Uproduktiv skog";
+    if(t===60) return "Myr";
+  }
+  if(t===50) return (g===41||g===42) ? "Åpen jorddekt fastmark" : "Åpen skrinn fastmark";
+  if(t===11||t===12||t===70||t===81||t===82) return gmlVal(xml,"artype_beskrivelse")||"Bebygd / vatn / bre";
+  return gmlVal(xml,"artype_beskrivelse")||gmlVal(xml,"vanlig_beskrivelse")||"";
+}
+function gfiUrl(base, layer, map, latlng){
+  // Local 80 m window so scale-limited layers (teig ~1:5 000) still return attributes.
+  const p=map.options.crs.project(latlng), half=80;
+  const q=new URLSearchParams({
+    SERVICE:"WMS", REQUEST:"GetFeatureInfo", VERSION:"1.3.0",
+    LAYERS:layer, QUERY_LAYERS:layer, STYLES:"", FORMAT:"image/png", TRANSPARENT:"TRUE",
+    INFO_FORMAT:"application/vnd.ogc.gml", CRS:"EPSG:3857",
+    WIDTH:"256", HEIGHT:"256",
+    BBOX:[p.x-half,p.y-half,p.x+half,p.y+half].join(","),
+    I:"128", J:"128"
+  });
+  return base+(base.includes("?")?"&":"?")+q.toString();
+}
+function initGardskart(f, st, hint){
+  if(!window.L || f.geo.lat==null){
+    st.innerHTML=`<div class="cross" style="color:#ccc">Kart ikkje tilgjengeleg</div>`;
+    hint.innerHTML=f.gardskart?`<a href="${f.gardskart}" target="_blank" rel="noopener">Opne i NIBIO Gårdskart</a>`:"";
+    return;
+  }
+  const mk=matrikkelOf(f);
+  const ar=arable(f);
+  const landLine=[
+    ar!=null?`${fmt1(ar)} daa dyrka`:null,
+    f.land.skog?`${fmt(f.land.skog)} daa skog`:null,
+    f.land.beite?`${fmt1(f.land.beite)} daa beite`:null,
+    f.land.total_daa?`${fmt(f.land.total_daa)} daa totalt`:null
+  ].filter(Boolean).join(" · ");
+  const idLine=mk?`${mk.knr}-${mk.gnr}/${mk.bnr}`:"";
+  st.innerHTML=`<div id="gkmap"></div>
+    <div class="mapleg">
+      <b>AR5 · 13 klasser</b>
+      <span><i style="background:#ffd16e"></i>Fulldyrka</span>
+      <span><i style="background:#ffff4c"></i>Overflatedyrka</span>
+      <span><i style="background:#ffffad"></i>Innmarksbeite</span>
+      <span><i style="background:#00ad3b"></i>Skog særs høg</span>
+      <span><i style="background:#7dbf6e"></i>Skog høg</span>
+      <span><i style="background:#9ecc73"></i>Skog middels</span>
+      <span><i style="background:#d1e8b5"></i>Skog lav</span>
+      <span><i style="background:#ebf5d1"></i>Uprod. skog</span>
+      <span><i style="background:#d9f5fd"></i>Myr</span>
+      <span><i style="background:#cfcc91"></i>Jorddekt</span>
+      <span><i style="background:#cfc9bd"></i>Skrinn fastmark</span>
+    </div>
+    <div class="mapctl">
+      <button data-l="fly" aria-pressed="${state.mapFly!==false}">Flyfoto</button>
+      <button data-l="ar5" aria-pressed="${state.mapAr5!==false}">AR13 markslag</button>
+      <button data-l="bnd" aria-pressed="${state.mapBnd!==false}">Eigedomsgrenser</button>
+      ${f.gardskart?`<a href="${f.gardskart}" target="_blank" rel="noopener">NIBIO</a>`:""}
+    </div>
+    <div class="mapinfo" id="mapinfo"><b>${f.place}</b><span class="k">${[idLine, landLine, "klikk i kartet for teig og markslag"].filter(Boolean).join(" · ")}</span></div>`;
+  hint.innerHTML="AR13-markslag er klippa til denne eigedomen (Kartverket-teigar). Gult = dyrka, grønt = skog etter bonitet, blått = myr. Naboar visast som flyfoto. Klikk ei flate for klasse, dekar og treslag.";
+
+  const map=L.map("gkmap",{zoomControl:false, attributionControl:true}).setView([f.geo.lat,f.geo.lon], farmZoom(f));
+  L.control.zoom({position:"bottomright"}).addTo(map);
+  MAP=map;
+  map.createPane("ar5pane");
+  const ar5pane=map.getPane("ar5pane");
+  ar5pane.style.zIndex=350;
+  ar5pane.style.clipPath="inset(100%)";
+  const fly=L.tileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",{
+    maxZoom:18, attribution:"Esri World Imagery"
+  });
+  const topo=L.tileLayer("https://cache.kartverket.no/v1/wmts/1.0.0/topo/default/webmercator/{z}/{y}/{x}.png",{
+    maxZoom:18, attribution:"Kartverket"
+  });
+  const ar5=L.tileLayer.wms("https://wms.nibio.no/cgi-bin/ar5?",{
+    layers:"Bonitet", format:"image/png", transparent:true, version:"1.3.0",
+    attribution:"NIBIO AR5 13 klasser", opacity:0.82, maxZoom:18, pane:"ar5pane"
+  });
+  const bnd=L.tileLayer.wms("https://wms.geonorge.no/skwms1/wms.matrikkelkart?",{
+    layers:"eiendomsgrense", format:"image/png", transparent:true, version:"1.3.0",
+    attribution:"Kartverket matrikkel", maxZoom:18
+  });
+  if(state.mapFly!==false) fly.addTo(map); else topo.addTo(map);
+  if(state.mapAr5!==false) ar5.addTo(map);
+  if(state.mapBnd!==false) bnd.addTo(map);
+  L.circleMarker([f.geo.lat,f.geo.lon],{radius:7,color:"#fff",weight:2,fillColor:"#0bd",fillOpacity:0.9})
+    .addTo(map).bindTooltip("tun / representasjonspunkt",{permanent:false});
+
+  let farmRings=[];
+  const farmOutline=L.geoJSON(null,{style:{color:"#f4f1ea",weight:2.2,opacity:0.95,fill:false,pane:"overlayPane"}});
+  function clipAr5(){
+    const size=map.getSize();
+    ar5pane.style.width=size.x+"px";
+    ar5pane.style.height=size.y+"px";
+    if(state.mapAr5===false || !farmRings.length){
+      ar5pane.style.clipPath="inset(100%)";
+      ar5pane.style.webkitClipPath="inset(100%)";
+      return;
+    }
+    // path() (one shape, several subpaths) — multi polygon() is ignored by many browsers.
+    // Pane must have map size so the path is not clipped against a 0×0 box.
+    let d="";
+    for(const ring of farmRings){
+      ring.forEach((ll,i)=>{
+        const p=map.latLngToLayerPoint(ll);
+        d+=(i?"L":"M")+p.x.toFixed(1)+" "+p.y.toFixed(1);
+      });
+      d+="Z";
+    }
+    const v="path('"+d+"')";
+    ar5pane.style.clipPath=v;
+    ar5pane.style.webkitClipPath=v;
+  }
+  map.on("move zoom zoomend moveend viewreset resize", clipAr5);
+  ar5.on("load", clipAr5);
+  async function loadFarmTeigs(){
+    if(!mk){ farmRings=[]; clipAr5(); return; }
+    try{
+      const r=await fetch(`/teigpoly/${mk.knr}/${mk.gnr}/${mk.bnr}`);
+      if(!r.ok) throw new Error("teig "+r.status);
+      const gj=await r.json();
+      const geom=(gj.features&&gj.features[0]&&gj.features[0].geometry)||null;
+      farmRings=[];
+      const polys=geom&&geom.type==="MultiPolygon"?geom.coordinates:(geom&&geom.type==="Polygon"?[geom.coordinates]:[]);
+      for(const poly of polys){
+        const outer=poly[0]||[];
+        if(outer.length>=3) farmRings.push(outer.map(([lon,lat])=>L.latLng(lat,lon)));
+      }
+      farmOutline.clearLayers();
+      if(geom) farmOutline.addData(gj);
+      if(!map.hasLayer(farmOutline)) farmOutline.addTo(map);
+      clipAr5();
+      if(f.geo && f.geo.lat!=null){
+        map.setView([f.geo.lat, f.geo.lon], farmZoom(f));
+      } else if(farmRings.length){
+        const b=farmOutline.getBounds();
+        if(b.isValid()) map.fitBounds(b,{padding:[18,18], maxZoom:16});
+      }
+    }catch(err){
+      farmRings=[]; clipAr5();
+    }
+  }
+  loadFarmTeigs();
+
+  function syncLayers(){
+    if(state.mapFly!==false){ if(!map.hasLayer(fly)){ map.removeLayer(topo); fly.addTo(map); fly.bringToBack(); } }
+    else { if(!map.hasLayer(topo)){ map.removeLayer(fly); topo.addTo(map); topo.bringToBack(); } }
+    if(state.mapAr5!==false){ if(!map.hasLayer(ar5)) ar5.addTo(map); clipAr5(); }
+    else { if(map.hasLayer(ar5)) map.removeLayer(ar5); clipAr5(); }
+    if(state.mapBnd!==false){
+      if(!map.hasLayer(bnd)) bnd.addTo(map);
+    } else {
+      if(map.hasLayer(bnd)) map.removeLayer(bnd);
+    }
+    st.querySelectorAll(".mapctl button[data-l]").forEach(b=>{
+      const on=b.dataset.l==="fly"?state.mapFly!==false:b.dataset.l==="ar5"?state.mapAr5!==false:state.mapBnd!==false;
+      b.setAttribute("aria-pressed", on);
+    });
+  }
+  st.querySelectorAll(".mapctl button[data-l]").forEach(b=>b.onclick=()=>{
+    if(b.dataset.l==="fly") state.mapFly=!(state.mapFly!==false);
+    if(b.dataset.l==="ar5") state.mapAr5=!(state.mapAr5!==false);
+    if(b.dataset.l==="bnd") state.mapBnd=!(state.mapBnd!==false);
+    save(); syncLayers();
+  });
+
+  const box=document.getElementById("mapinfo");
+  map.on("click", async e=>{
+    box.innerHTML="<span class='k'>hentar eigedom og markslag…</span>";
+    const jobs=[
+      fetch(gfiUrl("https://wms.geonorge.no/skwms1/wms.matrikkelkart?", "teig", map, e.latlng)).then(r=>r.text()).then(xml=>({k:"teig",xml})).catch(()=>({k:"teig",xml:""})),
+      state.mapAr5===false ? Promise.resolve({k:"ar5",xml:""})
+        : fetch(gfiUrl("https://wms.nibio.no/cgi-bin/ar5?", "Bonitet", map, e.latlng)).then(r=>r.text()).then(xml=>({k:"ar5",xml})).catch(()=>({k:"ar5",xml:""}))
+    ];
+    const out=await Promise.all(jobs);
+    const teigXml=(out.find(x=>x.k==="teig")||{}).xml||"";
+    const arXml=(out.find(x=>x.k==="ar5")||{}).xml||"";
+    const kn=gmlVal(teigXml,"kommunenummer"), knavn=gmlVal(teigXml,"kommunenavn");
+    const nr=gmlVal(teigXml,"matrikkelnummertekst");
+    const tm2=parseFloat(gmlVal(teigXml,"lagretberegnetareal"));
+    const merknad=gmlVal(teigXml,"arealmerknadtekst");
+    const own=mk && kn && nr && String(kn)===String(mk.knr) && nr===`${mk.gnr}/${mk.bnr}`;
+    const teigBits=[
+      kn && nr ? `${knavn||""} ${kn}-${nr}`.trim() : null,
+      Number.isFinite(tm2)?`${fmt1(tm2/1000)} daa teig`:null,
+      own?"denne garden":(nr?"annan teig":null),
+      merknad && merknad.length<80?merknad:null
+    ].filter(Boolean);
+
+    const type=ar13Name(arXml)||gmlVal(arXml,"artype_beskrivelse")||gmlVal(arXml,"vanlig_beskrivelse");
+    const daa=gmlVal(arXml,"areal_da"), tres=gmlVal(arXml,"artreslag_beskrivelse");
+    const bon=gmlVal(arXml,"arskogbon_beskrivelse"), grunn=gmlVal(arXml,"argrunnf_beskrivelse");
+    const raw=gmlVal(arXml,"artype_beskrivelse"), ver=gmlVal(arXml,"verifiseringsdato");
+    const arBits=[raw && raw!==type?raw:null, daa?daa+" daa":null,
+      tres && tres!=="Ikke relevant"?("treslag "+tres):null,
+      bon && bon!=="Ikke relevant"?("bonitet "+bon):null,
+      grunn && grunn!=="Ikke relevant"?grunn:null,
+      ver?("verifisert "+ver):null].filter(Boolean);
+
+    if(!type && !nr){ box.innerHTML="<span class='k'>ingen treff her — zoom inn og klikk ei flate</span>"; return; }
+    const title=type||(nr?`Teig ${kn}-${nr}`:f.place);
+    box.innerHTML=`<b>${title}</b><span class="k">${[...arBits, ...teigBits].join(" · ")}</span>`;
+  });
+  requestAnimationFrame(()=>{ map.invalidateSize(); setTimeout(()=>map.invalidateSize(), 80); });
+}
+
+document.getElementById("sort").value=state.sort;
+document.getElementById("sort").onchange=e=>{state.sort=e.target.value;save();renderList();};
+document.getElementById("hidelow").checked=state.hidelow;document.getElementById("hidefar").checked=state.hidefar;
+document.getElementById("hidelow").onchange=e=>{state.hidelow=e.target.checked;save();renderList();};
+document.getElementById("hidefar").onchange=e=>{state.hidefar=e.target.checked;save();renderList();};
+document.querySelectorAll("#regfilter button").forEach(b=>b.onclick=()=>{state.reg=b.dataset.reg;save();
+  document.querySelectorAll("#regfilter button").forEach(x=>x.setAttribute("aria-pressed",x===b));renderList();});
+document.querySelectorAll("#regfilter button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.reg===state.reg));
+document.querySelectorAll("#kindfilter button").forEach(b=>b.onclick=()=>{state.kind=b.dataset.kind;save();
+  document.querySelectorAll("#kindfilter button").forEach(x=>x.setAttribute("aria-pressed",x===b));renderList();});
+document.querySelectorAll("#kindfilter button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.kind===state.kind));
+document.querySelectorAll("#viewseg button").forEach(b=>b.onclick=()=>{state.view=b.dataset.view;save();applyView();});
+applyView();
+</script>

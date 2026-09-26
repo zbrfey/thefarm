@@ -1,0 +1,2762 @@
+{
+ "475960194": {
+  "years": [
+   2020,
+   2021,
+   2022,
+   2023,
+   2024,
+   2025
+  ],
+  "n_years": 6,
+  "daylight_gt10h": 233.7,
+  "sunshine_gt10h": 135.2,
+  "snow_days": 74.0,
+  "frost_days": 164.3,
+  "mean_sunshine_h": 7.52,
+  "source": "open-meteo-archive",
+  "period": "2020–2025",
+  "lat": 60.93052,
+  "lon": 11.0088
+ },
+ "475976093": {
+  "years": [
+   2020,
+   2021,
+   2022,
+   2023,
+   2024,
+   2025
+  ],
+  "n_years": 6,
+  "daylight_gt10h": 235.0,
+  "sunshine_gt10h": 137.7,
+  "snow_days": 68.8,
+  "frost_days": 161.0,
+  "mean_sunshine_h": 7.58,
+  "source": "open-meteo-archive",
+  "period": "2020–2025",
+  "lat": 60.31799,
+  "lon": 10.52516
+ },
+ "476099750": {
+  "years": [
+   2020,
+   2021,
+   2022,
+   2023,
+   2024,
+   2025
+  ],
+  "n_years": 6,
+  "daylight_gt10h": 219.7,
+  "sunshine_gt10h": 100.8,
+  "snow_days": 130.7,
+  "frost_days": 122.5,
+  "mean_sunshine_h": 6.0,
+  "source": "open-meteo-archive",
+  "period": "2020–2025",
+  "lat": 69.13985,
+  "lon": 16.03683
+ },
+ "476716806": {
+  "years": [
+   2020,
+   2021,
+   2022,
+   2023,
+   2024,
+   2025
+  ],
+  "n_years": 6,
+  "daylight_gt10h": 233.7,
+  "sunshine_gt10h": 129.8,
+  "snow_days": 97.3,
+  "frost_days": 202.8,
+  "mean_sunshine_h": 7.48,
+  "source": "open-meteo-archive",
+  "period": "2020–2025",
+  "lat": 60.94995,
+  "lon": 9.86318
+ },
+ "349756784": {
+  "years": [
+   2020,
+   2021,
+   2022,
+   2023,
+   2024,
+   2025
+  ],
+  "n_years": 6,
+  "daylight_gt10h": 230.5,
+  "sunshine_gt10h": 97.3,
+  "snow_days": 117.5,
+  "frost_days": 123.7,
+  "mean_sunshine_h": 6.19,
+  "source": "open-meteo-archive",
+  "period": "2020–2025",
+  "lat": 62.69095,
+  "lon": 7.99185
+ },
+ "475275627": {
+  "years": [
+   2020,
+   2021,
+   2022,
+   2023,
+   2024,
+   2025
+  ],
+  "n_years": 6,
+  "daylight_gt10h": 232.5,
+  "sunshine_gt10h": 125.2,
+  "snow_days": 86.8,
+  "frost_days": 163.7,
+  "mean_sunshine_h": 7.26,
+  "source": "open-meteo-archive",
+  "period": "2020–2025",
+  "lat": 61.56449,
+  "lon": 11.0026
+ },
+ "476131238": {
+  "years": [
+   2020,
+   2021,
+   2022,
+   2023,
+   2024,
+   2025
+  ],
+  "n_years": 6,
+  "daylight_gt10h": 234.0,
+  "sunshine_gt10h": 133.2,
+  "snow_days": 69.0,
+  "frost_days": 136.8,
+  "mean_sunshine_h": 7.4,
+  "source": "open-meteo-archive",
+  "period": "2020–2025",
+  "lat": 60.74412,
+  "lon": 11.72453
+ },
+ "476406700": {
+  "years": [
+   2020,
+   2021,
+   2022,
+   2023,
+   2024,
+   2025
+  ],
+  "n_years": 6,
+  "daylight_gt10h": 237.7,
+  "sunshine_gt10h": 139.0,
+  "snow_days": 62.0,
+  "frost_days": 118.7,
+  "mean_sunshine_h": 7.71,
+  "source": "open-meteo-archive",
+  "period": "2020–2025",
+  "lat": 58.86763,
+  "lon": 8.84511
+ },
+ "476134536": {
+  "years": [
+   2020,
+   2021,
+   2022,
+   2023,
+   2024,
+   2025
+  ],
+  "n_years": 6,
+  "daylight_gt10h": 233.7,
+  "sunshine_gt10h": 128.0,
+  "snow_days": 75.8,
+  "frost_days": 178.3,
+  "mean_sunshine_h": 7.19,
+  "source": "open-meteo-archive",
+  "period": "2020–2025",
+  "lat": 60.89054,
+  "lon": 12.24599
+ },
+ "476114833": {
+  "years": [
+   2020,
+   2021,
+   2022,
+   2023,
+   2024,
+   2025
+  ],
+  "n_years": 6,
+  "daylight_gt10h": 220.7,
+  "sunshine_gt10h": 88.5,
+  "snow_days": 161.3,
+  "frost_days": 172.8,
+  "mean_sunshine_h": 5.29,
+  "source": "open-meteo-archive",
+  "period": "2020–2025",
+  "lat": 68.67705,
+  "lon": 17.6343
+ },
+ "474830340": {
+  "years": [
+   2020,
+   2021,
+   2022,
+   2023,
+   2024,
+   2025
+  ],
+  "n_years": 6,
+  "daylight_gt10h": 235.3,
+  "sunshine_gt10h": 132.5,
+  "snow_days": 59.5,
+  "frost_days": 139.5,
+  "mean_sunshine_h": 7.3,
+  "source": "open-meteo-archive",
+  "period": "2020–2025",
+  "lat": 60.1116,
+  "lon": 11.80602
+ },
+ "472018590": {
+  "years": [
+   2020,
+   2021,
+   2022,
+   2023,
+   2024,
+   2025
+  ],
+  "n_years": 6,
+  "daylight_gt10h": 219.8,
+  "sunshine_gt10h": 86.7,
+  "snow_days": 144.7,
+  "frost_days": 186.7,
+  "mean_sunshine_h": 5.46,
+  "source": "open-meteo-archive",
+  "period": "2020–2025",
+  "lat": 69.07736,
+  "lon": 18.65178
+ },
+ "475464069": {
+  "years": [
+   2020,
+   2021,
+   2022,
+   2023,
+   2024,
+   2025
+  ],
+  "n_years": 6,
+  "daylight_gt10h": 232.0,
+  "sunshine_gt10h": 130.3,
+  "snow_days": 118.5,
+  "frost_days": 187.7,
+  "mean_sunshine_h": 7.47,
+  "source": "open-meteo-archive",
+  "period": "2020–2025",
+  "lat": 61.88486,
+  "lon": 9.08194
+ },
+ "475465429": {
+  "years": [
+   2020,
+   2021,
+   2022,
+   2023,
+   2024,
+   2025
+  ],
+  "n_years": 6,
+  "daylight_gt10h": 234.3,
+  "sunshine_gt10h": 128.2,
+  "snow_days": 60.3,
+  "frost_days": 149.5,
+  "mean_sunshine_h": 7.23,
+  "source": "open-meteo-archive",
+  "period": "2020–2025",
+  "lat": 60.63563,
+  "lon": 11.83292
+ },
+ "475441450": {
+  "years": [
+   2020,
+   2021,
+   2022,
+   2023,
+   2024,
+   2025
+  ],
+  "n_years": 6,
+  "daylight_gt10h": 233.5,
+  "sunshine_gt10h": 124.3,
+  "snow_days": 89.3,
+  "frost_days": 168.5,
+  "mean_sunshine_h": 7.3,
+  "source": "open-meteo-archive",
+  "period": "2020–2025",
+  "lat": 61.14195,
+  "lon": 10.1655
+ },
+ "475621135": {
+  "years": [
+   2020,
+   2021,
+   2022,
+   2023,
+   2024,
+   2025
+  ],
+  "n_years": 6,
+  "daylight_gt10h": 238.0,
+  "sunshine_gt10h": 139.8,
+  "snow_days": 56.5,
+  "frost_days": 107.0,
+  "mean_sunshine_h": 7.71,
+  "source": "open-meteo-archive",
+  "period": "2020–2025",
+  "lat": 58.72857,
+  "lon": 8.9108
+ },
+ "474654074": {
+  "years": [
+   2020,
+   2021,
+   2022,
+   2023,
+   2024,
+   2025
+  ],
+  "n_years": 6,
+  "daylight_gt10h": 231.7,
+  "sunshine_gt10h": 95.7,
+  "snow_days": 113.0,
+  "frost_days": 88.2,
+  "mean_sunshine_h": 5.86,
+  "source": "open-meteo-archive",
+  "period": "2020–2025",
+  "lat": 62.05073,
+  "lon": 5.60312
+ },
+ "475499104": {
+  "years": [
+   2020,
+   2021,
+   2022,
+   2023,
+   2024,
+   2025
+  ],
+  "n_years": 6,
+  "daylight_gt10h": 234.7,
+  "sunshine_gt10h": 131.2,
+  "snow_days": 62.2,
+  "frost_days": 134.8,
+  "mean_sunshine_h": 7.28,
+  "source": "open-meteo-archive",
+  "period": "2020–2025",
+  "lat": 60.41831,
+  "lon": 12.03197
+ },
+ "475516012": {
+  "years": [
+   2020,
+   2021,
+   2022,
+   2023,
+   2024,
+   2025
+  ],
+  "n_years": 6,
+  "daylight_gt10h": 219.8,
+  "sunshine_gt10h": 103.8,
+  "snow_days": 139.2,
+  "frost_days": 155.8,
+  "mean_sunshine_h": 6.13,
+  "source": "open-meteo-archive",
+  "period": "2020–2025",
+  "lat": 69.08494,
+  "lon": 17.00091
+ },
+ "474829350": {
+  "years": [
+   2020,
+   2021,
+   2022,
+   2023,
+   2024,
+   2025
+  ],
+  "n_years": 6,
+  "daylight_gt10h": 234.7,
+  "sunshine_gt10h": 131.5,
+  "snow_days": 64.7,
+  "frost_days": 129.2,
+  "mean_sunshine_h": 7.27,
+  "source": "open-meteo-archive",
+  "period": "2020–2025",
+  "lat": 60.39951,
+  "lon": 11.52509
+ },
+ "475527762": {
+  "years": [
+   2020,
+   2021,
+   2022,
+   2023,
+   2024,
+   2025
+  ],
+  "n_years": 6,
+  "daylight_gt10h": 229.2,
+  "sunshine_gt10h": 111.5,
+  "snow_days": 83.2,
+  "frost_days": 66.2,
+  "mean_sunshine_h": 6.64,
+  "source": "open-meteo-archive",
+  "period": "2020–2025",
+  "lat": 63.44907,
+  "lon": 8.36005
+ },
+ "475438557": {
+  "years": [
+   2020,
+   2021,
+   2022,
+   2023,
+   2024,
+   2025
+  ],
+  "n_years": 6,
+  "daylight_gt10h": 233.5,
+  "sunshine_gt10h": 113.0,
+  "snow_days": 126.0,
+  "frost_days": 86.7,
+  "mean_sunshine_h": 6.52,
+  "source": "open-meteo-archive",
+  "period": "2020–2025",
+  "lat": 61.02397,
+  "lon": 6.40312
+ },
+ "475383684": {
+  "years": [
+   2020,
+   2021,
+   2022,
+   2023,
+   2024,
+   2025
+  ],
+  "n_years": 6,
+  "daylight_gt10h": 232.5,
+  "sunshine_gt10h": 102.3,
+  "snow_days": 162.8,
+  "frost_days": 119.3,
+  "mean_sunshine_h": 6.09,
+  "source": "open-meteo-archive",
+  "period": "2020–2025",
+  "lat": 61.51642,
+  "lon": 7.70538
+ },
+ "474842605": {
+  "years": [
+   2020,
+   2021,
+   2022,
+   2023,
+   2024,
+   2025
+  ],
+  "n_years": 6,
+  "daylight_gt10h": 230.0,
+  "sunshine_gt10h": 105.7,
+  "snow_days": 125.2,
+  "frost_days": 147.7,
+  "mean_sunshine_h": 6.41,
+  "source": "open-meteo-archive",
+  "period": "2020–2025",
+  "lat": 62.95191,
+  "lon": 10.74725
+ },
+ "474854128": {
+  "years": [
+   2020,
+   2021,
+   2022,
+   2023,
+   2024,
+   2025
+  ],
+  "n_years": 6,
+  "daylight_gt10h": 230.0,
+  "sunshine_gt10h": 104.7,
+  "snow_days": 120.3,
+  "frost_days": 153.7,
+  "mean_sunshine_h": 6.54,
+  "source": "open-meteo-archive",
+  "period": "2020–2025",
+  "lat": 62.93428,
+  "lon": 10.19087
+ },
+ "467387890": {
+  "years": [
+   2020,
+   2021,
+   2022,
+   2023,
+   2024,
+   2025
+  ],
+  "n_years": 6,
+  "daylight_gt10h": 231.0,
+  "sunshine_gt10h": 102.3,
+  "snow_days": 95.2,
+  "frost_days": 105.3,
+  "mean_sunshine_h": 6.38,
+  "source": "open-meteo-archive",
+  "period": "2020–2025",
+  "lat": 62.68261,
+  "lon": 6.63825
+ },
+ "475173080": {
+  "years": [
+   2020,
+   2021,
+   2022,
+   2023,
+   2024,
+   2025
+  ],
+  "n_years": 6,
+  "daylight_gt10h": 233.0,
+  "sunshine_gt10h": 127.7,
+  "snow_days": 99.0,
+  "frost_days": 217.3,
+  "mean_sunshine_h": 7.4,
+  "source": "open-meteo-archive",
+  "period": "2020–2025",
+  "lat": 61.49119,
+  "lon": 10.08669
+ },
+ "464235480": {
+  "years": [
+   2020,
+   2021,
+   2022,
+   2023,
+   2024,
+   2025
+  ],
+  "n_years": 6,
+  "daylight_gt10h": 230.0,
+  "sunshine_gt10h": 106.3,
+  "snow_days": 122.3,
+  "frost_days": 189.3,
+  "mean_sunshine_h": 6.51,
+  "source": "open-meteo-archive",
+  "period": "2020–2025",
+  "lat": 62.98038,
+  "lon": 9.66379
+ },
+ "474562380": {
+  "years": [
+   2020,
+   2021,
+   2022,
+   2023,
+   2024,
+   2025
+  ],
+  "n_years": 6,
+  "daylight_gt10h": 223.2,
+  "sunshine_gt10h": 92.0,
+  "snow_days": 151.2,
+  "frost_days": 170.3,
+  "mean_sunshine_h": 5.76,
+  "source": "open-meteo-archive",
+  "period": "2020–2025",
+  "lat": 67.08642,
+  "lon": 14.98628
+ },
+ "474736013": {
+  "years": [
+   2020,
+   2021,
+   2022,
+   2023,
+   2024,
+   2025
+  ],
+  "n_years": 6,
+  "daylight_gt10h": 232.5,
+  "sunshine_gt10h": 122.5,
+  "snow_days": 106.0,
+  "frost_days": 213.8,
+  "mean_sunshine_h": 7.24,
+  "source": "open-meteo-archive",
+  "period": "2020–2025",
+  "lat": 61.70592,
+  "lon": 9.67162
+ },
+ "474643619": {
+  "years": [
+   2020,
+   2021,
+   2022,
+   2023,
+   2024,
+   2025
+  ],
+  "n_years": 6,
+  "daylight_gt10h": 232.5,
+  "sunshine_gt10h": 107.3,
+  "snow_days": 91.0,
+  "frost_days": 46.8,
+  "mean_sunshine_h": 6.36,
+  "source": "open-meteo-archive",
+  "period": "2020–2025",
+  "lat": 61.66882,
+  "lon": 4.88892
+ },
+ "474540774": {
+  "years": [
+   2020,
+   2021,
+   2022,
+   2023,
+   2024,
+   2025
+  ],
+  "n_years": 6,
+  "daylight_gt10h": 228.5,
+  "sunshine_gt10h": 107.5,
+  "snow_days": 114.7,
+  "frost_days": 137.5,
+  "mean_sunshine_h": 6.39,
+  "source": "open-meteo-archive",
+  "period": "2020–2025",
+  "lat": 63.84822,
+  "lon": 10.80831
+ },
+ "474071722": {
+  "years": [
+   2020,
+   2021,
+   2022,
+   2023,
+   2024,
+   2025
+  ],
+  "n_years": 6,
+  "daylight_gt10h": 229.7,
+  "sunshine_gt10h": 98.7,
+  "snow_days": 114.2,
+  "frost_days": 163.5,
+  "mean_sunshine_h": 6.26,
+  "source": "open-meteo-archive",
+  "period": "2020–2025",
+  "lat": 63.13385,
+  "lon": 9.33002
+ },
+ "470008888": {
+  "years": [
+   2020,
+   2021,
+   2022,
+   2023,
+   2024,
+   2025
+  ],
+  "n_years": 6,
+  "daylight_gt10h": 233.0,
+  "sunshine_gt10h": 130.8,
+  "snow_days": 108.5,
+  "frost_days": 178.3,
+  "mean_sunshine_h": 7.5,
+  "source": "open-meteo-archive",
+  "period": "2020–2025",
+  "lat": 61.33051,
+  "lon": 9.79613
+ },
+ "473772466": {
+  "years": [
+   2020,
+   2021,
+   2022,
+   2023,
+   2024,
+   2025
+  ],
+  "n_years": 6,
+  "daylight_gt10h": 229.5,
+  "sunshine_gt10h": 101.7,
+  "snow_days": 98.7,
+  "frost_days": 137.7,
+  "mean_sunshine_h": 6.36,
+  "source": "open-meteo-archive",
+  "period": "2020–2025",
+  "lat": 63.29499,
+  "lon": 9.82336
+ },
+ "473268523": {
+  "years": [
+   2020,
+   2021,
+   2022,
+   2023,
+   2024,
+   2025
+  ],
+  "n_years": 6,
+  "daylight_gt10h": 234.0,
+  "sunshine_gt10h": 132.2,
+  "snow_days": 91.0,
+  "frost_days": 166.8,
+  "mean_sunshine_h": 7.62,
+  "source": "open-meteo-archive",
+  "period": "2020–2025",
+  "lat": 60.77792,
+  "lon": 9.59736
+ },
+ "473333678": {
+  "years": [
+   2020,
+   2021,
+   2022,
+   2023,
+   2024,
+   2025
+  ],
+  "n_years": 6,
+  "daylight_gt10h": 230.5,
+  "sunshine_gt10h": 108.3,
+  "snow_days": 74.7,
+  "frost_days": 18.8,
+  "mean_sunshine_h": 6.59,
+  "source": "open-meteo-archive",
+  "period": "2020–2025",
+  "lat": 62.73102,
+  "lon": 6.46117
+ },
+ "472124111": {
+  "years": [
+   2020,
+   2021,
+   2022,
+   2023,
+   2024,
+   2025
+  ],
+  "n_years": 6,
+  "daylight_gt10h": 229.2,
+  "sunshine_gt10h": 107.8,
+  "snow_days": 92.2,
+  "frost_days": 108.3,
+  "mean_sunshine_h": 6.51,
+  "source": "open-meteo-archive",
+  "period": "2020–2025",
+  "lat": 63.56052,
+  "lon": 10.69437
+ },
+ "472114307": {
+  "years": [
+   2020,
+   2021,
+   2022,
+   2023,
+   2024,
+   2025
+  ],
+  "n_years": 6,
+  "daylight_gt10h": 237.7,
+  "sunshine_gt10h": 146.7,
+  "snow_days": 53.7,
+  "frost_days": 112.7,
+  "mean_sunshine_h": 8.0,
+  "source": "open-meteo-archive",
+  "period": "2020–2025",
+  "lat": 58.90358,
+  "lon": 9.0152
+ },
+ "457326307": {
+  "years": [
+   2020,
+   2021,
+   2022,
+   2023,
+   2024,
+   2025
+  ],
+  "n_years": 6,
+  "daylight_gt10h": 229.5,
+  "sunshine_gt10h": 107.3,
+  "snow_days": 88.7,
+  "frost_days": 79.7,
+  "mean_sunshine_h": 6.45,
+  "source": "open-meteo-archive",
+  "period": "2020–2025",
+  "lat": 63.33861,
+  "lon": 8.46399
+ },
+ "467999745": {
+  "years": [
+   2020,
+   2021,
+   2022,
+   2023,
+   2024,
+   2025
+  ],
+  "n_years": 6,
+  "daylight_gt10h": 233.7,
+  "sunshine_gt10h": 126.0,
+  "snow_days": 84.7,
+  "frost_days": 191.0,
+  "mean_sunshine_h": 7.31,
+  "source": "open-meteo-archive",
+  "period": "2020–2025",
+  "lat": 61.00954,
+  "lon": 10.01928
+ },
+ "468279699": {
+  "years": [
+   2020,
+   2021,
+   2022,
+   2023,
+   2024,
+   2025
+  ],
+  "n_years": 6,
+  "daylight_gt10h": 236.5,
+  "sunshine_gt10h": 133.5,
+  "snow_days": 81.7,
+  "frost_days": 171.7,
+  "mean_sunshine_h": 7.52,
+  "source": "open-meteo-archive",
+  "period": "2020–2025",
+  "lat": 59.47623,
+  "lon": 8.36613
+ },
+ "428653800": {
+  "years": [
+   2020,
+   2021,
+   2022,
+   2023,
+   2024,
+   2025
+  ],
+  "n_years": 6,
+  "daylight_gt10h": 221.2,
+  "sunshine_gt10h": 100.0,
+  "snow_days": 135.3,
+  "frost_days": 148.7,
+  "mean_sunshine_h": 5.97,
+  "source": "open-meteo-archive",
+  "period": "2020–2025",
+  "lat": 68.40562,
+  "lon": 16.65226
+ },
+ "467875724": {
+  "years": [
+   2020,
+   2021,
+   2022,
+   2023,
+   2024,
+   2025
+  ],
+  "n_years": 6,
+  "daylight_gt10h": 220.2,
+  "sunshine_gt10h": 97.7,
+  "snow_days": 143.5,
+  "frost_days": 166.2,
+  "mean_sunshine_h": 5.79,
+  "source": "open-meteo-archive",
+  "period": "2020–2025",
+  "lat": 69.0069,
+  "lon": 17.42913
+ },
+ "467677544": {
+  "years": [
+   2020,
+   2021,
+   2022,
+   2023,
+   2024,
+   2025
+  ],
+  "n_years": 6,
+  "daylight_gt10h": 229.0,
+  "sunshine_gt10h": 107.2,
+  "snow_days": 92.0,
+  "frost_days": 78.7,
+  "mean_sunshine_h": 6.41,
+  "source": "open-meteo-archive",
+  "period": "2020–2025",
+  "lat": 63.68126,
+  "lon": 9.87417
+ },
+ "467679110": {
+  "years": [
+   2020,
+   2021,
+   2022,
+   2023,
+   2024,
+   2025
+  ],
+  "n_years": 6,
+  "daylight_gt10h": 225.0,
+  "sunshine_gt10h": 101.5,
+  "snow_days": 128.0,
+  "frost_days": 141.7,
+  "mean_sunshine_h": 5.89,
+  "source": "open-meteo-archive",
+  "period": "2020–2025",
+  "lat": 65.97803,
+  "lon": 12.89916
+ },
+ "467709596": {
+  "years": [
+   2020,
+   2021,
+   2022,
+   2023,
+   2024,
+   2025
+  ],
+  "n_years": 6,
+  "daylight_gt10h": 218.5,
+  "sunshine_gt10h": 89.8,
+  "snow_days": 131.8,
+  "frost_days": 200.2,
+  "mean_sunshine_h": 5.68,
+  "source": "open-meteo-archive",
+  "period": "2020–2025",
+  "lat": 70.0859,
+  "lon": 27.84557
+ },
+ "467201752": {
+  "years": [
+   2020,
+   2021,
+   2022,
+   2023,
+   2024,
+   2025
+  ],
+  "n_years": 6,
+  "daylight_gt10h": 234.0,
+  "sunshine_gt10h": 135.0,
+  "snow_days": 95.5,
+  "frost_days": 150.7,
+  "mean_sunshine_h": 7.67,
+  "source": "open-meteo-archive",
+  "period": "2020–2025",
+  "lat": 60.66757,
+  "lon": 9.03268
+ },
+ "467178758": {
+  "years": [
+   2020,
+   2021,
+   2022,
+   2023,
+   2024,
+   2025
+  ],
+  "n_years": 6,
+  "daylight_gt10h": 217.5,
+  "sunshine_gt10h": 95.3,
+  "snow_days": 158.0,
+  "frost_days": 191.5,
+  "mean_sunshine_h": 5.83,
+  "source": "open-meteo-archive",
+  "period": "2020–2025",
+  "lat": 70.59497,
+  "lon": 27.27745
+ },
+ "465020062": {
+  "years": [
+   2020,
+   2021,
+   2022,
+   2023,
+   2024,
+   2025
+  ],
+  "n_years": 6,
+  "daylight_gt10h": 219.5,
+  "sunshine_gt10h": 93.2,
+  "snow_days": 135.5,
+  "frost_days": 175.2,
+  "mean_sunshine_h": 5.69,
+  "source": "open-meteo-archive",
+  "period": "2020–2025",
+  "lat": 69.27262,
+  "lon": 17.91142
+ },
+ "464983010": {
+  "years": [
+   2020,
+   2021,
+   2022,
+   2023,
+   2024,
+   2025
+  ],
+  "n_years": 6,
+  "daylight_gt10h": 232.5,
+  "sunshine_gt10h": 98.3,
+  "snow_days": 119.2,
+  "frost_days": 118.3,
+  "mean_sunshine_h": 5.9,
+  "source": "open-meteo-archive",
+  "period": "2020–2025",
+  "lat": 61.57244,
+  "lon": 5.87355
+ },
+ "416541143": {
+  "years": [
+   2020,
+   2021,
+   2022,
+   2023,
+   2024,
+   2025
+  ],
+  "n_years": 6,
+  "daylight_gt10h": 220.7,
+  "sunshine_gt10h": 94.2,
+  "snow_days": 135.5,
+  "frost_days": 174.3,
+  "mean_sunshine_h": 5.7,
+  "source": "open-meteo-archive",
+  "period": "2020–2025",
+  "lat": 68.65695,
+  "lon": 15.59838
+ },
+ "412359175": {
+  "years": [
+   2020,
+   2021,
+   2022,
+   2023,
+   2024,
+   2025
+  ],
+  "n_years": 6,
+  "daylight_gt10h": 235.0,
+  "sunshine_gt10h": 132.7,
+  "snow_days": 104.0,
+  "frost_days": 161.0,
+  "mean_sunshine_h": 7.59,
+  "source": "open-meteo-archive",
+  "period": "2020–2025",
+  "lat": 60.26985,
+  "lon": 8.75098
+ },
+ "460136298": {
+  "years": [
+   2020,
+   2021,
+   2022,
+   2023,
+   2024,
+   2025
+  ],
+  "n_years": 6,
+  "daylight_gt10h": 227.0,
+  "sunshine_gt10h": 113.8,
+  "snow_days": 97.5,
+  "frost_days": 85.5,
+  "mean_sunshine_h": 6.63,
+  "source": "open-meteo-archive",
+  "period": "2020–2025",
+  "lat": 64.82866,
+  "lon": 11.27648
+ },
+ "457049923": {
+  "years": [
+   2020,
+   2021,
+   2022,
+   2023,
+   2024,
+   2025
+  ],
+  "n_years": 6,
+  "daylight_gt10h": 226.0,
+  "sunshine_gt10h": 91.2,
+  "snow_days": 129.8,
+  "frost_days": 145.0,
+  "mean_sunshine_h": 5.61,
+  "source": "open-meteo-archive",
+  "period": "2020–2025",
+  "lat": 65.29301,
+  "lon": 12.69241
+ },
+ "454487275": {
+  "years": [
+   2020,
+   2021,
+   2022,
+   2023,
+   2024,
+   2025
+  ],
+  "n_years": 6,
+  "daylight_gt10h": 219.0,
+  "sunshine_gt10h": 91.8,
+  "snow_days": 152.5,
+  "frost_days": 183.2,
+  "mean_sunshine_h": 5.52,
+  "source": "open-meteo-archive",
+  "period": "2020–2025",
+  "lat": 69.5967,
+  "lon": 19.75664
+ },
+ "385752750": {
+  "years": [
+   2020,
+   2021,
+   2022,
+   2023,
+   2024,
+   2025
+  ],
+  "n_years": 6,
+  "daylight_gt10h": 227.2,
+  "sunshine_gt10h": 99.2,
+  "snow_days": 121.8,
+  "frost_days": 137.2,
+  "mean_sunshine_h": 5.91,
+  "source": "open-meteo-archive",
+  "period": "2020–2025",
+  "lat": 64.56088,
+  "lon": 12.49186
+ },
+ "398524817": {
+  "years": [
+   2020,
+   2021,
+   2022,
+   2023,
+   2024,
+   2025
+  ],
+  "n_years": 6,
+  "daylight_gt10h": 234.3,
+  "sunshine_gt10h": 129.2,
+  "snow_days": 85.5,
+  "frost_days": 138.7,
+  "mean_sunshine_h": 7.47,
+  "source": "open-meteo-archive",
+  "period": "2020–2025",
+  "lat": 60.64757,
+  "lon": 9.78192
+ },
+ "420640875": {
+  "years": [
+   2020,
+   2021,
+   2022,
+   2023,
+   2024,
+   2025
+  ],
+  "n_years": 6,
+  "daylight_gt10h": 230.5,
+  "sunshine_gt10h": 100.0,
+  "snow_days": 144.2,
+  "frost_days": 164.0,
+  "mean_sunshine_h": 5.91,
+  "source": "open-meteo-archive",
+  "period": "2020–2025",
+  "lat": 62.83775,
+  "lon": 11.28643
+ },
+ "297876802": {
+  "years": [
+   2020,
+   2021,
+   2022,
+   2023,
+   2024,
+   2025
+  ],
+  "n_years": 6,
+  "daylight_gt10h": 229.8,
+  "sunshine_gt10h": 98.8,
+  "snow_days": 111.3,
+  "frost_days": 140.8,
+  "mean_sunshine_h": 6.25,
+  "source": "open-meteo-archive",
+  "period": "2020–2025",
+  "lat": 63.07907,
+  "lon": 9.61304
+ },
+ "407956817": {
+  "years": [
+   2020,
+   2021,
+   2022,
+   2023,
+   2024,
+   2025
+  ],
+  "n_years": 6,
+  "daylight_gt10h": 218.5,
+  "sunshine_gt10h": 98.3,
+  "snow_days": 139.2,
+  "frost_days": 143.5,
+  "mean_sunshine_h": 5.97,
+  "source": "open-meteo-archive",
+  "period": "2020–2025",
+  "lat": 70.0445,
+  "lon": 18.8491
+ },
+ "311146765": {
+  "years": [
+   2020,
+   2021,
+   2022,
+   2023,
+   2024,
+   2025
+  ],
+  "n_years": 6,
+  "daylight_gt10h": 229.2,
+  "sunshine_gt10h": 101.0,
+  "snow_days": 98.5,
+  "frost_days": 86.8,
+  "mean_sunshine_h": 6.25,
+  "source": "open-meteo-archive",
+  "period": "2020–2025",
+  "lat": 63.59854,
+  "lon": 9.53681
+ },
+ "355847711": {
+  "years": [
+   2020,
+   2021,
+   2022,
+   2023,
+   2024,
+   2025
+  ],
+  "n_years": 6,
+  "daylight_gt10h": 223.2,
+  "sunshine_gt10h": 90.3,
+  "snow_days": 142.7,
+  "frost_days": 145.2,
+  "mean_sunshine_h": 5.61,
+  "source": "open-meteo-archive",
+  "period": "2020–2025",
+  "lat": 67.0068,
+  "lon": 14.57645
+ },
+ "358634890": {
+  "years": [
+   2020,
+   2021,
+   2022,
+   2023,
+   2024,
+   2025
+  ],
+  "n_years": 6,
+  "daylight_gt10h": 236.5,
+  "sunshine_gt10h": 141.0,
+  "snow_days": 44.2,
+  "frost_days": 113.3,
+  "mean_sunshine_h": 7.67,
+  "source": "open-meteo-archive",
+  "period": "2020–2025",
+  "lat": 59.47113,
+  "lon": 11.1518
+ },
+ "333118850": {
+  "years": [
+   2020,
+   2021,
+   2022,
+   2023,
+   2024,
+   2025
+  ],
+  "n_years": 6,
+  "daylight_gt10h": 224.8,
+  "sunshine_gt10h": 98.7,
+  "snow_days": 138.8,
+  "frost_days": 154.5,
+  "mean_sunshine_h": 5.81,
+  "source": "open-meteo-archive",
+  "period": "2020–2025",
+  "lat": 66.18472,
+  "lon": 13.30973
+ },
+ "445777037": {
+  "years": [
+   2020,
+   2021,
+   2022,
+   2023,
+   2024,
+   2025
+  ],
+  "n_years": 6,
+  "daylight_gt10h": 239.5,
+  "sunshine_gt10h": 144.5,
+  "snow_days": 36.0,
+  "frost_days": 50.5,
+  "mean_sunshine_h": 7.79,
+  "source": "open-meteo-archive",
+  "period": "2020–2025",
+  "lat": 58.0325,
+  "lon": 7.07337
+ },
+ "471069427": {
+  "years": [
+   2020,
+   2021,
+   2022,
+   2023,
+   2024,
+   2025
+  ],
+  "n_years": 6,
+  "daylight_gt10h": 220.5,
+  "sunshine_gt10h": 97.7,
+  "snow_days": 133.0,
+  "frost_days": 174.2,
+  "mean_sunshine_h": 5.8,
+  "source": "open-meteo-archive",
+  "period": "2020–2025",
+  "lat": 68.73959,
+  "lon": 15.69255
+ },
+ "376754442": {
+  "years": [
+   2020,
+   2021,
+   2022,
+   2023,
+   2024,
+   2025
+  ],
+  "n_years": 6,
+  "daylight_gt10h": 218.3,
+  "sunshine_gt10h": 99.8,
+  "snow_days": 137.8,
+  "frost_days": 135.7,
+  "mean_sunshine_h": 5.98,
+  "source": "open-meteo-archive",
+  "period": "2020–2025",
+  "lat": 70.13035,
+  "lon": 19.20858
+ },
+ "466566362": {
+  "years": [
+   2020,
+   2021,
+   2022,
+   2023,
+   2024,
+   2025
+  ],
+  "n_years": 6,
+  "daylight_gt10h": 230.0,
+  "sunshine_gt10h": 103.2,
+  "snow_days": 99.3,
+  "frost_days": 142.5,
+  "mean_sunshine_h": 6.38,
+  "source": "open-meteo-archive",
+  "period": "2020–2025",
+  "lat": 63.08014,
+  "lon": 8.26209
+ },
+ "443567563": {
+  "years": [
+   2020,
+   2021,
+   2022,
+   2023,
+   2024,
+   2025
+  ],
+  "n_years": 6,
+  "daylight_gt10h": 229.7,
+  "sunshine_gt10h": 110.7,
+  "snow_days": 89.2,
+  "frost_days": 106.3,
+  "mean_sunshine_h": 6.51,
+  "source": "open-meteo-archive",
+  "period": "2020–2025",
+  "lat": 63.11827,
+  "lon": 8.2474
+ },
+ "468153599": {
+  "years": [
+   2020,
+   2021,
+   2022,
+   2023,
+   2024,
+   2025
+  ],
+  "n_years": 6,
+  "daylight_gt10h": 226.5,
+  "sunshine_gt10h": 106.0,
+  "snow_days": 124.8,
+  "frost_days": 105.2,
+  "mean_sunshine_h": 6.28,
+  "source": "open-meteo-archive",
+  "period": "2020–2025",
+  "lat": 65.04346,
+  "lon": 12.15862
+ },
+ "475979121": {
+  "years": [
+   2020,
+   2021,
+   2022,
+   2023,
+   2024,
+   2025
+  ],
+  "n_years": 6,
+  "daylight_gt10h": 223.2,
+  "sunshine_gt10h": 99.8,
+  "snow_days": 131.5,
+  "frost_days": 122.5,
+  "mean_sunshine_h": 6.01,
+  "source": "open-meteo-archive",
+  "period": "2020–2025",
+  "lat": 66.97857,
+  "lon": 13.98432
+ },
+ "466763238": {
+  "years": [
+   2020,
+   2021,
+   2022,
+   2023,
+   2024,
+   2025
+  ],
+  "n_years": 6,
+  "daylight_gt10h": 225.0,
+  "sunshine_gt10h": 101.5,
+  "snow_days": 128.0,
+  "frost_days": 161.8,
+  "mean_sunshine_h": 5.89,
+  "source": "open-meteo-archive",
+  "period": "2020–2025",
+  "lat": 65.99238,
+  "lon": 12.8569
+ },
+ "469741837": {
+  "years": [
+   2020,
+   2021,
+   2022,
+   2023,
+   2024,
+   2025
+  ],
+  "n_years": 6,
+  "daylight_gt10h": 219.7,
+  "sunshine_gt10h": 105.0,
+  "snow_days": 146.8,
+  "frost_days": 163.8,
+  "mean_sunshine_h": 6.16,
+  "source": "open-meteo-archive",
+  "period": "2020–2025",
+  "lat": 69.29947,
+  "lon": 16.95278
+ },
+ "472119208": {
+  "years": [
+   2020,
+   2021,
+   2022,
+   2023,
+   2024,
+   2025
+  ],
+  "n_years": 6,
+  "daylight_gt10h": 222.0,
+  "sunshine_gt10h": 98.7,
+  "snow_days": 133.5,
+  "frost_days": 149.2,
+  "mean_sunshine_h": 6.0,
+  "source": "open-meteo-archive",
+  "period": "2020–2025",
+  "lat": 67.75653,
+  "lon": 15.20173
+ },
+ "475283450": {
+  "years": [
+   2020,
+   2021,
+   2022,
+   2023,
+   2024,
+   2025
+  ],
+  "n_years": 6,
+  "daylight_gt10h": 219.0,
+  "sunshine_gt10h": 94.0,
+  "snow_days": 162.2,
+  "frost_days": 186.0,
+  "mean_sunshine_h": 5.64,
+  "source": "open-meteo-archive",
+  "period": "2020–2025",
+  "lat": 69.64647,
+  "lon": 20.32269
+ },
+ "469251867": {
+  "years": [
+   2020,
+   2021,
+   2022,
+   2023,
+   2024,
+   2025
+  ],
+  "n_years": 6,
+  "daylight_gt10h": 228.5,
+  "sunshine_gt10h": 112.8,
+  "snow_days": 92.5,
+  "frost_days": 81.0,
+  "mean_sunshine_h": 6.59,
+  "source": "open-meteo-archive",
+  "period": "2020–2025",
+  "lat": 63.87418,
+  "lon": 9.91762
+ },
+ "457788970": {
+  "years": [
+   2020,
+   2021,
+   2022,
+   2023,
+   2024,
+   2025
+  ],
+  "n_years": 6,
+  "daylight_gt10h": 218.8,
+  "sunshine_gt10h": 100.0,
+  "snow_days": 139.2,
+  "frost_days": 165.7,
+  "mean_sunshine_h": 6.12,
+  "source": "open-meteo-archive",
+  "period": "2020–2025",
+  "lat": 69.92678,
+  "lon": 20.93298
+ },
+ "475855755": {
+  "years": [
+   2020,
+   2021,
+   2022,
+   2023,
+   2024,
+   2025
+  ],
+  "n_years": 6,
+  "daylight_gt10h": 234.0,
+  "sunshine_gt10h": 123.7,
+  "snow_days": 78.2,
+  "frost_days": 143.3,
+  "mean_sunshine_h": 7.25,
+  "source": "open-meteo-archive",
+  "period": "2020–2025",
+  "lat": 60.79033,
+  "lon": 10.14427
+ },
+ "362005029": {
+  "years": [
+   2020,
+   2021,
+   2022,
+   2023,
+   2024,
+   2025
+  ],
+  "n_years": 6,
+  "daylight_gt10h": 233.5,
+  "sunshine_gt10h": 105.0,
+  "snow_days": 82.7,
+  "frost_days": 75.7,
+  "mean_sunshine_h": 6.23,
+  "source": "open-meteo-archive",
+  "period": "2020–2025",
+  "lat": 61.17134,
+  "lon": 5.3892
+ },
+ "475873934": {
+  "years": [
+   2020,
+   2021,
+   2022,
+   2023,
+   2024,
+   2025
+  ],
+  "n_years": 6,
+  "daylight_gt10h": 220.8,
+  "sunshine_gt10h": 97.5,
+  "snow_days": 129.2,
+  "frost_days": 147.2,
+  "mean_sunshine_h": 5.87,
+  "source": "open-meteo-archive",
+  "period": "2020–2025",
+  "lat": 68.56819,
+  "lon": 15.22694
+ },
+ "476375061": {
+  "years": [
+   2020,
+   2021,
+   2022,
+   2023,
+   2024,
+   2025
+  ],
+  "n_years": 6,
+  "daylight_gt10h": 234.0,
+  "sunshine_gt10h": 123.7,
+  "snow_days": 78.2,
+  "frost_days": 148.5,
+  "mean_sunshine_h": 7.25,
+  "source": "open-meteo-archive",
+  "period": "2020–2025",
+  "lat": 60.78915,
+  "lon": 10.14648
+ },
+ "474757947": {
+  "years": [
+   2020,
+   2021,
+   2022,
+   2023,
+   2024,
+   2025
+  ],
+  "n_years": 6,
+  "daylight_gt10h": 233.2,
+  "sunshine_gt10h": 115.8,
+  "snow_days": 66.8,
+  "frost_days": 60.8,
+  "mean_sunshine_h": 6.71,
+  "source": "open-meteo-archive",
+  "period": "2020–2025",
+  "lat": 61.32994,
+  "lon": 5.01509
+ },
+ "472090363": {
+  "years": [
+   2020,
+   2021,
+   2022,
+   2023,
+   2024,
+   2025
+  ],
+  "n_years": 6,
+  "daylight_gt10h": 236.0,
+  "sunshine_gt10h": 122.5,
+  "snow_days": 50.0,
+  "frost_days": 37.7,
+  "mean_sunshine_h": 7.03,
+  "source": "open-meteo-archive",
+  "period": "2020–2025",
+  "lat": 59.79204,
+  "lon": 5.26929
+ },
+ "474068215": {
+  "years": [
+   2020,
+   2021,
+   2022,
+   2023,
+   2024,
+   2025
+  ],
+  "n_years": 6,
+  "daylight_gt10h": 237.8,
+  "sunshine_gt10h": 136.8,
+  "snow_days": 65.3,
+  "frost_days": 112.0,
+  "mean_sunshine_h": 7.55,
+  "source": "open-meteo-archive",
+  "period": "2020–2025",
+  "lat": 58.77367,
+  "lon": 8.49112
+ },
+ "404193110": {
+  "years": [
+   2020,
+   2021,
+   2022,
+   2023,
+   2024,
+   2025
+  ],
+  "n_years": 6,
+  "daylight_gt10h": 217.8,
+  "sunshine_gt10h": 97.7,
+  "snow_days": 132.2,
+  "frost_days": 186.0,
+  "mean_sunshine_h": 5.92,
+  "source": "open-meteo-archive",
+  "period": "2020–2025",
+  "lat": 70.37991,
+  "lon": 25.1004
+ },
+ "475987647": {
+  "years": [
+   2020,
+   2021,
+   2022,
+   2023,
+   2024,
+   2025
+  ],
+  "n_years": 6,
+  "daylight_gt10h": 229.2,
+  "sunshine_gt10h": 95.8,
+  "snow_days": 128.7,
+  "frost_days": 133.7,
+  "mean_sunshine_h": 5.97,
+  "source": "open-meteo-archive",
+  "period": "2020–2025",
+  "lat": 63.44368,
+  "lon": 11.65767
+ },
+ "468180497": {
+  "years": [
+   2020,
+   2021,
+   2022,
+   2023,
+   2024,
+   2025
+  ],
+  "n_years": 6,
+  "daylight_gt10h": 224.8,
+  "sunshine_gt10h": 110.2,
+  "snow_days": 117.5,
+  "frost_days": 106.3,
+  "mean_sunshine_h": 6.31,
+  "source": "open-meteo-archive",
+  "period": "2020–2025",
+  "lat": 66.08878,
+  "lon": 12.58795
+ },
+ "471410488": {
+  "years": [
+   2020,
+   2021,
+   2022,
+   2023,
+   2024,
+   2025
+  ],
+  "n_years": 6,
+  "daylight_gt10h": 229.5,
+  "sunshine_gt10h": 101.5,
+  "snow_days": 95.8,
+  "frost_days": 78.7,
+  "mean_sunshine_h": 6.27,
+  "source": "open-meteo-archive",
+  "period": "2020–2025",
+  "lat": 63.38329,
+  "lon": 8.59224
+ },
+ "356085804": {
+  "years": [
+   2020,
+   2021,
+   2022,
+   2023,
+   2024,
+   2025
+  ],
+  "n_years": 6,
+  "daylight_gt10h": 223.7,
+  "sunshine_gt10h": 99.8,
+  "snow_days": 126.0,
+  "frost_days": 111.8,
+  "mean_sunshine_h": 5.88,
+  "source": "open-meteo-archive",
+  "period": "2020–2025",
+  "lat": 66.71393,
+  "lon": 13.46606
+ },
+ "449805105": {
+  "years": [
+   2020,
+   2021,
+   2022,
+   2023,
+   2024,
+   2025
+  ],
+  "n_years": 6,
+  "daylight_gt10h": 229.0,
+  "sunshine_gt10h": 117.5,
+  "snow_days": 75.8,
+  "frost_days": 44.0,
+  "mean_sunshine_h": 6.85,
+  "source": "open-meteo-archive",
+  "period": "2020–2025",
+  "lat": 63.73913,
+  "lon": 8.63743
+ },
+ "413279463": {
+  "years": [
+   2020,
+   2021,
+   2022,
+   2023,
+   2024,
+   2025
+  ],
+  "n_years": 6,
+  "daylight_gt10h": 234.0,
+  "sunshine_gt10h": 135.0,
+  "snow_days": 63.7,
+  "frost_days": 139.8,
+  "mean_sunshine_h": 7.58,
+  "source": "open-meteo-archive",
+  "period": "2020–2025",
+  "lat": 60.67397,
+  "lon": 10.81345
+ },
+ "474203425": {
+  "years": [
+   2020,
+   2021,
+   2022,
+   2023,
+   2024,
+   2025
+  ],
+  "n_years": 6,
+  "daylight_gt10h": 217.5,
+  "sunshine_gt10h": 91.3,
+  "snow_days": 153.7,
+  "frost_days": 190.7,
+  "mean_sunshine_h": 5.6,
+  "source": "open-meteo-archive",
+  "period": "2020–2025",
+  "lat": 70.60518,
+  "lon": 24.72824
+ },
+ "472266654": {
+  "years": [
+   2020,
+   2021,
+   2022,
+   2023,
+   2024,
+   2025
+  ],
+  "n_years": 6,
+  "daylight_gt10h": 236.5,
+  "sunshine_gt10h": 133.5,
+  "snow_days": 88.2,
+  "frost_days": 177.5,
+  "mean_sunshine_h": 7.45,
+  "source": "open-meteo-archive",
+  "period": "2020–2025",
+  "lat": 59.49867,
+  "lon": 8.19673
+ },
+ "401209430": {
+  "years": [
+   2020,
+   2021,
+   2022,
+   2023,
+   2024,
+   2025
+  ],
+  "n_years": 6,
+  "daylight_gt10h": 226.0,
+  "sunshine_gt10h": 86.8,
+  "snow_days": 153.8,
+  "frost_days": 143.2,
+  "mean_sunshine_h": 5.22,
+  "source": "open-meteo-archive",
+  "period": "2020–2025",
+  "lat": 65.38648,
+  "lon": 13.36614
+ },
+ "469440662": {
+  "years": [
+   2020,
+   2021,
+   2022,
+   2023,
+   2024,
+   2025
+  ],
+  "n_years": 6,
+  "daylight_gt10h": 237.8,
+  "sunshine_gt10h": 147.0,
+  "snow_days": 51.8,
+  "frost_days": 106.0,
+  "mean_sunshine_h": 7.98,
+  "source": "open-meteo-archive",
+  "period": "2020–2025",
+  "lat": 58.82889,
+  "lon": 9.02381
+ },
+ "357150286": {
+  "years": [
+   2020,
+   2021,
+   2022,
+   2023,
+   2024,
+   2025
+  ],
+  "n_years": 6,
+  "daylight_gt10h": 221.5,
+  "sunshine_gt10h": 104.3,
+  "snow_days": 128.7,
+  "frost_days": 157.7,
+  "mean_sunshine_h": 6.27,
+  "source": "open-meteo-archive",
+  "period": "2020–2025",
+  "lat": 68.13773,
+  "lon": 15.71006
+ },
+ "460730121": {
+  "years": [
+   2020,
+   2021,
+   2022,
+   2023,
+   2024,
+   2025
+  ],
+  "n_years": 6,
+  "daylight_gt10h": 222.2,
+  "sunshine_gt10h": 115.3,
+  "snow_days": 105.0,
+  "frost_days": 35.3,
+  "mean_sunshine_h": 6.67,
+  "source": "open-meteo-archive",
+  "period": "2020–2025",
+  "lat": 67.67067,
+  "lon": 12.67816
+ },
+ "472437010": {
+  "years": [
+   2020,
+   2021,
+   2022,
+   2023,
+   2024,
+   2025
+  ],
+  "n_years": 6,
+  "daylight_gt10h": 237.0,
+  "sunshine_gt10h": 143.3,
+  "snow_days": 52.7,
+  "frost_days": 122.0,
+  "mean_sunshine_h": 7.87,
+  "source": "open-meteo-archive",
+  "period": "2020–2025",
+  "lat": 59.3015,
+  "lon": 10.04912
+ },
+ "476452323": {
+  "years": [
+   2020,
+   2021,
+   2022,
+   2023,
+   2024,
+   2025
+  ],
+  "n_years": 6,
+  "daylight_gt10h": 234.3,
+  "sunshine_gt10h": 130.2,
+  "snow_days": 58.3,
+  "frost_days": 159.8,
+  "mean_sunshine_h": 7.27,
+  "source": "open-meteo-archive",
+  "period": "2020–2025",
+  "lat": 60.69372,
+  "lon": 12.10057
+ },
+ "476102695": {
+  "years": [
+   2020,
+   2021,
+   2022,
+   2023,
+   2024,
+   2025
+  ],
+  "n_years": 6,
+  "daylight_gt10h": 233.0,
+  "sunshine_gt10h": 125.5,
+  "snow_days": 89.3,
+  "frost_days": 198.3,
+  "mean_sunshine_h": 7.13,
+  "source": "open-meteo-archive",
+  "period": "2020–2025",
+  "lat": 61.38564,
+  "lon": 12.00414
+ },
+ "473860827": {
+  "years": [
+   2020,
+   2021,
+   2022,
+   2023,
+   2024,
+   2025
+  ],
+  "n_years": 6,
+  "daylight_gt10h": 233.5,
+  "sunshine_gt10h": 120.8,
+  "snow_days": 112.5,
+  "frost_days": 108.7,
+  "mean_sunshine_h": 6.71,
+  "source": "open-meteo-archive",
+  "period": "2020–2025",
+  "lat": 61.05635,
+  "lon": 6.61232
+ },
+ "473648025": {
+  "years": [
+   2020,
+   2021,
+   2022,
+   2023,
+   2024,
+   2025
+  ],
+  "n_years": 6,
+  "daylight_gt10h": 221.5,
+  "sunshine_gt10h": 97.5,
+  "snow_days": 129.7,
+  "frost_days": 159.5,
+  "mean_sunshine_h": 5.97,
+  "source": "open-meteo-archive",
+  "period": "2020–2025",
+  "lat": 68.10713,
+  "lon": 15.80999
+ },
+ "464103876": {
+  "years": [
+   2020,
+   2021,
+   2022,
+   2023,
+   2024,
+   2025
+  ],
+  "n_years": 6,
+  "daylight_gt10h": 234.5,
+  "sunshine_gt10h": 108.0,
+  "snow_days": 125.7,
+  "frost_days": 85.8,
+  "mean_sunshine_h": 6.37,
+  "source": "open-meteo-archive",
+  "period": "2020–2025",
+  "lat": 60.51679,
+  "lon": 6.94675
+ },
+ "472017495": {
+  "years": [
+   2020,
+   2021,
+   2022,
+   2023,
+   2024,
+   2025
+  ],
+  "n_years": 6,
+  "daylight_gt10h": 233.0,
+  "sunshine_gt10h": 122.0,
+  "snow_days": 97.7,
+  "frost_days": 178.7,
+  "mean_sunshine_h": 7.0,
+  "source": "open-meteo-archive",
+  "period": "2020–2025",
+  "lat": 61.49326,
+  "lon": 12.1146
+ },
+ "468822575": {
+  "years": [
+   2020,
+   2021,
+   2022,
+   2023,
+   2024,
+   2025
+  ],
+  "n_years": 6,
+  "daylight_gt10h": 219.8,
+  "sunshine_gt10h": 92.5,
+  "snow_days": 149.3,
+  "frost_days": 173.2,
+  "mean_sunshine_h": 5.69,
+  "source": "open-meteo-archive",
+  "period": "2020–2025",
+  "lat": 69.16851,
+  "lon": 18.10919
+ },
+ "380330192": {
+  "years": [
+   2020,
+   2021,
+   2022,
+   2023,
+   2024,
+   2025
+  ],
+  "n_years": 6,
+  "daylight_gt10h": 233.7,
+  "sunshine_gt10h": 128.5,
+  "snow_days": 70.8,
+  "frost_days": 176.8,
+  "mean_sunshine_h": 7.31,
+  "source": "open-meteo-archive",
+  "period": "2020–2025",
+  "lat": 60.97549,
+  "lon": 11.71578
+ },
+ "475966797": {
+  "years": [
+   2020,
+   2021,
+   2022,
+   2023,
+   2024,
+   2025
+  ],
+  "n_years": 6,
+  "daylight_gt10h": 234.0,
+  "sunshine_gt10h": 133.5,
+  "snow_days": 66.7,
+  "frost_days": 166.7,
+  "mean_sunshine_h": 7.39,
+  "source": "open-meteo-archive",
+  "period": "2020–2025",
+  "lat": 60.70417,
+  "lon": 11.3907
+ },
+ "473322165": {
+  "years": [
+   2020,
+   2021,
+   2022,
+   2023,
+   2024,
+   2025
+  ],
+  "n_years": 6,
+  "daylight_gt10h": 230.5,
+  "sunshine_gt10h": 96.5,
+  "snow_days": 104.0,
+  "frost_days": 129.5,
+  "mean_sunshine_h": 6.18,
+  "source": "open-meteo-archive",
+  "period": "2020–2025",
+  "lat": 62.7849,
+  "lon": 8.09857
+ },
+ "476027590": {
+  "years": [
+   2020,
+   2021,
+   2022,
+   2023,
+   2024,
+   2025
+  ],
+  "n_years": 6,
+  "daylight_gt10h": 219.8,
+  "sunshine_gt10h": 93.2,
+  "snow_days": 154.0,
+  "frost_days": 208.2,
+  "mean_sunshine_h": 5.57,
+  "source": "open-meteo-archive",
+  "period": "2020–2025",
+  "lat": 69.09487,
+  "lon": 19.16593
+ },
+ "469330058": {
+  "years": [
+   2020,
+   2021,
+   2022,
+   2023,
+   2024,
+   2025
+  ],
+  "n_years": 6,
+  "daylight_gt10h": 230.0,
+  "sunshine_gt10h": 106.0,
+  "snow_days": 96.5,
+  "frost_days": 97.5,
+  "mean_sunshine_h": 6.45,
+  "source": "open-meteo-archive",
+  "period": "2020–2025",
+  "lat": 62.96228,
+  "lon": 7.37447
+ },
+ "476532413": {
+  "years": [
+   2020,
+   2021,
+   2022,
+   2023,
+   2024,
+   2025
+  ],
+  "n_years": 6,
+  "daylight_gt10h": 235.5,
+  "sunshine_gt10h": 134.7,
+  "snow_days": 78.5,
+  "frost_days": 145.2,
+  "mean_sunshine_h": 7.59,
+  "source": "open-meteo-archive",
+  "period": "2020–2025",
+  "lat": 59.97606,
+  "lon": 9.28702
+ },
+ "473025763": {
+  "years": [
+   2020,
+   2021,
+   2022,
+   2023,
+   2024,
+   2025
+  ],
+  "n_years": 6,
+  "daylight_gt10h": 233.0,
+  "sunshine_gt10h": 129.7,
+  "snow_days": 85.7,
+  "frost_days": 158.2,
+  "mean_sunshine_h": 7.44,
+  "source": "open-meteo-archive",
+  "period": "2020–2025",
+  "lat": 61.41892,
+  "lon": 11.08055
+ },
+ "471316257": {
+  "years": [
+   2020,
+   2021,
+   2022,
+   2023,
+   2024,
+   2025
+  ],
+  "n_years": 6,
+  "daylight_gt10h": 234.7,
+  "sunshine_gt10h": 131.5,
+  "snow_days": 64.7,
+  "frost_days": 148.3,
+  "mean_sunshine_h": 7.27,
+  "source": "open-meteo-archive",
+  "period": "2020–2025",
+  "lat": 60.41406,
+  "lon": 11.48787
+ },
+ "467480104": {
+  "years": [
+   2020,
+   2021,
+   2022,
+   2023,
+   2024,
+   2025
+  ],
+  "n_years": 6,
+  "daylight_gt10h": 228.0,
+  "sunshine_gt10h": 101.8,
+  "snow_days": 118.8,
+  "frost_days": 120.8,
+  "mean_sunshine_h": 6.13,
+  "source": "open-meteo-archive",
+  "period": "2020–2025",
+  "lat": 64.18682,
+  "lon": 11.91535
+ },
+ "474861015": {
+  "years": [
+   2020,
+   2021,
+   2022,
+   2023,
+   2024,
+   2025
+  ],
+  "n_years": 6,
+  "daylight_gt10h": 236.3,
+  "sunshine_gt10h": 137.0,
+  "snow_days": 64.7,
+  "frost_days": 128.0,
+  "mean_sunshine_h": 7.67,
+  "source": "open-meteo-archive",
+  "period": "2020–2025",
+  "lat": 59.57348,
+  "lon": 9.26523
+ },
+ "473280055": {
+  "years": [
+   2020,
+   2021,
+   2022,
+   2023,
+   2024,
+   2025
+  ],
+  "n_years": 6,
+  "daylight_gt10h": 234.7,
+  "sunshine_gt10h": 133.2,
+  "snow_days": 65.3,
+  "frost_days": 135.3,
+  "mean_sunshine_h": 7.33,
+  "source": "open-meteo-archive",
+  "period": "2020–2025",
+  "lat": 60.46498,
+  "lon": 11.61904
+ },
+ "399785558": {
+  "years": [
+   2020,
+   2021,
+   2022,
+   2023,
+   2024,
+   2025
+  ],
+  "n_years": 6,
+  "daylight_gt10h": 234.0,
+  "sunshine_gt10h": 126.8,
+  "snow_days": 61.7,
+  "frost_days": 165.2,
+  "mean_sunshine_h": 7.29,
+  "source": "open-meteo-archive",
+  "period": "2020–2025",
+  "lat": 60.83437,
+  "lon": 11.66485
+ },
+ "468411674": {
+  "years": [
+   2020,
+   2021,
+   2022,
+   2023,
+   2024,
+   2025
+  ],
+  "n_years": 6,
+  "daylight_gt10h": 218.3,
+  "sunshine_gt10h": 101.2,
+  "snow_days": 143.3,
+  "frost_days": 118.3,
+  "mean_sunshine_h": 6.02,
+  "source": "open-meteo-archive",
+  "period": "2020–2025",
+  "lat": 70.12324,
+  "lon": 19.97802
+ },
+ "436987165": {
+  "years": [
+   2020,
+   2021,
+   2022,
+   2023,
+   2024,
+   2025
+  ],
+  "n_years": 6,
+  "daylight_gt10h": 220.8,
+  "sunshine_gt10h": 102.8,
+  "snow_days": 124.8,
+  "frost_days": 132.3,
+  "mean_sunshine_h": 6.03,
+  "source": "open-meteo-archive",
+  "period": "2020–2025",
+  "lat": 68.66831,
+  "lon": 14.42172
+ },
+ "415359177": {
+  "years": [
+   2020,
+   2021,
+   2022,
+   2023,
+   2024,
+   2025
+  ],
+  "n_years": 6,
+  "daylight_gt10h": 230.0,
+  "sunshine_gt10h": 103.8,
+  "snow_days": 137.5,
+  "frost_days": 146.2,
+  "mean_sunshine_h": 6.17,
+  "source": "open-meteo-archive",
+  "period": "2020–2025",
+  "lat": 62.92657,
+  "lon": 11.1409
+ },
+ "427635750": {
+  "years": [
+   2020,
+   2021,
+   2022,
+   2023,
+   2024,
+   2025
+  ],
+  "n_years": 6,
+  "daylight_gt10h": 220.3,
+  "sunshine_gt10h": 98.7,
+  "snow_days": 134.5,
+  "frost_days": 135.0,
+  "mean_sunshine_h": 5.88,
+  "source": "open-meteo-archive",
+  "period": "2020–2025",
+  "lat": 68.87689,
+  "lon": 16.5667
+ },
+ "472374565": {
+  "years": [
+   2020,
+   2021,
+   2022,
+   2023,
+   2024,
+   2025
+  ],
+  "n_years": 6,
+  "daylight_gt10h": 233.5,
+  "sunshine_gt10h": 129.8,
+  "snow_days": 77.5,
+  "frost_days": 177.2,
+  "mean_sunshine_h": 7.43,
+  "source": "open-meteo-archive",
+  "period": "2020–2025",
+  "lat": 61.13752,
+  "lon": 11.33174
+ },
+ "473138516": {
+  "years": [
+   2020,
+   2021,
+   2022,
+   2023,
+   2024,
+   2025
+  ],
+  "n_years": 6,
+  "daylight_gt10h": 229.0,
+  "sunshine_gt10h": 106.0,
+  "snow_days": 80.8,
+  "frost_days": 68.7,
+  "mean_sunshine_h": 6.46,
+  "source": "open-meteo-archive",
+  "period": "2020–2025",
+  "lat": 63.64451,
+  "lon": 8.99084
+ },
+ "464376719": {
+  "years": [
+   2020,
+   2021,
+   2022,
+   2023,
+   2024,
+   2025
+  ],
+  "n_years": 6,
+  "daylight_gt10h": 227.2,
+  "sunshine_gt10h": 107.3,
+  "snow_days": 108.5,
+  "frost_days": 133.8,
+  "mean_sunshine_h": 6.4,
+  "source": "open-meteo-archive",
+  "period": "2020–2025",
+  "lat": 64.58922,
+  "lon": 11.23028
+ },
+ "474548983": {
+  "years": [
+   2020,
+   2021,
+   2022,
+   2023,
+   2024,
+   2025
+  ],
+  "n_years": 6,
+  "daylight_gt10h": 230.5,
+  "sunshine_gt10h": 95.8,
+  "snow_days": 96.2,
+  "frost_days": 70.7,
+  "mean_sunshine_h": 6.15,
+  "source": "open-meteo-archive",
+  "period": "2020–2025",
+  "lat": 62.85214,
+  "lon": 7.12741
+ },
+ "474594205": {
+  "years": [
+   2020,
+   2021,
+   2022,
+   2023,
+   2024,
+   2025
+  ],
+  "n_years": 6,
+  "daylight_gt10h": 237.7,
+  "sunshine_gt10h": 150.2,
+  "snow_days": 38.3,
+  "frost_days": 90.2,
+  "mean_sunshine_h": 8.13,
+  "source": "open-meteo-archive",
+  "period": "2020–2025",
+  "lat": 58.84526,
+  "lon": 9.43537
+ },
+ "419923473": {
+  "years": [
+   2020,
+   2021,
+   2022,
+   2023,
+   2024,
+   2025
+  ],
+  "n_years": 6,
+  "daylight_gt10h": 232.5,
+  "sunshine_gt10h": 125.2,
+  "snow_days": 86.8,
+  "frost_days": 163.7,
+  "mean_sunshine_h": 7.26,
+  "source": "open-meteo-archive",
+  "period": "2020–2025",
+  "lat": 61.55756,
+  "lon": 11.01147
+ },
+ "428146220": {
+  "years": [
+   2020,
+   2021,
+   2022,
+   2023,
+   2024,
+   2025
+  ],
+  "n_years": 6,
+  "daylight_gt10h": 231.5,
+  "sunshine_gt10h": 99.5,
+  "snow_days": 84.3,
+  "frost_days": 71.8,
+  "mean_sunshine_h": 6.22,
+  "source": "open-meteo-archive",
+  "period": "2020–2025",
+  "lat": 62.23824,
+  "lon": 5.56885
+ },
+ "475434352": {
+  "years": [
+   2020,
+   2021,
+   2022,
+   2023,
+   2024,
+   2025
+  ],
+  "n_years": 6,
+  "daylight_gt10h": 237.0,
+  "sunshine_gt10h": 132.5,
+  "snow_days": 42.8,
+  "frost_days": 30.8,
+  "mean_sunshine_h": 7.36,
+  "source": "open-meteo-archive",
+  "period": "2020–2025",
+  "lat": 59.27315,
+  "lon": 5.20748
+ },
+ "461976533": {
+  "years": [
+   2020,
+   2021,
+   2022,
+   2023,
+   2024,
+   2025
+  ],
+  "n_years": 6,
+  "daylight_gt10h": 224.5,
+  "sunshine_gt10h": 100.0,
+  "snow_days": 133.5,
+  "frost_days": 154.3,
+  "mean_sunshine_h": 5.86,
+  "source": "open-meteo-archive",
+  "period": "2020–2025",
+  "lat": 66.29081,
+  "lon": 13.58502
+ },
+ "475313132": {
+  "years": [
+   2020,
+   2021,
+   2022,
+   2023,
+   2024,
+   2025
+  ],
+  "n_years": 6,
+  "daylight_gt10h": 231.7,
+  "sunshine_gt10h": 119.0,
+  "snow_days": 103.5,
+  "frost_days": 192.0,
+  "mean_sunshine_h": 6.76,
+  "source": "open-meteo-archive",
+  "period": "2020–2025",
+  "lat": 61.97362,
+  "lon": 11.94715
+ },
+ "436086225": {
+  "years": [
+   2020,
+   2021,
+   2022,
+   2023,
+   2024,
+   2025
+  ],
+  "n_years": 6,
+  "daylight_gt10h": 229.2,
+  "sunshine_gt10h": 113.8,
+  "snow_days": 79.8,
+  "frost_days": 44.8,
+  "mean_sunshine_h": 6.75,
+  "source": "open-meteo-archive",
+  "period": "2020–2025",
+  "lat": 63.48964,
+  "lon": 7.69984
+ },
+ "476554822": {
+  "years": [
+   2020,
+   2021,
+   2022,
+   2023,
+   2024,
+   2025
+  ],
+  "n_years": 6,
+  "daylight_gt10h": 220.3,
+  "sunshine_gt10h": 103.3,
+  "snow_days": 131.7,
+  "frost_days": 116.3,
+  "mean_sunshine_h": 6.02,
+  "source": "open-meteo-archive",
+  "period": "2020–2025",
+  "lat": 68.942,
+  "lon": 15.12392
+ },
+ "439328840": {
+  "years": [
+   2020,
+   2021,
+   2022,
+   2023,
+   2024,
+   2025
+  ],
+  "n_years": 6,
+  "daylight_gt10h": 234.0,
+  "sunshine_gt10h": 131.8,
+  "snow_days": 65.5,
+  "frost_days": 162.5,
+  "mean_sunshine_h": 7.35,
+  "source": "open-meteo-archive",
+  "period": "2020–2025",
+  "lat": 60.73393,
+  "lon": 11.82057
+ },
+ "465163704": {
+  "years": [
+   2020,
+   2021,
+   2022,
+   2023,
+   2024,
+   2025
+  ],
+  "n_years": 6,
+  "daylight_gt10h": 236.5,
+  "sunshine_gt10h": 133.0,
+  "snow_days": 72.3,
+  "frost_days": 162.3,
+  "mean_sunshine_h": 7.57,
+  "source": "open-meteo-archive",
+  "period": "2020–2025",
+  "lat": 59.45546,
+  "lon": 9.03071
+ },
+ "459773412": {
+  "years": [
+   2020,
+   2021,
+   2022,
+   2023,
+   2024,
+   2025
+  ],
+  "n_years": 6,
+  "daylight_gt10h": 234.5,
+  "sunshine_gt10h": 130.5,
+  "snow_days": 59.5,
+  "frost_days": 152.0,
+  "mean_sunshine_h": 7.34,
+  "source": "open-meteo-archive",
+  "period": "2020–2025",
+  "lat": 60.49727,
+  "lon": 12.10697
+ },
+ "476467455": {
+  "years": [
+   2020,
+   2021,
+   2022,
+   2023,
+   2024,
+   2025
+  ],
+  "n_years": 6,
+  "daylight_gt10h": 234.7,
+  "sunshine_gt10h": 133.2,
+  "snow_days": 65.3,
+  "frost_days": 133.3,
+  "mean_sunshine_h": 7.33,
+  "source": "open-meteo-archive",
+  "period": "2020–2025",
+  "lat": 60.43062,
+  "lon": 11.58695
+ }
+}

@@ -1,0 +1,15 @@
+{
+  "name": "thefarm",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "dev": "npm run build && wrangler dev",
+    "deploy": "npm run build && wrangler deploy",
+    "preview": "npm run build && wrangler dev"
+  },
+  "dependencies": {
+    "proj4": "^2.15.0",
+    "wrangler": "^4.141.0"
+  }
+}

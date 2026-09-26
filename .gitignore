@@ -1,0 +1,12 @@
+node_modules
+.venv
+__pycache__
+.wrangler
+dist
+/media
+.env
+.env.*
+*.pem
+.DS_Store
+Thumbs.db
+*.log
