@@ -248,13 +248,41 @@ select,.toggle{font-size:12px;border:1px solid var(--line);background:var(--card
 .tglist{margin:0;padding-left:18px;font-size:13px;line-height:1.45;color:var(--muted);max-width:72ch}
 .tglist li{margin:3px 0}
 .tglist.bad{color:var(--bad)}
+.mobback{display:none;width:100%;align-items:center;gap:8px;padding:11px 14px;border:0;border-bottom:1px solid var(--line);
+  background:var(--panel);font-weight:600;font-size:14px;cursor:pointer;text-align:left;position:sticky;top:0;z-index:6}
 @media (max-width:820px){
-  .body{grid-template-columns:1fr}.list{max-height:36vh;border-right:0;border-bottom:1px solid var(--line)}
+  .app{height:100dvh}
+  header.top{padding:6px 10px 8px}
+  .brand .sub{display:none}
+  .controls{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}
+  .controls::-webkit-scrollbar{display:none}
+  .seg,.controls select,.controls .toggle{flex:0 0 auto}
   .findcol,.split2{grid-template-columns:1fr}
   .barrow{grid-template-columns:22px 1fr 1fr 32px}
-  .brand{flex-wrap:wrap}
-  .brand .sub{white-space:normal;flex-basis:100%;order:3}
-  .brand .viewseg{margin-left:auto}
+  .app[data-pane="list"] .body,.app[data-pane="farm"] .body{display:flex;flex-direction:column;min-height:0}
+  .app[data-pane="list"] .detail{display:none}
+  .app[data-pane="farm"] .list{display:none}
+  .app[data-pane="list"] .list,.app[data-pane="farm"] .detail{flex:1;max-height:none;min-height:0;border:0}
+  .list{padding-bottom:env(safe-area-inset-bottom,0px)}
+  .row{padding:13px 14px}
+  .app[data-pane="farm"] .mobback{display:flex}
+  .app[data-pane="farm"] .detail{display:flex;flex-direction:column;padding:0 0 calc(28px + env(safe-area-inset-bottom,0px))}
+  .app[data-pane="farm"] .detail > *{flex:0 0 auto}
+  .app[data-pane="farm"] .mobback{order:-5}
+  .app[data-pane="farm"] .mtabs{order:-4}
+  .app[data-pane="farm"] .stage{order:-3}
+  .app[data-pane="farm"] #mhint{order:-2}
+  .app[data-pane="farm"] .stage.mapmode{display:grid;grid-template-rows:minmax(220px,min(46dvh,calc(100dvh - 220px))) auto;aspect-ratio:auto;height:auto;min-height:0;max-height:none;overflow:visible}
+  .app[data-pane="farm"] .stage.mapmode #gkmap{position:relative;inset:auto;width:100%;height:min(46dvh,calc(100dvh - 220px));min-height:220px}
+  .app[data-pane="farm"] .mapleg{display:none}
+  .app[data-pane="farm"] .mapctl{position:static;flex-direction:row;flex-wrap:wrap;gap:6px;padding:8px 10px;background:var(--panel);border-bottom:1px solid var(--line)}
+  .app[data-pane="farm"] .mapctl button,.app[data-pane="farm"] .mapctl a{padding:8px 10px;font-size:12px}
+  .app[data-pane="farm"] .mapinfo{top:8px;bottom:auto;left:8px;right:8px;max-width:none}
+  .app[data-pane="farm"] .dhead,.app[data-pane="farm"] .badges,.app[data-pane="farm"] .sec,
+  .app[data-pane="farm"] .hint,.app[data-pane="farm"] .footnote{padding-left:14px;padding-right:14px}
+  .app[data-pane="farm"] .dhead{padding-top:12px}
+  .app[data-pane="farm"] .mtabs{margin-left:14px;margin-right:14px}
+  .app[data-pane="farm"] .stage{border-left:0;border-right:0;border-radius:0}
 }
 </style>
 </head>
@@ -336,14 +364,18 @@ const WEIGHTS=[["price","Pris",15],["forest","Skog",11],["anchor","Nærleik anke
   ["slope","Helling",6],["productive","Produktiv jord",5],["creek","Bekk",4],["isolation","Usjenert",2],
   ["water_power","Vatn/straum",1],["konsesjon","Konsesjon",1]];
 
-let state={view:"home",sort:"score",reg:"all",kind:"all",hidelow:false,hidefar:false,sel:FARMS[0].finnkode,photo:0,mtab:"aerial",exagg:1.6,showbnd:true,mapAr5:true,mapBnd:true,mapFly:true};
+let state={view:"home",pane:"list",sort:"score",reg:"all",kind:"all",hidelow:false,hidefar:false,sel:FARMS[0].finnkode,photo:0,mtab:"aerial",exagg:1.6,showbnd:true,mapAr5:true,mapBnd:true,mapFly:true};
 try{Object.assign(state,JSON.parse(localStorage.getItem("gj2")||"{}"));}catch(e){}
 if(!state.view)state.view="home";
+if(state.pane!=="list"&&state.pane!=="farm")state.pane="list";
 if(!["all","sornorge","ostlandet","midtnorge","nordnorge"].includes(state.reg))state.reg="all";
 if(!FARMS.some(f=>f.finnkode===state.sel))state.sel=FARMS[0].finnkode;
 const save=()=>{try{localStorage.setItem("gj2",JSON.stringify(state));}catch(e){}};
+const narrow=()=>window.matchMedia("(max-width:820px)").matches;
 function openFarm(fk){
-  state.sel=fk; state.view="browse"; state.photo=0; state.mtab="aerial"; save(); applyView();
+  state.sel=fk; state.view="browse"; state.photo=0; state.mtab="aerial";
+  if(narrow()) state.pane="farm";
+  save(); applyView();
   const d=document.getElementById("detail"); if(d)d.scrollTop=0;
 }
 
@@ -933,20 +965,26 @@ function renderOverview(){
       </div>
       <div class="footnote">Areal: NIBIO Gårdskart (AR5) der kjelda er NIBIO, elles estimat frå annonsen. Avstand: køyretid til Snausvegen 623, 7334 Storås. Sør-Norge = Agder, Rogaland og Vestland. Østlandet = Oslo, Akershus, Østfold, Buskerud, Innlandet, Vestfold og Telemark. Midt-Norge = Møre og Romsdal og Trøndelag. Nord-Norge = Nordland, Troms og Finnmark. Klima: Open-Meteo arkiv 2020–2025. Rangeringa er eit filter, ikkje ein takst.</div>
     </div>`;
-  document.getElementById("toBrowse").onclick=()=>{state.view="browse";save();applyView();};
+  document.getElementById("toBrowse").onclick=()=>{state.view="browse";state.pane="list";save();applyView();};
   document.querySelectorAll("#overview [data-fk]").forEach(el=>{
     el.onclick=()=>openFarm(el.dataset.fk);
   });
 }
 function applyView(){
-  document.querySelector(".app").dataset.view=state.view;
+  const app=document.querySelector(".app");
+  app.dataset.view=state.view;
+  app.dataset.pane=(state.view==="browse"&&narrow())?(state.pane==="farm"?"farm":"list"):"both";
   document.querySelectorAll("#viewseg button").forEach(b=>b.setAttribute("aria-pressed", b.dataset.view===state.view));
   const sub=document.getElementById("brandsub");
   if(sub){const n=FARMS.length, h=FARMS.filter(isHouse).length;
     sub.textContent=`${n} objekt (${n-h} gårdsbruk, ${h} enebolig ≥5 mål) · ≤ 2 mill (2,5 for Møre) · finn.no · NIBIO · Kartverket · Open-Meteo`;}
   if(state.view==="home"){ disposeThree(); disposeMap(); try{ renderOverview(); }catch(e){ console.error(e);
     document.getElementById("overview").innerHTML=`<div class="ov-inner"><p class="lede">Oversikt feila: ${String(e.message||e)}</p></div>`;} }
-  else { renderList(); renderDetail(); }
+  else {
+    renderList();
+    if(app.dataset.pane==="list"){ disposeThree(); disposeMap(); }
+    else renderDetail();
+  }
 }
 
 /* ---------- 3D terrain ---------- */
@@ -1014,6 +1052,7 @@ function renderDetail(){
   const M=f.media||{}, ph=M.photos||[], idx=Math.min(state.photo,Math.max(0,ph.length-1));
 
   el.innerHTML=`
+    <button type="button" class="mobback" id="mobback">← Alle gårdar</button>
     <div class="dhead"><div><h2>${f.place}</h2><div class="loc">${f.title||""} · ${f.fylke}</div></div>
       <div class="scorebox"><div class="n mono">${f.score.toFixed(0)}</div><div class="l">poeng</div>
         <div class="price mono">${kr(f.pris_kr)} <small>totalpris</small></div>
@@ -1057,6 +1096,8 @@ function renderDetail(){
     <div class="footnote">Areal: NIBIO AR5 13 klasser (interaktivt kart + Gårdskart). Flyfoto: Esri World Imagery. Eigedomsgrenser: Kartverket matrikkel-WMS. 3D-terreng og helling/sørhorisont: Kartverkets høgdemodell (DTM). Klima: Open-Meteo arkiv (dagslys, solskinn, snøfall, Tmin). Grenser og grunnkart er rettleiande; kostnader/oppussing må stadfestast i salsoppgåva.</div>`;
 
   renderStage(f,idx);
+  const back=document.getElementById("mobback");
+  if(back) back.onclick=()=>{state.pane="list";save();applyView();};
   document.querySelectorAll("#mtabs button").forEach(b=>{b.setAttribute("aria-pressed",b.dataset.m===state.mtab);
     b.onclick=()=>{state.mtab=b.dataset.m;save();renderDetail();};});
 }
@@ -1330,6 +1371,10 @@ document.querySelectorAll("#regfilter button").forEach(b=>b.setAttribute("aria-p
 document.querySelectorAll("#kindfilter button").forEach(b=>b.onclick=()=>{state.kind=b.dataset.kind;save();
   document.querySelectorAll("#kindfilter button").forEach(x=>x.setAttribute("aria-pressed",x===b));renderList();});
 document.querySelectorAll("#kindfilter button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.kind===state.kind));
-document.querySelectorAll("#viewseg button").forEach(b=>b.onclick=()=>{state.view=b.dataset.view;save();applyView();});
+document.querySelectorAll("#viewseg button").forEach(b=>b.onclick=()=>{
+  if(b.dataset.view==="browse"&&state.view!=="browse") state.pane="list";
+  state.view=b.dataset.view;save();applyView();
+});
+window.matchMedia("(max-width:820px)").addEventListener("change",()=>applyView());
 applyView();
 </script>
