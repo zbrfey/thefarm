@@ -172,6 +172,39 @@ select,.toggle{font-size:12px;border:1px solid var(--line);background:var(--card
 
 .app[data-view="home"] .body,.app[data-view="home"] #browsectl{display:none}
 .app[data-view="browse"] .overview{display:none}
+.mapview{display:none}
+.app[data-view="map"] .overview,.app[data-view="map"] .body,.app[data-view="map"] #browsectl{display:none}
+.app[data-view="map"] .mapview{display:flex;flex-direction:column;flex:1;min-height:0}
+/* map page */
+.mapfilt{display:flex;flex-wrap:wrap;align-items:flex-end;gap:14px 20px;padding:12px clamp(14px,2.6vw,28px);
+  border-bottom:1px solid var(--line);background:var(--panel)}
+.mapfilt .fgroup{display:flex;flex-direction:column;gap:5px;min-width:0}
+.mapfilt .flab{font-size:11px;font-weight:600;letter-spacing:0;color:var(--muted)}
+.mapfilt .flab .cnt{color:var(--faint);font-weight:400}
+.pricewrap{display:flex;flex-direction:column;gap:8px;min-width:min(320px,72vw)}
+.priceio{display:flex;align-items:center;gap:8px;font-variant-numeric:tabular-nums}
+.priceio input{width:112px;font-size:13px;border:1px solid var(--line);background:var(--card);color:var(--ink);
+  border-radius:var(--r);padding:6px 8px;font-variant-numeric:tabular-nums}
+.priceio span{color:var(--faint);font-size:12px}
+.dualr{position:relative;height:26px;display:flex;align-items:center}
+.dualr .rtrack{position:absolute;left:0;right:0;height:4px;background:var(--line2);border-radius:2px}
+.dualr .rfill{position:absolute;height:4px;background:var(--accent);border-radius:2px}
+.dualr input[type=range]{position:absolute;left:0;right:0;width:100%;margin:0;background:none;pointer-events:none;-webkit-appearance:none;appearance:none;height:26px}
+.dualr input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;pointer-events:auto;width:16px;height:16px;border-radius:50%;background:var(--card);border:2px solid var(--accent);cursor:pointer;box-shadow:0 1px 2px rgba(0,0,0,.25)}
+.dualr input[type=range]::-moz-range-thumb{pointer-events:auto;width:16px;height:16px;border-radius:50%;background:var(--card);border:2px solid var(--accent);cursor:pointer}
+.dualr input[type=range]::-webkit-slider-runnable-track{background:none;height:26px}
+.dualr input[type=range]::-moz-range-track{background:none;height:26px}
+.mapfilt .btn.reset{padding:6px 12px;font-size:12px}
+.mapview .maparea{position:relative;flex:1;min-height:0}
+.mapview #allmap{position:absolute;inset:0;width:100%;height:100%}
+.mapview .leaflet-container{width:100%;height:100%;background:#d4d0c6;font-family:inherit}
+.mapview .leaflet-control-attribution{font-size:10px;background:rgba(255,255,255,.82)}
+.mapview .maptip{font-size:12px;line-height:1.35}
+.mapview .maptip b{font-size:12.5px}
+.mapcount{position:absolute;left:10px;top:10px;z-index:1100;background:rgba(250,249,246,.94);color:var(--ink);
+  border:1px solid var(--line);border-radius:var(--r);padding:6px 10px;font-size:12px;font-variant-numeric:tabular-nums;pointer-events:none}
+.mapcount b{font-weight:600}
+.maplayers{position:absolute;right:10px;top:10px;z-index:1100;display:flex;gap:4px}
 .overview{flex:1;min-height:0;overflow-y:auto;padding:18px clamp(16px,3vw,36px) 48px;width:100%}
 .ov-inner{max-width:1080px;margin:0 auto}
 .hero{display:flex;flex-direction:column;align-items:flex-start;gap:10px;margin-bottom:18px;padding-bottom:16px;border-bottom:1px solid var(--line)}
@@ -297,6 +330,7 @@ select,.toggle{font-size:12px;border:1px solid var(--line);background:var(--card
       <div class="seg viewseg" id="viewseg" role="tablist" aria-label="Visning">
         <button data-view="home" aria-pressed="true">Oversikt</button>
         <button data-view="browse">Gårdar</button>
+        <button data-view="map">Kart</button>
       </div></div>
     <div class="controls" id="browsectl">
       <label class="toggle" for="sort">Sortér</label>
@@ -323,6 +357,7 @@ select,.toggle{font-size:12px;border:1px solid var(--line);background:var(--card
   </header>
   <div class="overview" id="overview"></div>
   <div class="body" id="browse"><div class="list" id="list" role="listbox" aria-label="Gårder"></div><div class="detail" id="detail"></div></div>
+  <div class="mapview" id="mapview"></div>
 </div>
 
 <script>
@@ -367,9 +402,15 @@ const WEIGHTS=[["price","Pris",15],["forest","Skog",11],["anchor","Nærleik anke
   ["slope","Helling",6],["productive","Produktiv jord",5],["creek","Bekk",4],["isolation","Usjenert",2],
   ["water_power","Vatn/straum",1],["konsesjon","Konsesjon",1]];
 
-let state={view:"home",pane:"list",sort:"score",reg:"all",kind:"all",hidelow:false,hidefar:false,sel:FARMS[0].finnkode,photo:0,mtab:"aerial",exagg:1.6,showbnd:true,mapAr5:true,mapBnd:true,mapFly:true};
+const PRICE_LO=Math.floor(Math.min(...FARMS.map(f=>f.pris_kr))/1e4)*1e4;
+const PRICE_HI=Math.ceil(Math.max(...FARMS.map(f=>f.pris_kr))/1e4)*1e4;
+let state={view:"home",pane:"list",sort:"score",reg:"all",kind:"all",hidelow:false,hidefar:false,sel:FARMS[0].finnkode,photo:0,mtab:"aerial",exagg:1.6,showbnd:true,mapAr5:true,mapBnd:true,mapFly:true,pmin:PRICE_LO,pmax:PRICE_HI,mapFlyAll:false};
 try{Object.assign(state,JSON.parse(localStorage.getItem("gj2")||"{}"));}catch(e){}
 if(!state.view)state.view="home";
+if(!["home","browse","map"].includes(state.view))state.view="home";
+if(typeof state.pmin!=="number"||state.pmin<PRICE_LO||state.pmin>PRICE_HI)state.pmin=PRICE_LO;
+if(typeof state.pmax!=="number"||state.pmax>PRICE_HI||state.pmax<PRICE_LO)state.pmax=PRICE_HI;
+if(state.pmin>state.pmax){state.pmin=PRICE_LO;state.pmax=PRICE_HI;}
 if(state.mtab==="3d")state.mtab="aerial";
 if(state.pane!=="list"&&state.pane!=="farm")state.pane="list";
 if(!["all","sornorge","ostlandet","midtnorge","nordnorge"].includes(state.reg))state.reg="all";
@@ -983,9 +1024,14 @@ function applyView(){
   const sub=document.getElementById("brandsub");
   if(sub){const n=FARMS.length, h=FARMS.filter(isHouse).length;
     sub.textContent=`${n} objekt (${n-h} gårdsbruk, ${h} enebolig ≥5 mål) · ≤ 2 mill (2,5 for Møre) · finn.no · NIBIO · Kartverket · Open-Meteo`;}
-  if(state.view==="home"){ disposeThree(); disposeMap(); try{ renderOverview(); }catch(e){ console.error(e);
+  if(state.view==="home"){ disposeThree(); disposeMap(); disposeAllMap(); try{ renderOverview(); }catch(e){ console.error(e);
     document.getElementById("overview").innerHTML=`<div class="ov-inner"><p class="lede">Oversikt feila: ${String(e.message||e)}</p></div>`;} }
+  else if(state.view==="map"){ disposeThree(); disposeMap();
+    try{ if(ALLMAP && document.getElementById("allmap")){ setTimeout(()=>{try{ALLMAP.invalidateSize();}catch(e){}},60); } else renderMapView(); }
+    catch(e){ console.error(e);
+    document.getElementById("mapview").innerHTML=`<div style="padding:24px"><p class="lede">Kart feila: ${String(e.message||e)}</p></div>`;} }
   else {
+    disposeAllMap();
     renderList();
     if(app.dataset.pane==="list"){ disposeThree(); disposeMap(); }
     else renderDetail();
@@ -1011,6 +1057,145 @@ function disposeThree(){
 }
 let MAP=null;
 function disposeMap(){ if(MAP){ MAP.remove(); MAP=null; } }
+
+/* ---------- Map page: all farms, live price + region/type filters ---------- */
+let ALLMAP=null, ALLMARKERS=null, ALLMAPBASE=null;
+function disposeAllMap(){ if(ALLMAP){ ALLMAP.remove(); ALLMAP=null; ALLMARKERS=null; ALLMAPBASE=null; } }
+function scoreColor(s){
+  // low→high score: muted clay → deep green
+  const t=Math.max(0,Math.min(1,(s-55)/40));
+  const a=[176,110,70], b=[36,90,60];
+  const c=a.map((v,i)=>Math.round(v+(b[i]-v)*t));
+  return `hsl(${c[0]},${c[1]}%,${c[2]}%)`;
+}
+function mapFiltered(){
+  return FARMS.filter(f=>{
+    if(f.pris_kr<state.pmin||f.pris_kr>state.pmax)return false;
+    if(state.reg!=="all"&&landsdel(f)!==state.reg)return false;
+    if(state.kind==="farm"&&isHouse(f))return false;
+    if(state.kind==="house"&&!isHouse(f))return false;
+    if(state.hidelow&&arable(f)!=null&&arable(f)<5)return false;
+    if(state.hidefar&&anchorMinH(f)>6)return false;
+    return f.geo && f.geo.lat!=null;
+  });
+}
+function renderMapView(){
+  disposeAllMap();
+  const el=document.getElementById("mapview");
+  const regBtns=[["all","Alle"],...REG_ORDER.map(id=>[id,REG_NAME[id]])]
+    .map(([id,lab])=>`<button data-reg="${id}" aria-pressed="${state.reg===id}">${lab}</button>`).join("");
+  const kindBtns=[["all","Alle typar"],["farm","Gårdsbruk"],["house","Enebolig"]]
+    .map(([id,lab])=>`<button data-kind="${id}" aria-pressed="${state.kind===id}">${lab}</button>`).join("");
+  el.innerHTML=`
+    <div class="mapfilt">
+      <div class="fgroup pricewrap">
+        <div class="flab">Pris <span class="cnt" id="mf-prange"></span></div>
+        <div class="dualr">
+          <div class="rtrack"></div><div class="rfill" id="mf-fill"></div>
+          <input type="range" id="mf-rmin" min="${PRICE_LO}" max="${PRICE_HI}" step="10000" value="${state.pmin}" aria-label="Minstepris">
+          <input type="range" id="mf-rmax" min="${PRICE_LO}" max="${PRICE_HI}" step="10000" value="${state.pmax}" aria-label="Makspris">
+        </div>
+        <div class="priceio">
+          <input type="number" id="mf-nmin" min="${PRICE_LO}" max="${PRICE_HI}" step="10000" value="${state.pmin}" aria-label="Minstepris kr">
+          <span>–</span>
+          <input type="number" id="mf-nmax" min="${PRICE_LO}" max="${PRICE_HI}" step="10000" value="${state.pmax}" aria-label="Makspris kr">
+          <span>kr</span>
+        </div>
+      </div>
+      <div class="fgroup"><div class="flab">Region</div><div class="seg" id="mf-reg">${regBtns}</div></div>
+      <div class="fgroup"><div class="flab">Type</div><div class="seg" id="mf-kind">${kindBtns}</div></div>
+      <div class="fgroup"><div class="flab">Krav</div>
+        <div style="display:flex;gap:14px;align-items:center;padding-top:5px">
+          <label class="toggle"><input type="checkbox" id="mf-low" ${state.hidelow?"checked":""}> ≥5 daa dyrka</label>
+          <label class="toggle"><input type="checkbox" id="mf-far" ${state.hidefar?"checked":""}> ≤6 t til ${ANCHOR}</label>
+        </div>
+      </div>
+      <button class="btn reset" id="mf-reset">Nullstill</button>
+    </div>
+    <div class="maparea">
+      <div id="allmap"></div>
+      <div class="mapcount" id="mf-count"></div>
+      <div class="maplayers seg"><button id="mf-fly" aria-pressed="${!!state.mapFlyAll}">Flyfoto</button></div>
+    </div>`;
+
+  const map=L.map("allmap",{zoomControl:false, attributionControl:true, scrollWheelZoom:true})
+    .setView([64.2,11.5], 5);
+  L.control.zoom({position:"bottomright"}).addTo(map);
+  ALLMAP=map;
+  ALLMAPBASE={
+    topo:L.tileLayer("https://cache.kartverket.no/v1/wmts/1.0.0/topo/default/webmercator/{z}/{y}/{x}.png",{maxZoom:18, attribution:"Kartverket"}),
+    fly:L.tileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",{maxZoom:18, attribution:"Esri World Imagery"})
+  };
+  (state.mapFlyAll?ALLMAPBASE.fly:ALLMAPBASE.topo).addTo(map);
+  ALLMARKERS=L.layerGroup().addTo(map);
+
+  // filter wiring
+  const nmin=el.querySelector("#mf-nmin"), nmax=el.querySelector("#mf-nmax");
+  const rmin=el.querySelector("#mf-rmin"), rmax=el.querySelector("#mf-rmax");
+  function syncInputs(){
+    rmin.value=state.pmin; rmax.value=state.pmax;
+    nmin.value=state.pmin; nmax.value=state.pmax;
+    const span=PRICE_HI-PRICE_LO||1;
+    el.querySelector("#mf-fill").style.left =(100*(state.pmin-PRICE_LO)/span)+"%";
+    el.querySelector("#mf-fill").style.right=(100*(PRICE_HI-state.pmax)/span)+"%";
+    el.querySelector("#mf-prange").textContent=`${mill(state.pmin)}–${mill(state.pmax)} mill`;
+  }
+  function setPrice(min,max,fromRange){
+    min=Math.round(min/10000)*10000; max=Math.round(max/10000)*10000;
+    min=Math.max(PRICE_LO,Math.min(PRICE_HI,min));
+    max=Math.max(PRICE_LO,Math.min(PRICE_HI,max));
+    if(min>max){ if(fromRange==="min")max=min; else if(fromRange==="max")min=max; else {const t=min;min=max;max=t;} }
+    state.pmin=min; state.pmax=max; save(); syncInputs(); drawMarkers(); }
+  rmin.oninput=()=>setPrice(+rmin.value,state.pmax,"min");
+  rmax.oninput=()=>setPrice(state.pmin,+rmax.value,"max");
+  nmin.onchange=()=>setPrice(+nmin.value||PRICE_LO,state.pmax);
+  nmax.onchange=()=>setPrice(state.pmin,+nmax.value||PRICE_HI);
+  el.querySelectorAll("#mf-reg button").forEach(b=>b.onclick=()=>{state.reg=b.dataset.reg;save();
+    el.querySelectorAll("#mf-reg button").forEach(x=>x.setAttribute("aria-pressed",x===b));drawMarkers();});
+  el.querySelectorAll("#mf-kind button").forEach(b=>b.onclick=()=>{state.kind=b.dataset.kind;save();
+    el.querySelectorAll("#mf-kind button").forEach(x=>x.setAttribute("aria-pressed",x===b));drawMarkers();});
+  el.querySelector("#mf-low").onchange=e=>{state.hidelow=e.target.checked;save();drawMarkers();};
+  el.querySelector("#mf-far").onchange=e=>{state.hidefar=e.target.checked;save();drawMarkers();};
+  el.querySelector("#mf-fly").onclick=e=>{state.mapFlyAll=!state.mapFlyAll;save();
+    e.target.setAttribute("aria-pressed",state.mapFlyAll);
+    map.removeLayer(state.mapFlyAll?ALLMAPBASE.topo:ALLMAPBASE.fly);
+    (state.mapFlyAll?ALLMAPBASE.fly:ALLMAPBASE.topo).addTo(map);};
+  el.querySelector("#mf-reset").onclick=()=>{
+    state.pmin=PRICE_LO;state.pmax=PRICE_HI;state.reg="all";state.kind="all";state.hidelow=false;state.hidefar=false;save();
+    el.querySelectorAll("#mf-reg button").forEach(x=>x.setAttribute("aria-pressed",x.dataset.reg==="all"));
+    el.querySelectorAll("#mf-kind button").forEach(x=>x.setAttribute("aria-pressed",x.dataset.kind==="all"));
+    el.querySelector("#mf-low").checked=false; el.querySelector("#mf-far").checked=false;
+    syncInputs(); drawMarkers(); };
+
+  let didFit=false;
+  function drawMarkers(){
+    if(!ALLMARKERS)return;
+    ALLMARKERS.clearLayers();
+    const list=mapFiltered();
+    list.forEach(f=>{
+      const m=L.circleMarker([f.geo.lat,f.geo.lon],{
+        radius: isHouse(f)?5.5:7, weight:1.4, color:"#faf9f6",
+        fillColor:scoreColor(f.score), fillOpacity:0.92
+      });
+      m.bindTooltip(
+        `<div class="maptip"><b>${esc(f.place)}</b> · rang ${f.rank}<br>`+
+        `${mill(f.pris_kr)} mill · ${f.score.toFixed(0)} poeng<br>`+
+        `<span style="color:#8a857c">${landsdelName(f)} · ${arable(f)==null?"dyrka ?":fmt1(arable(f))+" daa dyrka"} · ${fmt1(anchorMinH(f))} t</span></div>`,
+        {direction:"top",offset:[0,-4]});
+      m.on("click",()=>openFarm(f.finnkode));
+      ALLMARKERS.addLayer(m);
+    });
+    const c=document.getElementById("mf-count");
+    if(c)c.innerHTML=`<b>${list.length}</b> av ${FARMS.length} objekt`;
+    if(!didFit){
+      didFit=true;
+      if(list.length){ map.fitBounds(list.map(f=>[f.geo.lat,f.geo.lon]),{padding:[40,40],maxZoom:9}); }
+    }
+  }
+  syncInputs();
+  drawMarkers();
+  setTimeout(()=>{ if(ALLMAP===map){ try{map.invalidateSize();}catch(e){} } },60);
+}
 function boxColor(kind){
   return ({house:0xc4a574,residential:0xc4a574,farm:0x8c3a2f,barn:0x8c3a2f,cabin:0x6d8a62,
     shed:0x8a8178,garage:0x7d756c,boathouse:0x4d6d82,farm_auxiliary:0xa67c52,greenhouse:0x9db89a})[kind]||0xb08a62;
