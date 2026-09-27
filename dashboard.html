@@ -1109,7 +1109,7 @@ function mapFiltered(){
   });
 }
 function mapPopupHtml(f){
-  const ar=arable(f), img=(f.media&&f.media.aer)||"";
+  const ar=arable(f), img=(f.media&&((f.media.photos&&f.media.photos[0])||f.media.aer))||"";
   const sov=f.soverom?Math.round(parseFloat(f.soverom)):null;
   const yr=(()=>{const v=parseFloat(f.byggeaar);return isFinite(v)&&v>1000?String(Math.round(v)):(f.byggeaar||"–");})();
   const rows=[
@@ -1131,7 +1131,7 @@ function mapPopupHtml(f){
   ];
   const kv=a=>a.map(([k,v])=>`<div class="pk">${k}</div><div class="pv mono">${v}</div>`).join("");
   return `<div class="mpop">
-    <div class="mpop-media">${img?`<img class="mpop-img" src="${img}" alt="Flyfoto ${esc(f.place)}" loading="lazy">`:`<div class="mpop-img mpop-noimg"></div>`}</div>
+    <div class="mpop-media">${img?`<img class="mpop-img" src="${img}" alt="Foto ${esc(f.place)}" loading="lazy">`:`<div class="mpop-img mpop-noimg"></div>`}</div>
     <div class="mpop-body">
       <div class="mpop-h">
         <a href="#" class="mpop-title" onclick="openFarm('${esc(f.finnkode)}');return false;">${esc(f.place)}</a>
