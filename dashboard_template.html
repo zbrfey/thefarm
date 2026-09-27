@@ -208,27 +208,37 @@ select,.toggle{font-size:12px;border:1px solid var(--line);background:var(--card
 .maplgd span{display:inline-flex;align-items:center;gap:5px;font-size:11px;color:var(--muted)}
 .maplgd i{width:11px;height:11px;border-radius:50%;border:1.5px solid #fff;box-shadow:0 0 0 1px var(--line)}
 .maplayers{position:absolute;right:10px;top:10px;z-index:1100;display:flex;gap:4px}
-/* map popup */
+/* map popup — landscape card: photo left, details right */
 .mpopwrap .leaflet-popup-content-wrapper{background:var(--card);color:var(--ink);border:1px solid var(--line);border-radius:var(--r);box-shadow:0 6px 24px rgba(0,0,0,.22)}
 .mpopwrap .leaflet-popup-tip{background:var(--card);border:1px solid var(--line)}
-.mpopwrap .leaflet-popup-content{margin:0;width:auto!important}
+.mpopwrap .leaflet-popup-content{margin:0}
 .mpopwrap a.leaflet-popup-close-button{color:var(--faint);padding:6px 7px 0 0}
-.mpop{padding:0 2px 2px}
-.mpop-img{display:block;width:100%;height:104px;object-fit:cover;border-radius:var(--r);margin:0 0 8px;background:var(--line2)}
-.mpop-h{display:flex;align-items:baseline;justify-content:space-between;gap:8px}
-.mpop-h b{font-family:"Source Serif 4",Georgia,serif;font-size:15px;font-weight:600}
+.mpop{display:grid;grid-template-columns:150px 1fr;gap:12px;align-items:stretch;padding:2px}
+.mpop-media{min-width:0}
+.mpop-img{display:block;width:100%;height:100%;min-height:150px;max-height:240px;object-fit:cover;border-radius:var(--r);background:var(--line2)}
+.mpop-noimg{min-height:150px}
+.mpop-body{min-width:0;display:flex;flex-direction:column}
+.mpop-grid[hidden]{display:none}
+.mpop-h{display:flex;align-items:baseline;justify-content:space-between;gap:8px;padding-right:16px}
+.mpop-title{font-family:"Source Serif 4",Georgia,serif;font-size:15.5px;font-weight:600;color:var(--accent);text-decoration:none;line-height:1.2}
+.mpop-title:hover{text-decoration:underline}
 .mpop-rank{font-size:11px;color:var(--faint);font-variant-numeric:tabular-nums;white-space:nowrap}
-.mpop-sub{font-size:12px;color:var(--muted);margin-top:2px}
+.mpop-sub{font-size:12px;color:var(--muted);margin-top:3px}
 .mpop-typ{font-weight:600}.mpop-typ.farm{color:#e8590c}.mpop-typ.house{color:#7048e8}
-.mpop-price{font-size:14px;font-weight:600;font-variant-numeric:tabular-nums;margin:6px 0 8px}
+.mpop-price{font-size:14.5px;font-weight:600;font-variant-numeric:tabular-nums;margin:6px 0 8px}
 .mpop-price span{color:var(--muted);font-weight:400;font-size:12.5px}
-.mpop-grid{display:grid;grid-template-columns:auto 1fr;gap:3px 12px;font-size:12px}
+.mpop-grid{display:grid;grid-template-columns:auto 1fr;gap:3px 16px;font-size:12px}
 .mpop-grid .pk{color:var(--muted)}.mpop-grid .pv{text-align:right}
 .mpop-extra{margin-top:6px;padding-top:6px;border-top:1px solid var(--line2)}
-.mpop-more{margin-top:8px;border:0;background:transparent;color:var(--accent);font-size:12px;font-weight:600;cursor:pointer;padding:0}
-.mpop-links{display:flex;gap:6px;margin-top:10px}
-.mpop-links .btn{padding:6px 10px;font-size:12px;flex:0 0 auto}
+.mpop-more{align-self:flex-start;margin-top:8px;border:0;background:transparent;color:var(--accent);font-size:12px;font-weight:600;cursor:pointer;padding:0}
+.mpop-links{display:flex;gap:6px;margin-top:auto;padding-top:12px}
+.mpop-links .btn{padding:6px 11px;font-size:12px;flex:0 0 auto}
 .mpop-links .btn.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+@media (max-width:520px){
+  .mpop{grid-template-columns:1fr;gap:8px}
+  .mpop-img{height:120px;min-height:0;max-height:none}
+  .mpop-noimg{min-height:110px}
+}
 .overview{flex:1;min-height:0;overflow-y:auto;padding:18px clamp(16px,3vw,36px) 48px;width:100%}
 .ov-inner{max-width:1080px;margin:0 auto}
 .hero{display:flex;flex-direction:column;align-items:flex-start;gap:10px;margin-bottom:18px;padding-bottom:16px;border-bottom:1px solid var(--line)}
@@ -1121,16 +1131,21 @@ function mapPopupHtml(f){
   ];
   const kv=a=>a.map(([k,v])=>`<div class="pk">${k}</div><div class="pv mono">${v}</div>`).join("");
   return `<div class="mpop">
-    ${img?`<img class="mpop-img" src="${img}" alt="Flyfoto ${esc(f.place)}" loading="lazy">`:""}
-    <div class="mpop-h"><b>${esc(f.place)}</b><span class="mpop-rank">rang ${f.rank}</span></div>
-    <div class="mpop-sub"><span class="mpop-typ ${isHouse(f)?"house":"farm"}">${isHouse(f)?"Enebolig":"Gårdsbruk"}</span> · ${landsdelName(f)}</div>
-    <div class="mpop-price">${mill(f.pris_kr)} mill <span>· ${f.score.toFixed(0)} poeng</span></div>
-    <div class="mpop-grid">${kv(rows)}</div>
-    <button type="button" class="mpop-more" onclick="var m=this.nextElementSibling;var o=m.hasAttribute('hidden');if(o){m.removeAttribute('hidden');}else{m.setAttribute('hidden','');}this.textContent=o?'Mindre ▴':'Meir info ▾';">Meir info ▾</button>
-    <div class="mpop-grid mpop-extra" hidden>${kv(more)}</div>
-    <div class="mpop-links">
-      <a href="#" class="btn primary" onclick="openFarm('${esc(f.finnkode)}');return false;">Sjå eigedom →</a>
-      ${f.url?`<a href="${esc(f.url)}" target="_blank" rel="noopener" class="btn">Finn.no ↗</a>`:""}
+    <div class="mpop-media">${img?`<img class="mpop-img" src="${img}" alt="Flyfoto ${esc(f.place)}" loading="lazy">`:`<div class="mpop-img mpop-noimg"></div>`}</div>
+    <div class="mpop-body">
+      <div class="mpop-h">
+        <a href="#" class="mpop-title" onclick="openFarm('${esc(f.finnkode)}');return false;">${esc(f.place)}</a>
+        <span class="mpop-rank">rang ${f.rank}</span>
+      </div>
+      <div class="mpop-sub"><span class="mpop-typ ${isHouse(f)?"house":"farm"}">${isHouse(f)?"Enebolig":"Gårdsbruk"}</span> · ${landsdelName(f)}</div>
+      <div class="mpop-price">${mill(f.pris_kr)} mill <span>· ${f.score.toFixed(0)} poeng</span></div>
+      <div class="mpop-grid">${kv(rows)}</div>
+      <button type="button" class="mpop-more" onclick="var m=this.nextElementSibling;var o=m.hasAttribute('hidden');if(o){m.removeAttribute('hidden');}else{m.setAttribute('hidden','');}this.textContent=o?'Mindre ▴':'Meir info ▾';">Meir info ▾</button>
+      <div class="mpop-grid mpop-extra" hidden>${kv(more)}</div>
+      <div class="mpop-links">
+        <a href="#" class="btn primary" onclick="openFarm('${esc(f.finnkode)}');return false;">Sjå eigedom →</a>
+        ${f.url?`<a href="${esc(f.url)}" target="_blank" rel="noopener" class="btn">Finn.no ↗</a>`:""}
+      </div>
     </div>
   </div>`;
 }
@@ -1233,7 +1248,8 @@ function renderMapView(){
         fillColor:typeColor(f), fillOpacity:0.95
       });
       m.bindTooltip(`<b>${esc(f.place)}</b> · ${mill(f.pris_kr)} mill`,{direction:"top",offset:[0,-4]});
-      m.bindPopup(mapPopupHtml(f),{maxWidth:260,minWidth:220,autoPanPadding:[24,24],className:"mpopwrap"});
+      const pw=Math.min(430,Math.max(240,(window.innerWidth||430)-32));
+      m.bindPopup(mapPopupHtml(f),{maxWidth:pw,minWidth:pw,autoPanPadding:[20,20],className:"mpopwrap"});
       ALLMARKERS.addLayer(m);
     });
     const c=document.getElementById("mf-count");
