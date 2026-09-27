@@ -283,6 +283,7 @@ select,.toggle{font-size:12px;border:1px solid var(--line);background:var(--card
   .app[data-pane="farm"] .dhead{padding-top:12px}
   .app[data-pane="farm"] .mtabs{margin-left:14px;margin-right:14px}
   .app[data-pane="farm"] .stage{border-left:0;border-right:0;border-radius:0}
+  .app[data-pane="farm"] .stage:not(.mapmode){aspect-ratio:auto;height:min(46dvh,calc(100dvh - 220px));min-height:220px;max-height:none}
 }
 </style>
 </head>
@@ -367,6 +368,7 @@ const WEIGHTS=[["price","Pris",15],["forest","Skog",11],["anchor","Nærleik anke
 let state={view:"home",pane:"list",sort:"score",reg:"all",kind:"all",hidelow:false,hidefar:false,sel:FARMS[0].finnkode,photo:0,mtab:"aerial",exagg:1.6,showbnd:true,mapAr5:true,mapBnd:true,mapFly:true};
 try{Object.assign(state,JSON.parse(localStorage.getItem("gj2")||"{}"));}catch(e){}
 if(!state.view)state.view="home";
+if(state.mtab==="3d")state.mtab="aerial";
 if(state.pane!=="list"&&state.pane!=="farm")state.pane="list";
 if(!["all","sornorge","ostlandet","midtnorge","nordnorge"].includes(state.reg))state.reg="all";
 if(!FARMS.some(f=>f.finnkode===state.sel))state.sel=FARMS[0].finnkode;
@@ -987,49 +989,139 @@ function applyView(){
   }
 }
 
-/* ---------- 3D terrain ---------- */
-let THREEstate=null;
-function disposeThree(){ if(THREEstate){cancelAnimationFrame(THREEstate.raf);THREEstate.renderer.dispose();THREEstate=null;} }
+/* ---------- 3D model: AR13 ground + building boxes ---------- */
+let THREEstate=null, modelGen=0, modelAbort=null;
+function disposeThree(){
+  modelGen++;
+  if(modelAbort){ modelAbort.abort(); modelAbort=null; }
+  if(!THREEstate) return;
+  cancelAnimationFrame(THREEstate.raf);
+  if(THREEstate.ro) THREEstate.ro.disconnect();
+  const scene=THREEstate.scene;
+  if(scene) scene.traverse(o=>{
+    if(o.geometry) o.geometry.dispose();
+    const ms=o.material?(Array.isArray(o.material)?o.material:[o.material]):[];
+    ms.forEach(m=>{ if(m.map) m.map.dispose(); m.dispose(); });
+  });
+  THREEstate.renderer.dispose();
+  THREEstate=null;
+}
 let MAP=null;
 function disposeMap(){ if(MAP){ MAP.remove(); MAP=null; } }
-function initThree(farm,canvas){
+function boxColor(kind){
+  return ({house:0xc4a574,residential:0xc4a574,farm:0x8c3a2f,barn:0x8c3a2f,cabin:0x6d8a62,
+    shed:0x8a8178,garage:0x7d756c,boathouse:0x4d6d82,farm_auxiliary:0xa67c52,greenhouse:0x9db89a})[kind]||0xb08a62;
+}
+function initModel(farm, canvas){
   disposeThree();
-  const T=farm.terrain; if(!T||!window.THREE)return;
-  const n=T.n, span=T.span_m, z=T.z;
-  const scene=new THREE.Scene(); scene.background=new THREE.Color(0x0f120e);
-  const cam=new THREE.PerspectiveCamera(50, canvas.clientWidth/canvas.clientHeight,1,span*8);
-  const renderer=new THREE.WebGLRenderer({canvas,antialias:true});
-  renderer.setPixelRatio(Math.min(devicePixelRatio,2)); renderer.setSize(canvas.clientWidth,canvas.clientHeight,false);
-  const geo=new THREE.PlaneGeometry(span,span,n-1,n-1);
-  const pos=geo.attributes.position;
-  function applyZ(ex){ for(let r=0;r<n;r++)for(let c=0;c<n;c++){ const i=r*n+c; pos.setZ(i, z[i]*ex); } pos.needsUpdate=true; geo.computeVertexNormals(); }
-  applyZ(state.exagg);
-  geo.rotateX(-Math.PI/2); // lay flat, +Y up; plane row0 -> +Z (south side); texture handled by flipY
-  const tex=new THREE.TextureLoader().load(farm.media.tex||farm.media.aer);
+  const gen=modelGen;
+  const status=document.getElementById("d3status");
+  const mk=matrikkelOf(farm);
+  if(!window.THREE){ if(status) status.textContent="3D-visning ikkje tilgjengeleg"; return; }
+  if(!mk){ if(status) status.textContent="Matrikkelnummer manglar"; return; }
+  const ac=new AbortController(); modelAbort=ac;
+  const alive=()=>gen===modelGen;
+  fetch(`/byggpoly/${mk.knr}/${mk.gnr}/${mk.bnr}`,{signal:ac.signal}).then(r=>{
+    if(!r.ok) throw new Error("bygningar "+r.status);
+    return r.json();
+  }).then(async gj=>{
+    if(!alive()) return;
+    const bbox=gj.bbox;
+    if(!bbox || bbox.length!==4) throw new Error(gj.error||"ingen teig");
+    const img=await fetch(`/ar13map?bbox=${bbox.join(",")}`,{signal:ac.signal});
+    if(!img.ok) throw new Error("AR13 "+img.status);
+    const blob=await img.blob();
+    if(!alive()) return;
+    const url=URL.createObjectURL(blob);
+    buildModel(canvas, gj, bbox, url, gen);
+  }).catch(err=>{
+    if(!alive() || err.name==="AbortError") return;
+    if(status) status.textContent="Klarte ikkje å hente AR13 eller bygningar";
+  });
+}
+function buildModel(canvas, gj, bbox, texUrl, gen){
+  if(gen!==modelGen){ URL.revokeObjectURL(texUrl); return; }
+  const [minlon,minlat,maxlon,maxlat]=bbox;
+  const lon0=(minlon+maxlon)/2, lat0=(minlat+maxlat)/2;
+  const mLon=111320*Math.cos(lat0*Math.PI/180), mLat=110540;
+  const width=(maxlon-minlon)*mLon, depth=(maxlat-minlat)*mLat;
+  const scene=new THREE.Scene(); scene.background=new THREE.Color(0xe7f0e4);
+  const cam=new THREE.PerspectiveCamera(48, Math.max(canvas.clientWidth,1)/Math.max(canvas.clientHeight,1), 0.5, Math.max(width,depth)*8);
+  const renderer=new THREE.WebGLRenderer({canvas, antialias:true});
+  renderer.setPixelRatio(Math.min(devicePixelRatio,2));
+  renderer.setSize(canvas.clientWidth, canvas.clientHeight, false);
+  const ground=new THREE.PlaneGeometry(width, depth);
+  ground.rotateX(-Math.PI/2);
+  const tex=new THREE.TextureLoader().load(texUrl, ()=>URL.revokeObjectURL(texUrl), undefined, ()=>URL.revokeObjectURL(texUrl));
   tex.colorSpace=THREE.SRGBColorSpace!==undefined?THREE.SRGBColorSpace:tex.colorSpace;
-  const mat=new THREE.MeshLambertMaterial({map:tex});
-  const mesh=new THREE.Mesh(geo,mat); scene.add(mesh);
-  scene.add(new THREE.AmbientLight(0xffffff,0.75));
-  const dir=new THREE.DirectionalLight(0xffffff,0.75); dir.position.set(-span*0.4,span*0.7,-span*0.5); scene.add(dir);
-  let az=Math.PI*0.15, pol=0.95, dist=span*1.25;
-  const target=new THREE.Vector3(0,(T.zmax+T.zmin)/2*state.exagg,0);
-  function place(){ cam.position.set(target.x+dist*Math.sin(pol)*Math.cos(az), target.y+dist*Math.cos(pol), target.z+dist*Math.sin(pol)*Math.sin(az)); cam.lookAt(target); }
+  scene.add(new THREE.Mesh(ground, new THREE.MeshLambertMaterial({map:tex})));
+  const buildings=(gj.features||[]).filter(f=>f.geometry&&f.geometry.type==="Polygon");
+  const samples=[];
+  buildings.forEach(f=>{
+    const ring=(f.geometry.coordinates[0]||[]).slice();
+    if(ring.length>1){ const a=ring[0], b=ring[ring.length-1]; if(a[0]===b[0]&&a[1]===b[1]) ring.pop(); }
+    if(ring.length<3) return;
+    const shape=new THREE.Shape();
+    ring.forEach(([lon,lat],i)=>{
+      const x=(lon-lon0)*mLon, y=(lat-lat0)*mLat;
+      samples.push([x, -(lat-lat0)*mLat]);
+      if(i===0) shape.moveTo(x,y); else shape.lineTo(x,y);
+    });
+    const h=Math.max(2, +((f.properties||{}).height_m)||5);
+    const geo=new THREE.ExtrudeGeometry(shape, {depth:h, bevelEnabled:false});
+    geo.rotateX(-Math.PI/2);
+    geo.translate(0, 0.35, 0);
+    const mesh=new THREE.Mesh(geo, new THREE.MeshLambertMaterial({color:boxColor((f.properties||{}).kind), side:THREE.DoubleSide}));
+    scene.add(mesh);
+    scene.add(new THREE.LineSegments(new THREE.EdgesGeometry(geo), new THREE.LineBasicMaterial({color:0x2a2118})));
+  });
+  const teig=gj.teig;
+  const polys=!teig?[]:(teig.type==="Polygon"?[teig.coordinates]:teig.type==="MultiPolygon"?teig.coordinates:[]);
+  polys.forEach(poly=>{
+    const ring=poly[0]||[];
+    if(ring.length<3) return;
+    const pts=ring.map(([lon,lat])=>new THREE.Vector3((lon-lon0)*mLon, 0.8, -((lat-lat0)*mLat)));
+    scene.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts), new THREE.LineBasicMaterial({color:0x3a2a1a})));
+  });
+  scene.add(new THREE.AmbientLight(0xffffff, 0.72));
+  const sun=new THREE.DirectionalLight(0xfff4e0, 0.85);
+  sun.position.set(width*0.3, Math.max(width,depth)*0.4, depth*0.35);
+  scene.add(sun);
+  let minx=Infinity,maxx=-Infinity,minz=Infinity,maxz=-Infinity;
+  (samples.length?samples:[[-width/2,-depth/2],[width/2,depth/2]]).forEach(([x,z])=>{
+    minx=Math.min(minx,x); maxx=Math.max(maxx,x); minz=Math.min(minz,z); maxz=Math.max(maxz,z);
+  });
+  const span=Math.max(maxx-minx, maxz-minz, 36);
+  const farmSpan=Math.max(width, depth, 80);
+  const target=new THREE.Vector3((minx+maxx)/2, 4, (minz+maxz)/2);
+  let az=0.55, pol=1.05, dist=span*1.7;
+  const distMin=Math.max(24, span*0.35), distMax=farmSpan*2.4;
+  function place(){
+    cam.position.set(target.x+dist*Math.sin(pol)*Math.cos(az), target.y+dist*Math.cos(pol), target.z+dist*Math.sin(pol)*Math.sin(az));
+    cam.lookAt(target);
+  }
   place();
-  // drag + wheel controls
-  let drag=false,px=0,py=0;
+  let drag=false, px=0, py=0;
   canvas.onpointerdown=e=>{drag=true;px=e.clientX;py=e.clientY;canvas.setPointerCapture(e.pointerId);};
-  canvas.onpointermove=e=>{if(!drag)return;az-=(e.clientX-px)*0.006;pol=Math.max(0.15,Math.min(1.45,pol-(e.clientY-py)*0.005));px=e.clientX;py=e.clientY;place();};
-  canvas.onpointerup=e=>{drag=false;};
-  canvas.onwheel=e=>{e.preventDefault();dist=Math.max(span*0.5,Math.min(span*3,dist*(1+Math.sign(e.deltaY)*0.12)));place();};
-  const ro=new ResizeObserver(()=>{renderer.setSize(canvas.clientWidth,canvas.clientHeight,false);cam.aspect=canvas.clientWidth/canvas.clientHeight;cam.updateProjectionMatrix();});
+  canvas.onpointermove=e=>{if(!drag)return;az-=(e.clientX-px)*0.006;pol=Math.max(0.2,Math.min(1.35,pol-(e.clientY-py)*0.005));px=e.clientX;py=e.clientY;place();};
+  canvas.onpointerup=()=>{drag=false;};
+  canvas.onwheel=e=>{e.preventDefault();dist=Math.max(distMin,Math.min(distMax,dist*(1+Math.sign(e.deltaY)*0.12)));place();};
+  const ro=new ResizeObserver(()=>{
+    if(!canvas.clientWidth) return;
+    renderer.setSize(canvas.clientWidth, canvas.clientHeight, false);
+    cam.aspect=canvas.clientWidth/canvas.clientHeight; cam.updateProjectionMatrix();
+  });
   ro.observe(canvas);
   const arrow=document.getElementById("cmparrow");
-  function updCompass(){ if(!arrow)return;
-    const a=target.clone().project(cam), b=target.clone().add(new THREE.Vector3(0,0,-1).multiplyScalar(span*0.25)).project(cam);
+  function updCompass(){ if(!arrow) return;
+    const a=target.clone().project(cam), b=target.clone().add(new THREE.Vector3(0,0,-1).multiplyScalar(span*0.2)).project(cam);
     const ax=a.x*0.5+0.5, ay=-a.y*0.5+0.5, bx=b.x*0.5+0.5, by=-b.y*0.5+0.5;
-    const ang=Math.atan2(bx-ax, -(by-ay)); arrow.style.transform=`rotate(${ang}rad)`; }
-  THREEstate={renderer,scene,cam,geo,applyZ,place,target,raf:0,ro,updCompass};
-  (function loop(){THREEstate.raf=requestAnimationFrame(loop);updCompass();renderer.render(scene,cam);})();
+    arrow.style.transform=`rotate(${Math.atan2(bx-ax, -(by-ay))}rad)`;
+  }
+  const status=document.getElementById("d3status");
+  if(status) status.textContent=(gj.error&&String(gj.error).indexOf("overpass")===0)?"Bygningsomriss ikkje tilgjengeleg akkurat no":(buildings.length?`${buildings.length} bygningar på AR13`:"Ingen bygningsomriss i OpenStreetMap");
+  THREEstate={renderer,scene,cam,place,target,raf:0,ro};
+  (function loop(){ if(!THREEstate||THREEstate.renderer!==renderer) return; THREEstate.raf=requestAnimationFrame(loop); updCompass(); renderer.render(scene,cam); })();
 }
 
 function renderDetail(){
@@ -1059,7 +1151,7 @@ function renderDetail(){
         ${(f.sales&&f.sales.length)?`<div class="soldline">Sist tinglyst: <b>${kr(f.sales[0].price)}</b> (${f.sales[0].date.slice(6)})</div>`:``}</div></div>
     <div class="badges">${bd.join("")}</div>
     <div class="mtabs" id="mtabs">
-      <button data-m="aerial">Gårdskart</button><button data-m="3d">3D-terreng</button>
+      <button data-m="aerial">Gårdskart</button>
       <button data-m="photos">Annonsefoto (${ph.length})</button></div>
     <div class="stage" id="stage"></div>
     <div class="hint" id="mhint"></div>
@@ -1093,7 +1185,7 @@ function renderDetail(){
       <div class="links"><a class="btn primary" href="${f.url}" target="_blank" rel="noopener">Finn-annonse</a>
         ${sogLinks(f).slice(0,2).map(d=>`<a class="btn" href="${esc(d.url)}" target="_blank" rel="noopener">${esc(d.label)}</a>`).join("")}
         ${f.gardskart?`<a class="btn" href="${f.gardskart}" target="_blank" rel="noopener">NIBIO Gårdskart</a>`:""}</div></div>
-    <div class="footnote">Areal: NIBIO AR5 13 klasser (interaktivt kart + Gårdskart). Flyfoto: Esri World Imagery. Eigedomsgrenser: Kartverket matrikkel-WMS. 3D-terreng og helling/sørhorisont: Kartverkets høgdemodell (DTM). Klima: Open-Meteo arkiv (dagslys, solskinn, snøfall, Tmin). Grenser og grunnkart er rettleiande; kostnader/oppussing må stadfestast i salsoppgåva.</div>`;
+    <div class="footnote">Areal: NIBIO AR5 13 klasser (interaktivt kart + Gårdskart). Flyfoto: Esri World Imagery. Eigedomsgrenser: Kartverket matrikkel-WMS. Helling og sørhorisont: Kartverkets høgdemodell (DTM). Klima: Open-Meteo arkiv (dagslys, solskinn, snøfall, Tmin). Grenser og grunnkart er rettleiande; kostnader/oppussing må stadfestast i salsoppgåva.</div>`;
 
   renderStage(f,idx);
   const back=document.getElementById("mobback");
@@ -1110,16 +1202,12 @@ function renderStage(f,idx){
   if(state.mtab==="aerial"){
     initGardskart(f, st, hint);
   } else if(state.mtab==="3d"){
-    if(!M.aer){ st.innerHTML=`<div class="cross" style="color:#ccc">Flyfoto ikkje henta</div>`;
-      hint.innerHTML=`<a href="${f.gardskart}" target="_blank" rel="noopener">Opne i NIBIO Gårdskart</a>`; return; }
     st.innerHTML=`<canvas id="c3d"></canvas>
       <div class="compass" id="cmp3d" style="left:auto;right:10px"><svg viewBox="0 0 34 34" id="cmparrow" style="transform-origin:50% 50%"><path d="M17 5 L21 18 L17 15 L13 18 Z" fill="#ff5a5a"/></svg>N</div>
-      <div class="d3ctl">Overdriving <input type="range" id="exagg" min="1" max="3" step="0.1" value="${state.exagg}"> <span id="exv" class="mono">${state.exagg.toFixed(1)}×</span></div>`;
-    hint.textContent="Drag for å rotere · scroll for zoom. Terreng frå Kartverkets høgdemodell, flyfoto+grenser lagt på. Overdriving forsterkar høgdeskilnad.";
+      <div class="tag" id="d3status">hentar AR13 og bygningar…</div>`;
+    hint.textContent="Drag for å rotere · scroll for å zoome. Grunnflata er AR13-markslag for eigedomen. Boksane er bygningsomriss frå OpenStreetMap, teikna med same omriss på gårdskartet.";
     const cv=document.getElementById("c3d");
-    requestAnimationFrame(()=>{initThree(f,cv);});
-    const ex=document.getElementById("exagg"),exv=document.getElementById("exv");
-    ex.oninput=()=>{state.exagg=+ex.value;exv.textContent=state.exagg.toFixed(1)+"×";if(THREEstate){THREEstate.applyZ(state.exagg);THREEstate.target.y=(f.terrain.zmax+f.terrain.zmin)/2*state.exagg;THREEstate.place();}save();};
+    requestAnimationFrame(()=>{initModel(f,cv);});
   } else { // photos
     if(!ph.length){st.innerHTML=`<div class="cross" style="color:#ccc">Ingen annonsefoto</div>`;hint.textContent="";return;}
     st.innerHTML=`<img src="${ph[idx]}" alt="Annonsefoto ${idx+1}">
@@ -1205,6 +1293,7 @@ function initGardskart(f, st, hint){
       <span><i style="background:#d9f5fd"></i>Myr</span>
       <span><i style="background:#cfcc91"></i>Jorddekt</span>
       <span><i style="background:#cfc9bd"></i>Skrinn fastmark</span>
+      <span><i style="background:#c47a45"></i>Bygning</span>
     </div>
     <div class="mapctl">
       <button data-l="fly" aria-pressed="${state.mapFly!==false}">Flyfoto</button>
@@ -1213,7 +1302,7 @@ function initGardskart(f, st, hint){
       ${f.gardskart?`<a href="${f.gardskart}" target="_blank" rel="noopener">NIBIO</a>`:""}
     </div>
     <div class="mapinfo" id="mapinfo"><b>${f.place}</b><span class="k">${[idLine, landLine, "klikk i kartet for teig og markslag"].filter(Boolean).join(" · ")}</span></div>`;
-  hint.innerHTML="AR13-markslag er klippa til denne eigedomen (Kartverket-teigar). Gult = dyrka, grønt = skog etter bonitet, blått = myr. Naboar visast som flyfoto. Klikk ei flate for klasse, dekar og treslag.";
+  hint.innerHTML="AR13-markslag er klippa til denne eigedomen (Kartverket-teigar). Gult = dyrka, grønt = skog etter bonitet, blått = myr. Brune flater og punkt er bygningar. Klikk ei flate for klasse, eller eit bygg for type.";
 
   const map=L.map("gkmap",{zoomControl:false, attributionControl:true}).setView([f.geo.lat,f.geo.lon], farmZoom(f));
   L.control.zoom({position:"bottomright"}).addTo(map);
@@ -1297,6 +1386,44 @@ function initGardskart(f, st, hint){
     }
   }
   loadFarmTeigs();
+
+  async function loadBuildings(){
+    if(!mk) return;
+    try{
+      const r=await fetch(`/byggpoly/${mk.knr}/${mk.gnr}/${mk.bnr}`);
+      if(!r.ok || MAP!==map) return;
+      const gj=await r.json();
+      const feats=(gj.features||[]).filter(ft=>ft.geometry);
+      if(!feats.length || MAP!==map) return;
+      function markBuilding(title, extra, target){
+        target.bindTooltip(title,{sticky:true});
+        target.on("click", ev=>{
+          L.DomEvent.stopPropagation(ev);
+          const info=document.getElementById("mapinfo");
+          if(info) info.innerHTML=`<b>${title}</b><span class="k">${extra}</span>`;
+        });
+      }
+      const layer=L.geoJSON({type:"FeatureCollection",features:feats},{
+        style:{color:"#3d2418",weight:1.6,fillColor:"#c47a45",fillOpacity:0.8},
+        onEachFeature:(feat, lyr)=>{
+          const p=feat.properties||{};
+          const title=p.name||p.label||"Bygning";
+          const extra=`${p.label&&p.name?p.label+" · ":""}${p.height_m?p.height_m+" m":"bygning"}`;
+          markBuilding(title, extra, lyr);
+          const ring=(feat.geometry.coordinates&&feat.geometry.coordinates[0])||[];
+          if(ring.length<3) return;
+          let lon=0, lat=0;
+          ring.forEach(pt=>{lon+=pt[0]; lat+=pt[1];});
+          const dot=L.circleMarker([lat/ring.length, lon/ring.length],{
+            radius:7, color:"#fff", weight:2, fillColor:"#c47a45", fillOpacity:1
+          }).addTo(map);
+          markBuilding(title, extra, dot);
+        }
+      }).addTo(map);
+      layer.bringToFront();
+    }catch(e){}
+  }
+  loadBuildings();
 
   function syncLayers(){
     if(state.mapFly!==false){ if(!map.hasLayer(fly)){ map.removeLayer(topo); fly.addTo(map); fly.bringToBack(); } }
