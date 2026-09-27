@@ -890,6 +890,10 @@ function renderOverview(){
         </div>
         <button class="btn primary" id="toBrowse">Sjå alle ${n} gårdar</button>
       </div>
+
+      <div class="sec"><h3>Kortlista · topp 8 mot kvarandre</h3>
+        <div class="shortgrid">${cards}</div></div>
+
       <div class="kpis">${kpis.map(([l,v,n])=>tile(l,v,n)).join("")}</div>
 
       ${condSection()}
@@ -923,9 +927,6 @@ function renderOverview(){
         </div></div>
 
       ${poolSection()}
-
-      <div class="sec"><h3>Kortlista · topp 8 mot kvarandre</h3>
-        <div class="shortgrid">${cards}</div></div>
 
       <div class="sec findcol">
         <div>
