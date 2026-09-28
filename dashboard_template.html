@@ -261,6 +261,25 @@ select,.toggle{font-size:12px;border:1px solid var(--line);background:var(--card
 .msheet-foot .btn.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
 .overview{flex:1;min-height:0;overflow-y:auto;padding:18px clamp(16px,3vw,36px) 48px;width:100%}
 .ov-inner{max-width:1080px;margin:0 auto}
+/* profile panel */
+.profile{border:1px solid var(--line);background:var(--card);border-radius:var(--r);padding:14px 16px;margin-bottom:18px}
+.prof-grid{display:flex;flex-wrap:wrap;align-items:flex-end;gap:14px 20px}
+.prof-field{display:flex;flex-direction:column;gap:6px;min-width:0}
+.prof-addr-field{flex:1 1 320px;min-width:240px}
+.prof-field .flab{font-size:11px;font-weight:600;letter-spacing:0;color:var(--muted)}
+.prof-field .flab .cnt{color:var(--faint);font-weight:400}
+.prof-field .flab b{color:var(--ink);font-variant-numeric:tabular-nums}
+.prof-ac{position:relative}
+.prof-ac input{width:100%;font-size:14px;border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:var(--r);padding:9px 11px}
+.prof-field input[type=range]{width:200px;accent-color:var(--accent);max-width:60vw}
+.prof-menu{position:absolute;top:calc(100% + 4px);left:0;right:0;z-index:1200;background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:0 8px 24px rgba(0,0,0,.18);max-height:260px;overflow-y:auto}
+.prof-opt{display:block;width:100%;text-align:left;border:0;background:transparent;color:var(--ink);padding:9px 11px;font-size:13px;cursor:pointer;border-bottom:1px solid var(--line2)}
+.prof-opt:last-child{border-bottom:0}
+.prof-opt:hover{background:var(--line2)}
+.prof-empty{padding:10px 11px;font-size:13px;color:var(--muted)}
+.profile .btn.reset{padding:9px 14px;font-size:13px}
+.prof-status{margin-top:10px;font-size:12.5px;color:var(--muted)}
+.prof-status b{color:var(--ink);font-weight:600}
 .hero{display:flex;flex-direction:column;align-items:flex-start;gap:10px;margin-bottom:18px;padding-bottom:16px;border-bottom:1px solid var(--line)}
 .hero h2{font-size:clamp(20px,2.6vw,26px);font-weight:600;letter-spacing:-.02em;max-width:22ch}
 .hero .lede{color:var(--muted);font-size:14px;line-height:1.55;max-width:58ch;margin-top:2px}
@@ -380,7 +399,7 @@ select,.toggle{font-size:12px;border:1px solid var(--line);background:var(--card
 <div class="app" data-view="home">
   <header class="top">
     <div class="brand"><h1 id="brandhome" role="button" tabindex="0" title="Til oversikta">Gårdsjakt</h1>
-      <span class="sub" id="brandsub">småbruk og einebustader ≥5 mål · ≤ 2 mill (2,5 for Møre) · data: finn.no · NIBIO · Kartverket · Open-Meteo</span>
+      <span class="sub" id="brandsub">småbruk og einebustader ≥5 mål · ≤ 5 mill · data: finn.no · NIBIO · Kartverket · Open-Meteo</span>
       <div class="seg viewseg" id="viewseg" role="tablist" aria-label="Visning">
         <button data-view="home" aria-pressed="true">Oversikt</button>
         <button data-view="browse">Gårdar</button>
@@ -391,7 +410,7 @@ select,.toggle{font-size:12px;border:1px solid var(--line);background:var(--card
       <select id="sort">
         <option value="score">Poeng (rangering)</option><option value="price">Pris lav→høy</option>
         <option value="arable">Mest dyrka</option><option value="forest">Mest skog</option>
-        <option value="anchor">Nærmest Storås</option><option value="productive">Mest produktiv jord</option>
+        <option value="anchor">Nærmast adressa</option><option value="productive">Mest produktiv jord</option>
         <option value="daylight">Mest dagslys &gt;10 t</option><option value="frost">Færrest frostdagar</option>
         <option value="snow">Færrest snødagar</option>
       </select>
@@ -406,7 +425,6 @@ select,.toggle{font-size:12px;border:1px solid var(--line);background:var(--card
         <button data-kind="farm">Gårdsbruk</button>
         <button data-kind="house">Enebolig</button></div>
       <label class="toggle"><input type="checkbox" id="hidelow"> Skjul &lt;5 daa dyrka</label>
-      <label class="toggle"><input type="checkbox" id="hidefar"> Skjul &gt;6 t til Storås</label>
     </div>
   </header>
   <div class="overview" id="overview"></div>
@@ -424,9 +442,14 @@ const fmt1=n=>(n==null||isNaN(n))?"–":Number(n).toLocaleString("nb-NO",{maximu
 const kr=n=>(n==null)?"–":fmt(n)+" kr";
 const arable=f=>{const a=f.land.fulldyrka,b=f.land.overflatedyrka;return (a==null&&b==null)?null:(a||0)+(b||0);};
 const landEst=f=>(f.land.source||"nibio")!=="nibio";
-const ANCHOR="Storås";
-const anchorMin=f=>f.anchors.storas_km??9e9;
-const anchorMinH=f=>f.anchors.storas_h??9e9;
+// Anchor = the user's profile address (driving distance). Default: no place.
+let ANCHOR="adressa";
+const hasAnchor=()=>!!(state && state.profAddr && state.profDist);
+const anchorMin =f=>{const d=state.profDist&&state.profDist[f.finnkode]; return (d&&d.km!=null)?d.km:9e9;};
+const anchorMinH=f=>{const d=state.profDist&&state.profDist[f.finnkode]; return (d&&d.h!=null)?d.h:9e9;};
+const anchKm =f=>{const v=anchorMin(f); return v>=9e8?null:v;};   // display: null when unset
+const anchH  =f=>{const v=anchorMinH(f); return v>=9e8?null:v;};
+function updateAnchor(){ ANCHOR = (state.profAddr && state.profAddr.short) ? state.profAddr.short : "adressa"; }
 const productive=f=>f.land.fulldyrka+f.land.overflatedyrka+f.land.skog+f.land.beite+0.075*f.land.annet;
 const LANDSDEL={
   "Agder":"sornorge","Rogaland":"sornorge","Vestland":"sornorge",
@@ -457,10 +480,13 @@ const WEIGHTS=[["price","Pris",15],["forest","Skog",11],["anchor","Nærleik anke
   ["water_power","Vatn/straum",1],["konsesjon","Konsesjon",1]];
 
 const PRICE_LO=Math.floor(Math.min(...FARMS.map(f=>f.pris_kr))/1e4)*1e4;
-const PRICE_HI=Math.ceil(Math.max(...FARMS.map(f=>f.pris_kr))/1e4)*1e4;
-let state={view:"home",pane:"list",sort:"score",reg:"all",kind:"all",hidelow:false,hidefar:false,sel:FARMS[0].finnkode,photo:0,mtab:"aerial",exagg:1.6,showbnd:true,mapAr5:true,mapBnd:true,mapFly:true,pmin:PRICE_LO,pmax:PRICE_HI,mapFlyAll:false};
+const PRICE_HI=Math.max(5000000, Math.ceil(Math.max(...FARMS.map(f=>f.pris_kr))/1e4)*1e4);
+let state={view:"home",pane:"list",sort:"score",reg:"all",kind:"all",hidelow:false,sel:FARMS[0].finnkode,photo:0,mtab:"aerial",exagg:1.6,showbnd:true,mapAr5:true,mapBnd:true,mapFly:true,pmin:PRICE_LO,pmax:PRICE_HI,mapFlyAll:false,profAddr:null,profMaxH:0,profDist:null};
 try{Object.assign(state,JSON.parse(localStorage.getItem("gj2")||"{}"));}catch(e){}
 if(!state.view)state.view="home";
+if(typeof state.profMaxH!=="number"||state.profMaxH<0||state.profMaxH>12)state.profMaxH=0;
+if(state.profAddr && !(state.profAddr.lat&&state.profAddr.lon)){state.profAddr=null;state.profDist=null;}
+updateAnchor();
 if(!["home","browse","map"].includes(state.view))state.view="home";
 if(typeof state.pmin!=="number"||state.pmin<PRICE_LO||state.pmin>PRICE_HI)state.pmin=PRICE_LO;
 if(typeof state.pmax!=="number"||state.pmax>PRICE_HI||state.pmax<PRICE_LO)state.pmax=PRICE_HI;
@@ -478,13 +504,49 @@ function openFarm(fk){
   const d=document.getElementById("detail"); if(d)d.scrollTop=0;
 }
 
+/* ---------- Profile: address (Kartverket) + driving distance (OSRM) ---------- */
+function shortAddr(txt){ return String(txt||"").split(",")[0].trim(); }
+async function geoSearch(q){
+  const url="https://ws.geonorge.no/adresser/v1/sok?"+new URLSearchParams({sok:q,treffPerSide:"6",side:"0",asciiKompatibel:"false"});
+  const r=await fetch(url); if(!r.ok) throw new Error("adressesøk "+r.status);
+  const j=await r.json();
+  return (j.adresser||[]).filter(a=>a.representasjonspunkt).map(a=>({
+    label:`${a.adressetekst}, ${a.postnummer||""} ${a.poststed||""}`.replace(/\s+/g," ").trim(),
+    short:a.adressetekst||a.poststed||"adresse",
+    lat:a.representasjonspunkt.lat, lon:a.representasjonspunkt.lon }));
+}
+let profGen=0;
+async function computeProfDist(onProgress){
+  const a=state.profAddr; if(!a) return;
+  const gen=++profGen;
+  const fs=FARMS.filter(f=>f.geo&&f.geo.lat!=null);
+  const dist={};
+  const CH=90; // stay under public OSRM table-size limit
+  for(let i=0;i<fs.length;i+=CH){
+    const chunk=fs.slice(i,i+CH);
+    const coords=[[a.lon,a.lat],...chunk.map(f=>[f.geo.lon,f.geo.lat])].map(c=>c.join(",")).join(";");
+    const url=`https://router.project-osrm.org/table/v1/driving/${coords}?sources=0&annotations=duration,distance`;
+    const r=await fetch(url); if(gen!==profGen) return; // superseded
+    if(!r.ok) throw new Error("ruting "+r.status);
+    const j=await r.json();
+    const dur=(j.durations&&j.durations[0])||[], dst=(j.distances&&j.distances[0])||[];
+    chunk.forEach((f,k)=>{ const s=dur[k+1], m=dst[k+1];
+      dist[f.finnkode]={ h: s==null?null:Math.round(s/360)/10, km: m==null?null:Math.round(m/100)/10 }; });
+    if(onProgress) onProgress(Math.min(i+CH,fs.length), fs.length);
+  }
+  if(gen!==profGen) return;
+  state.profDist=dist; save(); updateAnchor();
+}
+function clearProfile(){ profGen++; state.profAddr=null; state.profDist=null; state.profMaxH=0; save(); updateAnchor(); }
+
 function visible(){
   let a=FARMS.filter(f=>{
     if(state.reg!=="all"&&landsdel(f)!==state.reg)return false;
     if(state.kind==="farm"&&isHouse(f))return false;
     if(state.kind==="house"&&!isHouse(f))return false;
     if(state.hidelow&&arable(f)!=null&&arable(f)<5)return false;
-    if(state.hidefar&&anchorMinH(f)>6)return false;return true;});
+    if(hasAnchor()&&state.profMaxH>0&&anchorMinH(f)>state.profMaxH)return false;
+    return true;});
   const s=state.sort;
   a.sort((x,y)=>s==="score"?y.score-x.score:s==="price"?x.pris_kr-y.pris_kr:s==="arable"?arable(y)-arable(x)
     :s==="forest"?y.land.skog-x.land.skog:s==="anchor"?anchorMin(x)-anchorMin(y):s==="productive"?productive(y)-productive(x)
@@ -518,7 +580,7 @@ function whyShort(f){
   else if((f.land.skog||0)>=80) bits.push("brukbar skog");
   if(ar!=null && ar>=25) bits.push("godt med dyrka");
   else if(ar!=null && ar>=5) bits.push("dyrka over minstekrav");
-  if(anchorMinH(f)<=3) bits.push("kort veg til Storås");
+  if(hasAnchor()&&anchorMinH(f)<=3) bits.push("kort veg til "+ANCHOR);
   if(isHouse(f)) bits.push("enebolig ≥5 mål");
   if((f.flags||"").includes("reno")) bits.push("oppussing");
   if((f.flags||"").includes("WINTER-SHADE")) bits.push("vinterskugge");
@@ -793,8 +855,8 @@ function poolSection(){
     row("TG3 ≥ 5 (tung tilstand)", FARMS.filter(f=>tg3n(f)>=5), ""),
     row("Kyst i annonsen", FARMS.filter(isCoast), "strandlinje/sjø nemnt"),
     row("Ikkje kyst-signal", FARMS.filter(f=>!isCoast(f)), ""),
-    row("Innan 6 t til Storås", FARMS.filter(f=>anchorMinH(f)<=6), ""),
-    row("Lenger enn 6 t", FARMS.filter(f=>anchorMinH(f)>6), ""),
+    ...(hasAnchor()?[row("Innan 6 t til "+ANCHOR, FARMS.filter(f=>anchorMinH(f)<=6), ""),
+      row("Lenger enn 6 t", FARMS.filter(f=>anchorMinH(f)>6), "")]:[]),
     row("Få frostdagar (lågaste 1/3)", frostT.lo, "median "+fmt1(med(frostT.lo.map(f=>clv(f,"frost_days"))))+" d"),
     row("Mange frostdagar (høgaste 1/3)", frostT.hi, "median "+fmt1(med(frostT.hi.map(f=>clv(f,"frost_days"))))+" d"),
     row("Lågland (lågaste 1/3 høgd)", elevT.lo, "median "+fmt(med(elevT.lo.map(f=>f.geo.elev_m)))+" moh"),
@@ -825,7 +887,7 @@ function poolSection(){
   const hiSet=new Set(hiP.map(f=>f.finnkode));
   const regLine=regs.map(r=>{
     const inHi=r.g.filter(f=>hiSet.has(f.finnkode)).length;
-    return `${r.name} (${r.n}): median ${mill(r.p)} mill og ${fmt1(r.t)} t til ${ANCHOR}${inHi?`, ${inHi} i dyreste tredjedel`:""}`;
+    return `${r.name} (${r.n}): median ${mill(r.p)} mill${hasAnchor()&&r.t!=null?" og "+fmt1(r.t)+" t til "+ANCHOR:""}${inHi?`, ${inHi} i dyreste tredjedel`:""}`;
   }).join(". ");
   const dear=regs.reduce((a,b)=>(b.p||0)>(a.p||0)?b:a);
   const kom=med(FARMS.map(f=>f.costs.kommunale_avg));
@@ -833,7 +895,7 @@ function poolSection(){
 
   const insights=[
     {k:"Stad, ikkje skog", t:dear.name+" kostar ~"+mill(dear.p)+" mill",
-     p:`${regLine}. Prisforskjellen følgjer landsdel og reisetid til ${ANCHOR}, ikkje skog.`},
+     p:`${regLine}. Prisforskjellen følgjer landsdel${hasAnchor()?" og reisetid til "+ANCHOR:""}, ikkje skog.`},
     {k:"Kulde-rabatt", t:fmtR(rFrost.r)+" mot frostdagar",
      p:`Høgare og kaldare stadar er billegare (høgd mot pris ${fmtR(rElev.r)}, frost mot pris ${fmtR(rFrost.r)}). Høgd og frost heng tett saman (${fmtR(rElevFrost.r)}). Den kaldaste tredjedelen kostar ${mill(med(frostT.hi.map(f=>f.pris_kr)))} mill mot ${mill(med(frostT.lo.map(f=>f.pris_kr)))} mill i den mildaste — i praksis Innlandet/nord mot kyst.`},
     {k:"Tilstand i prisen?", t:withTg.length?`${withTg.length} med TG-utdrag`:"Berre annonsetekst",
@@ -845,7 +907,7 @@ function poolSection(){
     {k:"Skog er sjeldan", t:skog150+" av "+n+" over 150 daa",
      p:`Berre ${rSkog.n} objekt har skogtal, og samanhengen med pris er svak (${fmtR(rSkog.r)}). Rangeringa premierer likevel skog, derfor kan ein billeg, stor eigedom vinne utan å vere dyr. NIBIO-areal finst for ${nibN} objekt; resten er annonsetekst.`},
     {k:"Kyst kostar ikkje meir", t:FARMS.filter(isCoast).length+" med kyst-signal",
-     p:`Strand/sjø i annonsen heng ikkje saman med høgare pris (median ${mill(med(FARMS.filter(isCoast).map(f=>f.pris_kr)))} mot ${mill(med(FARMS.filter(f=>!isCoast(f)).map(f=>f.pris_kr)))} mill), og dei ligg oftare lenger unna ${ANCHOR}. Kyst er eit tekstsignal, ikkje ein prisdrivar i denne poolen.`},
+     p:`Strand/sjø i annonsen heng ikkje saman med høgare pris (median ${mill(med(FARMS.filter(isCoast).map(f=>f.pris_kr)))} mot ${mill(med(FARMS.filter(f=>!isCoast(f)).map(f=>f.pris_kr)))} mill). Kyst er eit tekstsignal, ikkje ein prisdrivar i denne poolen.`},
   ];
 
   const pdaaNote=cheap1&&dearDaa?`Billigaste mark: ${cheap1.f.place} på ${fmt(cheap1.k)} kr/daa (${fmt(cheap1.f.land.total_daa)} daa). Dyraste tomt: ${dearDaa.f.place} på ${fmt(dearDaa.k)} kr/daa (${fmt1(dearDaa.f.land.total_daa)} daa). Median i poolen er ${fmt(krAll)} kr/daa.`:" ";
@@ -874,7 +936,7 @@ function poolSection(){
 
     <div class="sec"><h3>Medianpris mot poolen (${mill(prMed)} mill)</h3>
       <div class="gtable"><table>
-        <thead><tr><th>Gruppe</th><th>n</th><th>Median, mill</th><th>Vs pool</th><th>Storås</th><th></th></tr></thead>
+        <thead><tr><th>Gruppe</th><th>n</th><th>Median, mill</th><th>Vs pool</th><th>Reisetid</th><th></th></tr></thead>
         <tbody>
           <tr><td colspan="6" class="grp">Landsdel</td></tr>
           ${regs.map(r=>row(r.name, r.g, `${r.g.filter(f=>arable(f)>=5).length} med ≥5 daa dyrka`)).join("")}
@@ -897,13 +959,16 @@ function poolSection(){
 function renderOverview(){
   const top=[...FARMS].sort((a,b)=>b.score-a.score);
   const n=FARMS.length, lead=top[0], second=top[1];
+  const anc=hasAnchor();
+  const LIM=state.profMaxH>0?state.profMaxH:6;
+  const inLim=f=>anchorMinH(f)<=LIM;
   const ge5=FARMS.filter(f=>arable(f)!=null && arable(f)>=5).length;
   const lowA=FARMS.filter(f=>arable(f)!=null && arable(f)<5).length;
   const est=FARMS.filter(landEst).length;
-  const h6=FARMS.filter(f=>anchorMinH(f)<=6).length;
+  const h6=anc?FARMS.filter(inLim).length:null;
   const skogN=FARMS.filter(f=>(f.land.skog||0)>=150).length;
   const renoN=FARMS.filter(f=>(f.flags||"").includes("reno")).length;
-  const meets=FARMS.filter(f=>arable(f)>=5 && anchorMinH(f)<=6).length;
+  const meets=anc?FARMS.filter(f=>arable(f)>=5 && inLim(f)).length:null;
   const regCounts=REG_ORDER.map(id=>`${REG_NAME[id]} ${FARMS.filter(f=>landsdel(f)===id).length}`).join(" · ");
   const houseN=FARMS.filter(isHouse).length;
   const farmN=n-houseN;
@@ -918,17 +983,17 @@ function renderOverview(){
   const short=top.slice(0,8);
   const maxSc=short[0].score;
   const dyrkaBest=pickMax(FARMS.filter(f=>arable(f)!=null), f=>arable(f)||0);
-  const closeBest=pickMin(FARMS.filter(f=>arable(f)>=5), anchorMinH);
+  const closeBest=anc?pickMin(FARMS.filter(f=>arable(f)>=5), anchorMinH):null;
   const skogBest=pickMax(FARMS, f=>f.land.skog||0);
 
   const kpis=[
     ["Pool", String(n), farmN+" gårdsbruk, "+houseN+" enebolig ≥5 mål"],
     ["Medianpris", (med/1e6).toLocaleString("nb-NO",{maximumFractionDigits:1})+" mill", kr(prices[0])+" – "+kr(prices[n-1])],
     ["≥5 daa dyrka", ge5+" / "+n, lowA+" under kravet, "+est+" berre annonsetal"],
-    ["Innan 6 t", h6+" / "+n, "bilveg til "+ANCHOR],
+    ["Innan "+fmt1(LIM)+" t", anc?(h6+" / "+n):"– / "+n, anc?("bilveg til "+ANCHOR):"sett adresse i profilen"],
     ["Landsdelar", String(n), regCounts],
     ["Skog ≥150 daa", skogN+" / "+n, "ønskje 150–250 daa produktiv skog"],
-    ["Profil-treff", String(meets), "≥5 daa dyrka og ≤6 t til "+ANCHOR],
+    ["Profil-treff", anc?String(meets):"–", anc?("≥5 daa dyrka og ≤"+fmt1(LIM)+" t til "+ANCHOR):"sett adresse for reisetid"],
     ["Oppussing", renoN+" / "+n, "tilstandsrapport neste steg"],
     ["Med TG-tal", FARMS.filter(hasTgAny).length+" / "+n, FARMS.filter(hasTg).length+" med full TG0–3-tabell"],
     ["Dagslys >10 t", dlMed==null?"–":fmt1(dlMed)+" d", "median per år · Open-Meteo 2020–2025"],
@@ -945,7 +1010,7 @@ function renderOverview(){
         <div><div class="nm">${f.place}</div><div class="pl">${landsdelName(f)} · ${(Math.round(f.pris_kr/1e5)/10)} mill</div></div>
         <div class="rt"><div class="sc mono">${f.score.toFixed(0)}</div></div>
         <div class="why">${whyShort(f)}</div>
-        <div class="k">${ar==null?"dyrka ?":fmt1(ar)+" daa dyrka"} · ${fmt(f.land.skog)} daa skog · ${fmt1(anchorMinH(f))} t</div>
+        <div class="k">${ar==null?"dyrka ?":fmt1(ar)+" daa dyrka"} · ${fmt(f.land.skog)} daa skog${anchH(f)!=null?" · "+fmt1(anchH(f))+" t":""}</div>
       </div></button>`;
   }).join("");
 
@@ -959,7 +1024,7 @@ function renderOverview(){
       <td class="mono ${ar!=null && ar<5?"bad":(ar>=5?"good":"")}">${ar==null?"est.":fmt1(ar)}</td>
       <td class="mono ${(f.land.skog||0)>=150?"good":""}">${fmt(f.land.skog)}</td>
       <td class="mono">${fmt(f.land.total_daa)}</td>
-      <td class="mono">${fmt1(anchorMinH(f))} t</td>
+      <td class="mono">${anchH(f)!=null?fmt1(anchH(f))+" t":"–"}</td>
       <td class="mono ${slC}">${sl==null?"–":fmt1(sl)+"%"}</td>
       <td>${shade}</td>
       <td class="mono">${fmt1(clv(f,"daylight_gt10h"))}</td>
@@ -976,14 +1041,36 @@ function renderOverview(){
 
   const wts=WEIGHTS.map(([_,lab,w])=>`<span class="wt"><em>${w}</em>${lab}</span>`).join("");
 
+  const within = anc? FARMS.filter(inLim).length : null;
+  const profStatus = !state.profAddr
+    ? "Set ei adresse for å filtrere lista på køyreavstand. Utan adresse er alle stader med."
+    : (!state.profDist ? "Reknar køyreavstand frå adressa…"
+       : `<b>${within}</b> av ${n} eigedommar innan ${fmt1(LIM)} t køyring frå <b>${esc(state.profAddr.short)}</b> · gjeld heile appen.`);
   document.getElementById("overview").innerHTML=`
     <div class="ov-inner">
+      <div class="profile">
+        <div class="prof-grid">
+          <div class="prof-field prof-addr-field">
+            <label class="flab" for="prof-addr">Mi adresse <span class="cnt">— kjørelengde frå</span></label>
+            <div class="prof-ac">
+              <input id="prof-addr" type="text" placeholder="Søk adresse…" autocomplete="off" value="${state.profAddr?esc(state.profAddr.label):""}">
+              <div class="prof-menu" id="prof-menu" hidden></div>
+            </div>
+          </div>
+          <div class="prof-field">
+            <label class="flab">Maks kjøretid <b id="prof-hval">${state.profMaxH>0?fmt1(state.profMaxH)+" t":"av"}</b></label>
+            <input type="range" id="prof-h" min="0" max="12" step="0.5" value="${state.profMaxH||0}">
+          </div>
+          <button class="btn reset" id="prof-clear">Nullstill profil</button>
+        </div>
+        <div class="prof-status" id="prof-status">${profStatus}</div>
+      </div>
       <div class="hero">
         <div>
           <h2>Oversikt</h2>
           <p class="lede"><b>${lead.place}</b> ligg ${fmt1(lead.score-second.score)} poeng føre ${second.place}
-            (${lead.score.toFixed(0)} mot ${second.score.toFixed(0)}). Rangeringa premierer skog, pris og nærleik til
-            ${ANCHOR} like mykje som dyrka jord — derfor vinn ikkje den med mest åker automatisk.</p>
+            (${lead.score.toFixed(0)} mot ${second.score.toFixed(0)}). Rangeringa premierer skog, pris, dyrka jord og tilstand.
+            ${anc?`Køyretid til ${esc(ANCHOR)} filtrerer lista — juster i profilen over.`:`Set ei adresse i profilen over for å filtrere på køyretid.`}</p>
         </div>
         <button class="btn primary" id="toBrowse">Sjå alle ${n} gårdar</button>
       </div>
@@ -1000,19 +1087,18 @@ function renderOverview(){
           ${skogBest?`<button class="lens" data-fk="${skogBest.finnkode}">
             <div class="kicker">Mest skog · rang ${skogBest.rank}</div>
             <h4>${skogBest.place}</h4>
-            <p>${fmt(skogBest.land.skog)} daa produktiv skog (ønskje 150–250) og ${fmt(skogBest.land.total_daa)} daa totalt,
-              ${fmt1(anchorMinH(skogBest))} t til anker. Dyrka er berre ${fmt1(arable(skogBest))} daa — over minstekravet, langt under ~100 daa-idealet. Oppussingsobjekt.</p>
+            <p>${fmt(skogBest.land.skog)} daa produktiv skog (ønskje 150–250) og ${fmt(skogBest.land.total_daa)} daa totalt${anc?", "+fmt1(anchH(skogBest))+" t til "+esc(ANCHOR):""}. Dyrka er berre ${fmt1(arable(skogBest))} daa — over minstekravet, langt under ~100 daa-idealet. Oppussingsobjekt.</p>
           </button>`:""}
           ${dyrkaBest?`<button class="lens" data-fk="${dyrkaBest.finnkode}">
             <div class="kicker">Mest dyrka · rang ${dyrkaBest.rank}</div>
             <h4>${dyrkaBest.place}</h4>
-            <p>${fmt1(arable(dyrkaBest))} daa dyrka, men ${fmt(dyrkaBest.land.skog)} daa skog og ${fmt1(anchorMinH(dyrkaBest))} t unna anker.
-              Sterk på matjord, svak mot skog- og reiseprofilen.</p>
+            <p>${fmt1(arable(dyrkaBest))} daa dyrka, men ${fmt(dyrkaBest.land.skog)} daa skog${anc?" og "+fmt1(anchH(dyrkaBest))+" t unna "+esc(ANCHOR):""}.
+              Sterk på matjord, svak mot skogprofilen.</p>
           </button>`:""}
           ${closeBest?`<button class="lens" data-fk="${closeBest.finnkode}">
-            <div class="kicker">Nærmast ${ANCHOR} · rang ${closeBest.rank}</div>
+            <div class="kicker">Nærmast ${esc(ANCHOR)} · rang ${closeBest.rank}</div>
             <h4>${closeBest.place}</h4>
-            <p>${fmt1(anchorMinH(closeBest))} t og ${fmt(anchorMin(closeBest))} km til Snausvegen 623.
+            <p>${fmt1(anchH(closeBest))} t og ${fmt(anchKm(closeBest))} km til ${esc(ANCHOR)}.
               ${fmt1(arable(closeBest))} daa dyrka og ${fmt(closeBest.land.skog)} daa skog. ${landsdelName(closeBest)}.</p>
           </button>`:""}
           ${mildBest?`<button class="lens" data-fk="${mildBest.finnkode}">
@@ -1030,7 +1116,7 @@ function renderOverview(){
           <h3>Poengavstand</h3>
           <div class="bars">${bars}</div>
           <p class="hint" style="margin-top:12px">${lead.place} er ikkje «litt betre» — ${fmt1(lead.score-second.score)} poeng er eit hopp. Frå rang 2 til 8 er feltet tett (70–62).
-            ${closeBest?`Næraste gard med ≥5 daa dyrka er <b>${closeBest.place}</b> (${fmt1(anchorMinH(closeBest))} t), rang ${closeBest.rank}.`:""}</p>
+            ${closeBest?`Næraste gard med ≥5 daa dyrka er <b>${closeBest.place}</b> (${fmt1(anchH(closeBest))} t), rang ${closeBest.rank}.`:""}</p>
         </div>
         <div>
           <h3>Slik er poenga vekta</h3>
@@ -1041,34 +1127,70 @@ function renderOverview(){
 
       <div class="sec"><h3>Samanlikning · topp 8</h3>
         <div class="cmp"><table>
-          <thead><tr><th>#</th><th>Stad</th><th>Landsdel</th><th>Poeng</th><th>Mill</th><th>Dyrka</th><th>Skog</th><th>Total</th><th>Storås</th><th>Helling</th><th>Sørhor.</th><th>Dagslys</th><th>Frost</th><th>Snø</th><th>Merknad</th></tr></thead>
+          <thead><tr><th>#</th><th>Stad</th><th>Landsdel</th><th>Poeng</th><th>Mill</th><th>Dyrka</th><th>Skog</th><th>Total</th><th>Reisetid</th><th>Helling</th><th>Sørhor.</th><th>Dagslys</th><th>Frost</th><th>Snø</th><th>Merknad</th></tr></thead>
           <tbody>${rows}</tbody>
         </table></div>
-        <p class="hint">Tal i daa. Dyrka = fulldyrka + overflatedyrka. Storås = bilveg til Snausvegen 623, 7334 Storås. Dagslys/frost/snø = middel 2020–2025 (Open-Meteo). Klikk ei rad for detaljar.</p>
+        <p class="hint">Tal i daa. Dyrka = fulldyrka + overflatedyrka. ${anc?"Reisetid = bilveg til "+esc(ANCHOR)+".":"Reisetid = set ei adresse i profilen."} Dagslys/frost/snø = middel 2020–2025 (Open-Meteo). Klikk ei rad for detaljar.</p>
       </div>
 
       <div class="sec">
         <h3>Kva dette eigentleg seier</h3>
         <div class="findcol">
           <div class="desc" style="white-space:normal">
-            <p>Profilen (minst 5 daa dyrka, 150–250 daa skog, under 6 t til ${ANCHOR}) er streng mot denne marknaden.
-              Berre <b>${meets} gardar</b> treff dyrka og reisetid samstundes. Skogmålet treffer nesten ingen: <b>${skogN} av ${n}</b> har ≥150 daa produktiv skog.</p>
+            <p>Krava (minst 5 daa dyrka, 150–250 daa skog${anc?", under "+fmt1(LIM)+" t til "+esc(ANCHOR):""}) er strenge mot denne marknaden.
+              ${anc?`Berre <b>${meets} gardar</b> treff dyrka og reisetid samstundes. `:""}Skogmålet treffer nesten ingen: <b>${skogN} av ${n}</b> har ≥150 daa produktiv skog.</p>
             <p><b>${ge5}</b> har verifisert dyrka over minstekravet; <b>${est}</b> har berre areal frå annonsen. ${renoN} er merka oppussing, så salsoppgåve og tilstandsrapport er neste filter — ikkje meir kart.</p>
             <p>Poolen tek no òg med <b>enebolig med tomt ≥5 mål</b> (${houseN} av ${n}) under same budsjett. Klima (dagslys, snøfall, frost) er vist per stad frå Open-Meteo 2020–2025 og tel ikkje i poengsummen — sortér på det i lista om det avgjer.</p>
-            <p>Praktisk kortliste: ${lead.place} om skog og storleik tel mest${dyrkaBest?"; "+dyrkaBest.place+" om åker tel mest":""}${closeBest?"; "+closeBest.place+" om kortast veg til "+ANCHOR+" tel mest":""}${mildBest?"; "+mildBest.place+" om du vil ha færre frostdagar":""}.</p>
+            <p>Praktisk kortliste: ${lead.place} om skog og storleik tel mest${dyrkaBest?"; "+dyrkaBest.place+" om åker tel mest":""}${closeBest?"; "+closeBest.place+" om kortast veg til "+esc(ANCHOR)+" tel mest":""}${mildBest?"; "+mildBest.place+" om du vil ha færre frostdagar":""}.</p>
           </div>
           <div>
-            ${tile("Leiar", lead.place, lead.score.toFixed(0)+" poeng · "+fmt1(anchorMinH(lead))+" t", {box:"hl"})}
-            ${closeBest?tile("Nærast "+ANCHOR, closeBest.place, fmt1(anchorMinH(closeBest))+" t"):""}
+            ${tile("Leiar", lead.place, lead.score.toFixed(0)+" poeng"+(anchH(lead)!=null?" · "+fmt1(anchH(lead))+" t":""), {box:"hl"})}
+            ${closeBest?tile("Nærast "+ANCHOR, closeBest.place, fmt1(anchH(closeBest))+" t"):""}
           </div>
         </div>
       </div>
-      <div class="footnote">Areal: NIBIO Gårdskart (AR5) der kjelda er NIBIO, elles estimat frå annonsen. Avstand: køyretid til Snausvegen 623, 7334 Storås. Sør-Norge = Agder, Rogaland og Vestland. Østlandet = Oslo, Akershus, Østfold, Buskerud, Innlandet, Vestfold og Telemark. Midt-Norge = Møre og Romsdal og Trøndelag. Nord-Norge = Nordland, Troms og Finnmark. Klima: Open-Meteo arkiv 2020–2025. Rangeringa er eit filter, ikkje ein takst.</div>
+      <div class="footnote">Areal: NIBIO Gårdskart (AR5) der kjelda er NIBIO, elles estimat frå annonsen. Reisetid: bilveg (OSRM) ${anc?"til "+esc(ANCHOR):"til adressa du set i profilen"}. Sør-Norge = Agder, Rogaland og Vestland. Østlandet = Oslo, Akershus, Østfold, Buskerud, Innlandet, Vestfold og Telemark. Midt-Norge = Møre og Romsdal og Trøndelag. Nord-Norge = Nordland, Troms og Finnmark. Klima: Open-Meteo arkiv 2020–2025. Rangeringa er eit filter, ikkje ein takst.</div>
     </div>`;
   document.getElementById("toBrowse").onclick=()=>{state.view="browse";state.pane="list";save();applyView();};
   document.querySelectorAll("#overview [data-fk]").forEach(el=>{
     el.onclick=()=>openFarm(el.dataset.fk);
   });
+  wireProfile();
+}
+function wireProfile(){
+  const addr=document.getElementById("prof-addr"), menu=document.getElementById("prof-menu");
+  const hSl=document.getElementById("prof-h"), hVal=document.getElementById("prof-hval");
+  const clear=document.getElementById("prof-clear");
+  if(!addr) return;
+  // max driving-time slider
+  hSl.oninput=()=>{ state.profMaxH=+hSl.value; hVal.textContent=state.profMaxH>0?fmt1(state.profMaxH)+" t":"av"; save(); };
+  hSl.onchange=()=>{ save(); renderOverview(); };
+  clear.onclick=()=>{ clearProfile(); renderOverview(); };
+  // address autocomplete
+  let tmr=null, items=[];
+  function hideMenu(){ menu.hidden=true; menu.innerHTML=""; }
+  function showMenu(list){ items=list;
+    menu.innerHTML=list.length?list.map((a,i)=>`<button type="button" class="prof-opt" data-i="${i}">${esc(a.label)}</button>`).join("")
+      :`<div class="prof-empty">Ingen treff</div>`;
+    menu.hidden=false;
+    menu.querySelectorAll(".prof-opt").forEach(b=>b.onclick=()=>choose(items[+b.dataset.i]));
+  }
+  async function choose(a){
+    hideMenu(); addr.value=a.label;
+    state.profAddr={label:a.label,short:a.short,lat:a.lat,lon:a.lon}; state.profDist=null;
+    if(state.profMaxH===0) state.profMaxH=3; // sensible default range once an address is set
+    save(); updateAnchor(); renderOverview();
+    const st=document.getElementById("prof-status"); if(st) st.innerHTML="Reknar køyreavstand frå adressa…";
+    try{ await computeProfDist(); if(state.view==="home") renderOverview(); }
+    catch(e){ const s=document.getElementById("prof-status"); if(s) s.innerHTML=`Klarte ikkje å hente køyreavstand (${esc(String(e.message||e))}). Prøv igjen.`; }
+  }
+  addr.oninput=()=>{ const q=addr.value.trim();
+    clearTimeout(tmr);
+    if(q.length<3){ hideMenu(); return; }
+    tmr=setTimeout(async()=>{ try{ showMenu(await geoSearch(q)); }catch(e){ hideMenu(); } },250);
+  };
+  addr.onkeydown=e=>{ if(e.key==="Escape") hideMenu(); };
+  document.addEventListener("click",e=>{ if(!menu.hidden && !menu.contains(e.target) && e.target!==addr) hideMenu(); },{once:true});
 }
 function applyView(){
   const app=document.querySelector(".app");
@@ -1077,7 +1199,7 @@ function applyView(){
   document.querySelectorAll("#viewseg button").forEach(b=>b.setAttribute("aria-pressed", b.dataset.view===state.view));
   const sub=document.getElementById("brandsub");
   if(sub){const n=FARMS.length, h=FARMS.filter(isHouse).length;
-    sub.textContent=`${n} objekt (${n-h} gårdsbruk, ${h} enebolig ≥5 mål) · ≤ 2 mill (2,5 for Møre) · finn.no · NIBIO · Kartverket · Open-Meteo`;}
+    sub.textContent=`${n} objekt (${n-h} gårdsbruk, ${h} enebolig ≥5 mål) · ≤ 5 mill · finn.no · NIBIO · Kartverket · Open-Meteo`;}
   if(state.view==="home"){ disposeThree(); disposeMap(); disposeAllMap(); try{ renderOverview(); }catch(e){ console.error(e);
     document.getElementById("overview").innerHTML=`<div class="ov-inner"><p class="lede">Oversikt feila: ${String(e.message||e)}</p></div>`;} }
   else if(state.view==="map"){ disposeThree(); disposeMap();
@@ -1124,7 +1246,7 @@ function mapFiltered(){
     if(state.kind==="farm"&&isHouse(f))return false;
     if(state.kind==="house"&&!isHouse(f))return false;
     if(state.hidelow&&arable(f)!=null&&arable(f)<5)return false;
-    if(state.hidefar&&anchorMinH(f)>6)return false;
+    if(hasAnchor()&&state.profMaxH>0&&anchorMinH(f)>state.profMaxH)return false;
     return f.geo && f.geo.lat!=null;
   });
 }
@@ -1136,7 +1258,7 @@ function mapPopupHtml(f){
     ["Dyrka", ar==null?"–":fmt1(ar)+" daa"],
     ["Skog", fmt(f.land.skog)+" daa"],
     ["Totalt", fmt(f.land.total_daa)+" daa"],
-    ["Til "+ANCHOR, fmt1(anchorMinH(f))+" t"],
+    ["Til "+ANCHOR, anchH(f)!=null?fmt1(anchH(f))+" t":"–"],
   ];
   const more=[
     ["Beite", f.land.beite?fmt1(f.land.beite)+" daa":"–"],
@@ -1179,7 +1301,7 @@ function mapSheetHtml(f){
     ["Skog", fmt(f.land.skog)+" daa"],
     ["Beite", f.land.beite?fmt1(f.land.beite)+" daa":"–"],
     ["Totalareal", fmt(f.land.total_daa)+" daa"],
-    ["Til "+ANCHOR, fmt1(anchorMinH(f))+" t"],
+    ["Til "+ANCHOR, anchH(f)!=null?fmt1(anchH(f))+" t":"–"],
     ["Byggeår", yr],
     ["Bruksareal", f.bruksareal||"–"],
     ["Soverom", sov!=null&&!isNaN(sov)?String(sov):"–"],
@@ -1238,7 +1360,7 @@ function renderMapView(){
       <div class="fgroup"><div class="flab">Krav</div>
         <div style="display:flex;gap:14px;align-items:center;padding-top:5px">
           <label class="toggle"><input type="checkbox" id="mf-low" ${state.hidelow?"checked":""}> ≥5 daa dyrka</label>
-          <label class="toggle"><input type="checkbox" id="mf-far" ${state.hidefar?"checked":""}> ≤6 t til ${ANCHOR}</label>
+          ${hasAnchor()&&state.profMaxH>0?`<span class="flab" style="font-weight:400">≤ ${fmt1(state.profMaxH)} t frå ${esc(ANCHOR)} (profil)</span>`:""}
         </div>
       </div>
       <button class="btn reset" id="mf-reset">Nullstill</button>
@@ -1291,15 +1413,14 @@ function renderMapView(){
   el.querySelectorAll("#mf-kind button").forEach(b=>b.onclick=()=>{state.kind=b.dataset.kind;save();
     el.querySelectorAll("#mf-kind button").forEach(x=>x.setAttribute("aria-pressed",x===b));drawMarkers();});
   el.querySelector("#mf-low").onchange=e=>{state.hidelow=e.target.checked;save();drawMarkers();};
-  el.querySelector("#mf-far").onchange=e=>{state.hidefar=e.target.checked;save();drawMarkers();};
   el.querySelector("#mf-fly").onclick=e=>{state.mapFlyAll=!state.mapFlyAll;save();
     e.target.setAttribute("aria-pressed",state.mapFlyAll);
     map.removeLayer(state.mapFlyAll?ALLMAPBASE.topo:ALLMAPBASE.fly);
     (state.mapFlyAll?ALLMAPBASE.fly:ALLMAPBASE.topo).addTo(map);};
   el.querySelector("#mf-reset").onclick=()=>{
-    state.pmin=PRICE_LO;state.pmax=PRICE_HI;state.kind="all";state.hidelow=false;state.hidefar=false;save();
+    state.pmin=PRICE_LO;state.pmax=PRICE_HI;state.kind="all";state.hidelow=false;save();
     el.querySelectorAll("#mf-kind button").forEach(x=>x.setAttribute("aria-pressed",x.dataset.kind==="all"));
-    el.querySelector("#mf-low").checked=false; el.querySelector("#mf-far").checked=false;
+    el.querySelector("#mf-low").checked=false;
     syncInputs(); drawMarkers(); };
 
   let didFit=false;
@@ -1465,7 +1586,7 @@ function renderDetail(){
   if(isHouse(f)) bd.unshift(`<span class="badge info">enebolig ≥5 mål</span>`);
   if(landEst(f))bd.push(`<span class="badge warn">areal estimert (ikkje NIBIO)</span>`);
   if(f.land.skog>=150)bd.push(`<span class="badge good">${fmt(f.land.skog)} daa skog</span>`);
-  bd.push(`<span class="badge info">${fmt1(anchorMinH(f))} t til ${ANCHOR}</span>`);
+  if(anchH(f)!=null) bd.push(`<span class="badge info">${fmt1(anchH(f))} t til ${ANCHOR}</span>`);
   (f.flags||"").split(/\s+/).filter(Boolean).filter(fl=>fl!=='land-est').forEach(fl=>{const m={"LOW-ARABLE":["bad","lite dyrka"],"STEEP":["warn","bratt terreng"],"WINTER-SHADE":["warn","vinterskugge"],"reno":["","oppussingsobjekt"],"road-fee":["","veiavgift"],"BAD-VÅTROM":["bad","våtrom-behov"],"NYTT-BAD":["good","nyare bad"],"TG3-HEAVY":["bad","mange TG3"],"TG-OK":["good","få avvik"]}[fl]||["",fl];bd.push(`<span class="badge ${m[0]}">${m[1]}</span>`);});
   const M=f.media||{}, ph=M.photos||[], idx=Math.min(state.photo,Math.max(0,ph.length-1));
 
@@ -1493,7 +1614,7 @@ function renderDetail(){
       ${tile("Høgd",fmt(f.geo.elev_m)+" <small>moh</small>")}
       ${tile("Helling (terreng)",(slope==null?"–":fmt1(slope)+" <small>%</small>"),slope>25?"bratt":(slope>15?"noko bratt":"slakt"),{v:slopeCls})}
       ${tile("Sørhorisont",(sh==null?"–":fmt1(sh)+"°"),shadeNote,{v:shadeCls})}
-      ${tile("Bilveg "+ANCHOR,fmt(f.anchors.storas_km)+" <small>km</small>",fmt1(f.anchors.storas_h)+" t · Snausvegen 623")}
+      ${hasAnchor()?tile("Bilveg "+ANCHOR,fmt(anchKm(f))+" <small>km</small>",fmt1(anchH(f))+" t · "+esc(ANCHOR)):tile("Bilveg til adressa","–",'sett adresse i profilen')}
       ${tile("Kommunale avg.",f.costs.kommunale_avg?kr(f.costs.kommunale_avg)+"/år":"– <small>ikkje oppgitt</small>")}
       ${(()=>{const cd=f.condition||{};const txt=cd.bath_pos?"Nyare / moderne":(cd.bath_neg?"Behov / avvik":"Ikkje dokumentert");const cl=cd.bath_pos?"good":(cd.bath_neg?"bad":"");const note=(cd.notes&&cd.notes.length)?cd.notes.join("; "):(cd.has_report?"tilstandsrapport finst":"lite info i annonsen");return tile("Våtrom-standard",txt,note,{v:cl});})()}
       ${hasTg(f)?tile("TG3", String(f.condition.tg.tg3), `TG0 ${f.condition.tg.tg0} · TG1 ${f.condition.tg.tg1} · TG2 ${f.condition.tg.tg2}`, {v:f.condition.tg.tg3>=5?"bad":(f.condition.tg.tg3===0?"good":"warn")}):""}
@@ -1815,9 +1936,8 @@ function initGardskart(f, st, hint){
 
 document.getElementById("sort").value=state.sort;
 document.getElementById("sort").onchange=e=>{state.sort=e.target.value;save();renderList();};
-document.getElementById("hidelow").checked=state.hidelow;document.getElementById("hidefar").checked=state.hidefar;
+document.getElementById("hidelow").checked=state.hidelow;
 document.getElementById("hidelow").onchange=e=>{state.hidelow=e.target.checked;save();renderList();};
-document.getElementById("hidefar").onchange=e=>{state.hidefar=e.target.checked;save();renderList();};
 document.querySelectorAll("#regfilter button").forEach(b=>b.onclick=()=>{state.reg=b.dataset.reg;save();
   document.querySelectorAll("#regfilter button").forEach(x=>x.setAttribute("aria-pressed",x===b));renderList();});
 document.querySelectorAll("#regfilter button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.reg===state.reg));
@@ -1835,4 +1955,8 @@ document.querySelectorAll("#viewseg button").forEach(b=>b.onclick=()=>{
 window.matchMedia("(max-width:820px)").addEventListener("change",()=>applyView());
 window.addEventListener("keydown",e=>{ if(e.key==="Escape"){ const s=document.getElementById("msheet"); if(s&&!s.hasAttribute("hidden")) closeMapSheet(); } });
 applyView();
+// A stored profile address without cached distances → recompute in the background.
+if(state.profAddr && !state.profDist){
+  computeProfDist().then(()=>{ if(state.view==="home") renderOverview(); else if(state.view==="map") renderMapView(); }).catch(()=>{});
+}
 </script>
