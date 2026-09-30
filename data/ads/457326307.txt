@@ -20,11 +20,11 @@ Pent oppusset småbruk i Lesund på Aure med innholdsrik enebolig, romslig tomt 
 Kart
 Åkvikvegen 21, 6698 Lesund
 Prisantydning
-2 350 000 kr
+2 230 000 kr
 Totalpris
-2 410 140 kr
+2 287 140 kr
 Omkostninger
-60 140 kr
+57 140 kr
 Kommunale avg.
 20 691 kr per år
 Formuesverdi
@@ -70,23 +70,23 @@ BRA-e:
 1. etasje: 47  kvm Låve
 Kjeller: 32  kvm Gjødselkjeller
 Omkostninger
-2 350 000 (Prisantydning)
+Kr 2 230 000 (Prisantydning)
 ----------------------------------------------------
 Omkostninger
-58 750 (Dokumentavgift)
-300 (Panteattest kjøper)
-545 (Tinglysningsgebyr pantedokument)
-545 (Tinglysningsgebyr skjøte)
-16 900 (Boligkjøperforsikring - fem års varighet (valgfritt))
-2 800 (Advokatforsikring for boligeiere - ett års varighet (valgfritt))
+Kr 55 750 (Dokumentavgift)
+Kr 300 (Panteattest kjøper)
+Kr 545 (Tinglysningsgebyr pantedokument)
+Kr 545 (Tinglysningsgebyr skjøte)
+Kr 16 900 (Boligkjøperforsikring - fem års varighet (valgfritt))
+Kr 2 800 (Advokatforsikring for boligeiere - ett års varighet (valgfritt))
 ----------------------------------------------------
-60 140 (Omkostninger totalt)
-77 040 (med Boligkjøperforsikring  - fem års varighet)
-79 840 (med Boligkjøperforsikring inkludert ett år med Advokatforsikring for boligeiere)
+Kr 57 140 (Omkostninger totalt)
+Kr 74 040 (med Boligkjøperforsikring  - fem års varighet)
+Kr 76 840 (med Boligkjøperforsikring inkludert ett år med Advokatforsikring for boligeiere)
 ----------------------------------------------------
-2 410 140 (Totalpris. inkl. omkostninger)
-2 427 040 (Totalpris. inkl. omkostninger (med Boligkjøperforsikring  - fem års varighet))
-2 429 840 (Totalpris. inkl. omkostninger (med Boligkjøperforsikring inkludert ett år med Advokatforsikring for boligeiere))
+Kr 2 287 140 (Totalpris. inkl. omkostninger)
+Kr 2 304 040 (Totalpris. inkl. omkostninger (med Boligkjøperforsikring  - fem års varighet))
+Kr 2 306 840 (Totalpris. inkl. omkostninger (med Boligkjøperforsikring inkludert ett år med Advokatforsikring for boligeiere))
 ----------------------------------------------------
 Regnestykket forutsetter at det kun tinglyses ett pantedokument og at eiendommen selges til prisantydning. Det tas forbehold om endringer i offentlige avgifter/gebyrer.
 Matrikkelinformasjon
@@ -137,7 +137,7 @@ Annonseinformasjon
 FINN-kode
 457326307
 Sist endret
-09. sep. 2026 11:32
+23. sep. 2026 14:44
 Referanse
 1601260037
 Rapporter annonse

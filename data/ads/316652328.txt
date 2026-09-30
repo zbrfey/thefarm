@@ -11,6 +11,7 @@ Trøndelag
 Orkland
 Bildegalleri
 Legg til som favoritt.
+ål usjenert tomt." id="image-2" sizes="(min-width: 1020px) 980px" loading="eager" style="z-index:1;transform-origin:0px 0px;transform:none" srcSet="https://images.finncdn.no/dynamic/1600w/2023/8/vertical-2/24/8/316/652/328_333872937.jpg 1600w,https://images.finncdn.no/dynamic/1280w/2023/8/vertical-2/24/8/316/652/328_333872937.jpg 1280w,https://images.finncdn.no/dynamic/960w/2023/8/vertical-2/24/8/316/652/328_333872937.jpg 960w,https://images.finncdn.no/dynamic/640w/2023/8/vertical-2/24/8/316/652/328_333872937.jpg 640w,https://images.finncdn.no/dynamic/320w/2023/8/vertical-2/24/8/316/652/328_333872937.jpg 320w,https://images.finncdn.no/dynamic/142w/2023/8/vertical-2/24/8/316/652/328_333872937.jpg 142w" data-srcset="https://images.finncdn.no/dynamic/1600w/2023/8/vertical-2/24/8/316/652/328_1344643072.jpg 1600w,https://images.finncdn.no/dynamic/1280w/2023/8/vertical-2/24/8/316/652/328_1344643072.jpg 1280w,https://images.finncdn.no/dynamic/960w/2023/8/vertical-2/24/8/316/652/328_1344643072.jpg 960w,https://images.finncdn.no/dynamic/640w/2023/8/vertical-2/24/8/316/652/328_1344643072.jpg 640w,https://images.finncdn.no/dynamic/320w/2023/8/vertical-2/24/8/316/652/328_1344643072.jpg 320w,https://images.finncdn.no/dynamic/142w/2023/8/vertical-2/24/8/316/652/328_1344643072.jpg 142w" alt="Galleribilde"/>
 1/64
 Prikket firkant med målepiler
 Plantegning

@@ -10,9 +10,6 @@ Akershus
 /
 Eidsvoll
 Bildegalleri
-Visning - 24. sep.  kl 17:00 - 18:00
-Kalender
-Legg til i kalender
 Legg til som favoritt.
 1/64
 Prikket firkant med målepiler
@@ -125,9 +122,8 @@ Rolig
 Utsikt
 Turterreng
 Visning
-torsdag, 24. september
-17:00 – 18:00
-Legg til i kalender
+Ved annonsert visning er det viktig at du melder deg på visningen ved å bruke visningspåmeldingsknappen eller kontakter megler. Annonserte visninger hvor det ikke er noen påmeldte innen kl. 12.00 på visningsdagen vil ikke visningen bli avholdt.
+For visninger utover dette, ta direkte kontakt med megler.
 Visningspåmelding
 Gi bud
 Om boligen
@@ -141,9 +137,8 @@ NB: Knappen for å vise hele beskrivelsen har kun en visuell effekt.
 Salgsoppgaven beskriver vesentlig og lovpålagt informasjon om eiendommen
 Se komplett salgsoppgave
 Visning
-torsdag, 24. september
-17:00 – 18:00
-Legg til i kalender
+Ved annonsert visning er det viktig at du melder deg på visningen ved å bruke visningspåmeldingsknappen eller kontakter megler. Annonserte visninger hvor det ikke er noen påmeldte innen kl. 12.00 på visningsdagen vil ikke visningen bli avholdt.
+For visninger utover dette, ta direkte kontakt med megler.
 Husk å lese komplett salgsoppgave før visning.
 Bestill komplett, utskriftsvennlig salgsoppgave.
 Visningspåmelding
@@ -155,7 +150,7 @@ Annonseinformasjon
 FINN-kode
 475569365
 Sist endret
-18. sep. 2026 15:33
+24. sep. 2026 16:31
 Referanse
 1206260011
 Rapporter annonse

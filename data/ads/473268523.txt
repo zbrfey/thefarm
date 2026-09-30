@@ -21,11 +21,11 @@ Eldre småbruk med skogteiger, skogskoie og andel i privatsameie med jakt- og fi
 Kart
 Brendavegen 109, 2930 Bagn
 Prisantydning
-1 800 000 kr
+1 690 000 kr
 Totalpris
-1 846 390 kr
+1 733 640 kr
 Omkostninger
-46 390 kr
+43 640 kr
 Formuesverdi
 19 484 kr
 Hva er denne boligen solgt for tidligere?
@@ -81,23 +81,23 @@ BRA-i:
 1. etasje: 68  kvm Entré, stue, kjøkken, gang med trapp, bad/vaskerom og soverom.
 Kjeller: 6  kvm Jordkjeller.
 Omkostninger
-1 800 000 (Prisantydning)
+Kr 1 690 000 (Prisantydning)
 ----------------------------------------------------
 Omkostninger
-45 000 (Dokumentavgift)
-300 (Panteattest kjøper)
-545 (Tinglysningsgebyr pantedokument)
-545 (Tinglysningsgebyr skjøte)
-16 900 (Boligkjøperforsikring - fem års varighet (valgfritt))
-2 800 (Advokatforsikring for boligeiere - ett års varighet (valgfritt))
+Kr 42 250 (Dokumentavgift)
+Kr 300 (Panteattest kjøper)
+Kr 545 (Tinglysningsgebyr pantedokument)
+Kr 545 (Tinglysningsgebyr skjøte)
+Kr 16 900 (Boligkjøperforsikring - fem års varighet (valgfritt))
+Kr 2 800 (Advokatforsikring for boligeiere - ett års varighet (valgfritt))
 ----------------------------------------------------
-46 390 (Omkostninger totalt)
-63 290 (med Boligkjøperforsikring  - fem års varighet)
-66 090 (med Boligkjøperforsikring inkludert ett år med Advokatforsikring for boligeiere)
+Kr 43 640 (Omkostninger totalt)
+Kr 60 540 (med Boligkjøperforsikring  - fem års varighet)
+Kr 63 340 (med Boligkjøperforsikring inkludert ett år med Advokatforsikring for boligeiere)
 ----------------------------------------------------
-1 846 390 (Totalpris. inkl. omkostninger)
-1 863 290 (Totalpris. inkl. omkostninger (med Boligkjøperforsikring  - fem års varighet))
-1 866 090 (Totalpris. inkl. omkostninger (med Boligkjøperforsikring inkludert ett år med Advokatforsikring for boligeiere))
+Kr 1 733 640 (Totalpris. inkl. omkostninger)
+Kr 1 750 540 (Totalpris. inkl. omkostninger (med Boligkjøperforsikring  - fem års varighet))
+Kr 1 753 340 (Totalpris. inkl. omkostninger (med Boligkjøperforsikring inkludert ett år med Advokatforsikring for boligeiere))
 ----------------------------------------------------
 Regnestykket forutsetter at det kun tinglyses ett pantedokument og at eiendommen selges til prisantydning. Det tas forbehold om endringer i offentlige avgifter/gebyrer.
 I tillegg kommer kommunens gebyr for konsesjonsbehandling på inntil kr. 5 000,- jf. forskrift om gebyr for konsesjons- og delingssaker.
@@ -149,7 +149,7 @@ Annonseinformasjon
 FINN-kode
 473268523
 Sist endret
-26. aug. 2026 18:36
+25. sep. 2026 18:02
 Referanse
 1201260087
 Rapporter annonse

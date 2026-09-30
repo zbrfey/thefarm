@@ -8,8 +8,8 @@ replaced with authoritative NIBIO/Kartverket/OSM values in stage 2 for the
 shortlist. Unknown-from-text factors score neutral (0.5) so a farm isn't
 buried just because its ad was terse.
 
-Buyer profile (2026-09):
-  budget total <= 2.0M NOK (best < 1.5M); min 5 daa dyrka (verified stage 2)
+Buyer profile (2026-09, budget raised 2026-09-28):
+  budget total <= 5.0M NOK (best < 1.5M); min 5 daa dyrka (verified stage 2)
   ideal: Moere og Romsdal > Troendelag, coastal, 250-400 daa total,
          150-250 forest, ~100 dyrka, creek on property, isolated, water+power,
          short driveway, not mountain-shaded. Konsesjon/boplikt = cheaper = plus.
@@ -20,7 +20,7 @@ import pandas as pd
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ADS = os.path.join(HERE, "data", "ads")
-BUDGET = 2_000_000
+BUDGET = 5_000_000
 
 FYLKE = {
     '15':'Møre og Romsdal','50':'Trøndelag','16':'Trøndelag','17':'Trøndelag',
@@ -69,9 +69,9 @@ def band(x, lo, hi, soft):
 def score_row(r, text):
     s, why = {}, {}
 
-    # --- price: <=1.5M full, decay to 0 at cap (2.5M for Møre, else 2.0M) ---
+    # --- price: <=1.5M full, decay to 0 at budget cap (5.0M) ---
     eff = r['eff']
-    cap = 2_500_000 if r['fylke'] == '15' else 2_000_000
+    cap = BUDGET
     s['price'] = 1.0 if eff <= 1_500_000 else max(0.0, 1 - (eff-1_500_000)/(cap-1_500_000))
     why['price'] = f"{int(eff):,} kr"
 
@@ -167,9 +167,7 @@ def main():
     d['fylkenavn'] = d['fylke'].map(FYLKE).fillna(d['fylke'])
 
     d = d.drop_duplicates('finnkode').copy()
-    # budget cap: 2.5M for Møre og Romsdal (fylke 15), 2.0M elsewhere
-    cap = d['fylke'].map(lambda f: 2_500_000 if f == '15' else BUDGET)
-    d = d[d['eff'].notna() & (d['eff'] <= cap)].copy()
+    d = d[d['eff'].notna() & (d['eff'] <= BUDGET)].copy()
 
     rows = []
     for _, r in d.iterrows():

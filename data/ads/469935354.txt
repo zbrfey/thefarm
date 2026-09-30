@@ -16,11 +16,13 @@ LANDBRUKSEIENDOM I MANNDALEN - OLMMAIVAHBALGGIS 465
 Kart
 Olmmaivahbalggis 465, 9144 Samuelsberg
 Prisantydning
-4 400 000 kr
+3 500 000 kr
 Totalpris
-4 511 090 kr
+3 588 590 kr
 Omkostninger
-111 090 kr
+88 590 kr
+Fellesgjeld
+0 kr
 Felleskost/mnd.
 1 kr
 Formuesverdi
@@ -118,7 +120,7 @@ Annonseinformasjon
 FINN-kode
 469935354
 Sist endret
-16. juli 2026 17:17
+24. sep. 2026 12:18
 Referanse
 7617
 Rapporter annonse

@@ -1,139 +1,415 @@
 rank,finnkode,knr,gnr,bnr,place,fylke,listing_kind
 1,464983010,4647.0,533.0,2.0,Naustdal,Vestland,farm
 2,428653800,1806.0,370.0,134.0,Kjeldebotn,Nordland,farm
-3,445777037,4205.0,472.0,1.0,Lindesnes,Agder,house
-4,475438557,4639.0,49.0,2.0,Vik i Sogn,Vestland,farm
-5,460136298,5060.0,15.0,6.0,Indre Nærøy,Trøndelag,farm
-6,467387890,1506.0,452.0,2.0,Midsund,Møre og Romsdal,farm
-7,467679110,1822.0,76.0,1.0,Leirfjord,Nordland,farm
-8,465020062,5530.0,63.0,2.0,Silsand,Troms,farm
-9,407956817,5534.0,15.0,22.0,Rebbenes,Troms,farm
-10,467875724,5528.0,26.0,3.0,Brøstadbotn,Troms,farm
-11,454487275,5501.0,159.0,4.0,Jøvika,Troms,farm
-12,471069427,1870.0,30.0,47.0,Sortland,Nordland,house
-13,376754442,5534.0,27.0,14.0,Hansnes,Troms,house
-14,472114307,4211.0,31.0,1.0,Gjerstad,Agder,farm
-15,466566362,5055.0,223.0,13.0,Halsanaustan,Trøndelag,house
-16,475527762,5056.0,62.0,1.0,Sandstad,Trøndelag,farm
-17,420640875,5026.0,97.0,1.0,Ålen,Trøndelag,farm
-18,472124111,5036.0,94.0,3.0,Frosta,Trøndelag,farm
-19,443567563,5055.0,219.0,9.0,Halsanaustan,Trøndelag,house
-20,475516012,5530.0,212.0,55.0,Stonglandseidet,Troms,farm
-21,474654074,1511.0,33.0,2.0,Sylte,Møre og Romsdal,farm
-22,467178758,5624.0,25.0,9.0,Lebesby,Finnmark,farm
-23,468153599,1811.0,39.0,7.0,Terråk,Nordland,house
-24,475979121,1838.0,20.0,1.0,Inndyr,Nordland,house
-25,457049923,1813.0,154.0,7.0,Velfjord,Nordland,farm
-26,466763238,1822.0,111.0,22.0,Sundøya,Nordland,house
-27,469741837,5530.0,429.0,25.0,Kaldfarnes,Troms,house
-28,472119208,1848.0,105.0,22.0,Nordfold,Nordland,house
-29,475283450,5536.0,98.0,6.0,Lyngseidet,Troms,house
-30,416541143,1870.0,3.0,51.0,Sortland,Nordland,farm
-31,476406700,4211.0,20.0,10.0,Gjerstad,Agder,farm
-32,469251867,5057.0,68.0,19.0,Lysøysundet,Trøndelag,house
-33,457788970,5544.0,86.0,11.0,Hamneidet,Troms,house
-34,475855755,3448.0,142.0,26.0,Dokka,Innlandet,house
-35,467677544,5054.0,140.0,53.0,Fevåg,Trøndelag,farm
-36,362005029,4637.0,59.0,4.0,Leirvik i Sogn,Vestland,house
-37,474842605,5027.0,230.0,21.0,Singsås,Trøndelag,farm
-38,475873934,1866.0,1.0,12.0,Kvitnes,Nordland,house
-39,475621135,4212.0,34.0,21.0,Vegårshei,Agder,farm
-40,474643619,4602.0,4.0,4.0,Barekstad,Vestland,farm
-41,475383684,4644.0,9.0,13.0,Fortun,Vestland,farm
-42,476375061,3448.0,143.0,8.0,Dokka,Innlandet,house
-43,474757947,4645.0,51.0,1.0,Atløy,Vestland,house
-44,474854128,5027.0,132.0,3.0,Soknedal,Trøndelag,farm
-45,464235480,5059.0,531.0,2.0,Jerpstad,Trøndelag,farm
-46,385752750,1742.0,42.0,2.0,Harran,Trøndelag,farm
-47,474071722,5061.0,51.0,54.0,Rindalsskogen,Trøndelag,farm
-48,472090363,4613.0,84.0,21.0,Foldrøyhamn,Vestland,house
-49,467709596,5628.0,10.0,48.0,Tana,Finnmark,farm
-50,474068215,4217.0,39.0,35.0,Åmli,Agder,house
-51,404193110,5622.0,6.0,60.0,Indre Billefjord,Finnmark,house
-52,475987647,5034.0,7.0,7.0,Meråker,Trøndelag,house
-53,470008888,3441.0,92.0,11.0,Svatsum,Innlandet,farm
-54,468180497,1827.0,50.0,28.0,Dønna,Nordland,house
-55,471410488,1576.0,56.0,15.0,Vihals,Møre og Romsdal,house
-56,356085804,1837.0,14.0,19.0,Ågskardet,Nordland,house
-57,475976093,3234.0,22.0,2.0,Lunner,Akershus,farm
-58,355847711,8110.0,13.0,3.0,Moldjord,81,farm
-59,449805105,5014.0,51.0,7.0,Dyrvik,Trøndelag,house
-60,474736013,3436.0,341.0,3.0,Kvam,Innlandet,farm
-61,475173080,3439.0,116.0,5.0,Fåvang,Innlandet,farm
-62,473333678,1508.0,814.0,11.0,Myklebust,Møre og Romsdal,farm
-63,413279463,539.0,187.0,61.0,Lena,Innlandet,house
-64,474203425,5603.0,121.0,42.0,Kokelv,Finnmark,house
-65,472266654,4034.0,47.0,20.0,Høydalsmo,Telemark,house
-66,476099750,1871.0,28.0,3.0,Dverberg,Nordland,farm
-67,349756784,1506.0,308.0,3.0,Vistdal,Møre og Romsdal,farm
-68,401209430,1825.0,56.0,3.0,Trofors,Nordland,house
-69,474540774,5053.0,355.0,4.0,Mosvik,Trøndelag,farm
-70,469440662,4211.0,6.0,21.0,Sundebru,Agder,house
-71,357150286,1875.0,22.0,15.0,Tranøy,Nordland,house
-72,358634890,127.0,66.0,13.0,Skiptvet,Østfold,farm
-73,311146765,5059.0,715.0,45.0,Agdenes,Trøndelag,farm
-74,474562380,1804.0,225.0,2.0,Misvær,Nordland,farm
-75,475275627,3423.0,17.0,55.0,Koppang,Innlandet,farm
-76,476114833,5516.0,52.0,5.0,Gratangen,Troms,farm
-77,460730121,1857.0,14.0,22.0,Værøy,Nordland,house
-78,475441450,3441.0,20.0,5.0,Vestre Gausdal,Innlandet,farm
-79,472437010,3907.0,258.0,67.0,Andebu,Vestfold,house
-80,475960194,3411.0,701.0,16.0,Brumunddal,Innlandet,farm
-81,476452323,3418.0,40.0,6.0,Gjesåsen,Innlandet,house
-82,476102695,3421.0,53.0,94.0,Slettås,Innlandet,house
-83,473860827,4639.0,7.0,9.0,Vik i Sogn,Vestland,house
-84,473648025,1875.0,10.0,8.0,Ulvsvåg,Nordland,house
-85,476134536,3419.0,86.0,11.0,Gravberget,Innlandet,farm
-86,475499104,3417.0,46.0,24.0,Grinder,Innlandet,farm
-87,464103876,4620.0,34.0,8.0,Ulvik,Vestland,house
-88,472017495,3421.0,45.0,12.0,Jordet,Innlandet,house
-89,468822575,5526.0,5.0,5.0,Sørreisa,Troms,house
-90,380330192,3420.0,123.0,104.0,Hernes,Innlandet,house
-91,475966797,3413.0,404.0,41.0,Åsvang,Innlandet,house
-92,473322165,1506.0,254.0,4.0,Eidsvåg i Romsdal,Møre og Romsdal,house
-93,467201752,3324.0,8.0,18.0,Gol,Buskerud,farm
-94,476027590,5532.0,43.0,210.0,Storsteinnes,Troms,house
-95,475465429,3419.0,27.0,16.0,Våler i Solør,Innlandet,farm
-96,469330058,1579.0,170.0,14.0,Lyngstad,Møre og Romsdal,house
-97,476532413,3336.0,75.0,8.0,Rollag,Buskerud,house
-98,473025763,3423.0,10.0,279.0,Koppang,Innlandet,house
-99,471316257,3414.0,20.0,24.0,Sagstua,Innlandet,house
-100,467480104,5006.0,230.0,8.0,Steinkjer,Trøndelag,house
-101,474861015,4005.0,242.0,216.0,Notodden,Telemark,house
-102,473280055,3414.0,43.0,10.0,Knapper,Innlandet,house
-103,412359175,3632.0,89.0,2.0,Uvdal,36,farm
-104,472018590,5524.0,25.0,4.0,Moen,Troms,farm
-105,399785558,3420.0,39.0,20.0,Heradsbygd,Innlandet,house
-106,468411674,5534.0,54.0,87.0,Vannvåg,Troms,house
-107,457326307,1576.0,69.0,15.0,Lesund,Møre og Romsdal,farm
-108,473772466,5059.0,257.0,51.0,Orkanger,Trøndelag,farm
-109,436987165,1867.0,39.0,16.0,Straumsjøen,Nordland,house
-110,415359177,7383.0,195.0,10.0,Haltdalen,73,house
-111,475464069,3435.0,27.0,7.0,Vågå,Innlandet,farm
-112,398524817,522.0,71.0,21.0,Begnadalen,Innlandet,farm
-113,467999745,3448.0,85.0,8.0,Nord-Torpa,Innlandet,farm
-114,427635750,5506.0,104.0,33.0,Lundenes,Troms,house
-115,473268523,3449.0,50.0,2.0,Bagn,Innlandet,farm
-116,472374565,3422.0,12.0,43.0,Rena,Innlandet,house
-117,473138516,5056.0,87.0,6.0,Ansnes,Trøndelag,house
-118,464376719,5007.0,44.0,23.0,Fosslandsosen,Trøndelag,house
-119,297876802,5059.0,557.0,23.0,Storås,Trøndelag,farm
-120,474548983,1579.0,42.0,387.0,Elnesvågen,Møre og Romsdal,house
-121,474594205,4014.0,10.0,44.0,Stabbestad,Telemark,house
-122,419923473,3423.0,17.0,26.0,Koppang,Innlandet,house
-123,428146220,1514.0,11.0,10.0,Gursken,Møre og Romsdal,house
-124,475434352,1149.0,8.0,8.0,Sævelandsvik,Rogaland,house
-125,461976533,1833.0,175.0,3.0,Utskarpen,Nordland,house
-126,476131238,3419.0,5.0,3.0,Braskereidfoss,Innlandet,farm
-127,475313132,3425.0,165.0,181.0,Drevsjø,Innlandet,house
-128,476716806,3448.0,20.0,4.0,Dokka,Innlandet,farm
-129,436086225,6570.0,46.0,11.0,Smøla,65,house
-130,474830340,3415.0,53.0,45.0,Disenå,Innlandet,farm
-131,476554822,1868.0,76.0,80.0,Myre,Nordland,house
-132,333118850,1822.0,98.0,2.0,Bardal,Nordland,farm
-133,439328840,3419.0,50.0,12.0,Braskereidfoss,Innlandet,house
-134,465163704,4020.0,18.0,17.0,Bø i Telemark,Telemark,house
-135,459773412,3417.0,11.0,11.0,Namnå,Innlandet,house
-136,474829350,3414.0,34.0,9.0,Sagstua,Innlandet,farm
-137,468279699,4028.0,67.0,9.0,Morgedal,Telemark,farm
-138,476467455,3414.0,40.0,30.0,Gardvik,Innlandet,house
+3,467679110,1822.0,76.0,1.0,Leirfjord,Nordland,farm
+4,445777037,4205.0,472.0,1.0,Lindesnes,Agder,house
+5,407956817,5534.0,15.0,22.0,Rebbenes,Troms,farm
+6,466053264,4616.0,36.0,7.0,Uggdal,Vestland,farm
+7,475438557,4639.0,49.0,2.0,Vik i Sogn,Vestland,farm
+8,460136298,5060.0,15.0,6.0,Indre Nærøy,Trøndelag,farm
+9,476965604,1508.0,803.0,4.0,Harøy,Møre og Romsdal,farm
+10,469923994,1820.0,83.0,10.0,Mindlandet,Nordland,farm
+11,355528659,5005.0,32.0,12.0,Bangsund,Trøndelag,house
+12,465020062,5530.0,63.0,2.0,Silsand,Troms,farm
+13,454487275,5501.0,159.0,4.0,Jøvika,Troms,farm
+14,471408971,5512.0,184.0,6.0,Hol i Tjeldsund,Troms,house
+15,474542996,1838.0,1.0,13.0,Storvik,Nordland,farm
+16,417962148,1815.0,3.0,19.0,Vega,Nordland,farm
+17,471069427,1870.0,30.0,47.0,Sortland,Nordland,house
+18,472114307,4211.0,31.0,1.0,Gjerstad,Agder,farm
+19,376754442,5534.0,27.0,14.0,Hansnes,Troms,house
+20,467203422,5057.0,87.0,1.0,Lysøysundet,Trøndelag,farm
+21,466566362,5055.0,223.0,13.0,Halsanaustan,Trøndelag,house
+22,301203578,4205.0,472.0,5.0,Lindesnes,Agder,farm
+23,475527762,5056.0,62.0,1.0,Sandstad,Trøndelag,farm
+24,471410488,1576.0,56.0,15.0,Vihals,Møre og Romsdal,house
+25,475820070,1573.0,23.0,7.0,Smøla,Møre og Romsdal,farm
+26,474540774,5053.0,355.0,4.0,Mosvik,Trøndelag,farm
+27,311146765,5059.0,715.0,45.0,Agdenes,Trøndelag,farm
+28,420640875,5026.0,97.0,1.0,Ålen,Trøndelag,farm
+29,472124111,5036.0,94.0,3.0,Frosta,Trøndelag,farm
+30,475831520,1860.0,113.0,9.0,Bøstad,Nordland,house
+31,476684559,5512.0,169.0,5.0,Kongsvik,Troms,farm
+32,468698212,1579.0,87.0,71.0,Farstad,Møre og Romsdal,farm
+33,475979121,1838.0,20.0,1.0,Inndyr,Nordland,house
+34,475687022,1560.0,111.0,2.0,Kvisvik,Møre og Romsdal,farm
+35,443567563,5055.0,219.0,9.0,Halsanaustan,Trøndelag,house
+36,474078575,4647.0,152.0,3.0,Sande i Sunnfjord,Vestland,farm
+37,436987165,1867.0,39.0,16.0,Straumsjøen,Nordland,house
+38,474757947,4645.0,51.0,1.0,Atløy,Vestland,house
+39,467178758,5624.0,25.0,9.0,Lebesby,Finnmark,farm
+40,468153599,1811.0,39.0,7.0,Terråk,Nordland,house
+41,474562380,1804.0,225.0,2.0,Misvær,Nordland,farm
+42,457049923,1813.0,154.0,7.0,Velfjord,Nordland,farm
+43,349756784,1506.0,308.0,3.0,Vistdal,Møre og Romsdal,farm
+44,476843297,5501.0,174.0,20.0,Kvaløya,Troms,farm
+45,469251867,5057.0,68.0,19.0,Lysøysundet,Trøndelag,house
+46,466763238,1822.0,111.0,22.0,Sundøya,Nordland,house
+47,469741837,5530.0,429.0,25.0,Kaldfarnes,Troms,house
+48,468411674,5534.0,54.0,87.0,Vannvåg,Troms,house
+49,425625721,1837.0,48.0,53.0,Neverdal,Nordland,farm
+50,410667565,5055.0,235.0,7.0,Vågland,Trøndelag,farm
+51,475283450,5536.0,98.0,6.0,Lyngseidet,Troms,house
+52,472119208,1848.0,105.0,22.0,Nordfold,Nordland,house
+53,424250389,4644.0,132.0,10.0,Veitastrond,Vestland,farm
+54,416541143,1870.0,3.0,51.0,Sortland,Nordland,farm
+55,476406700,4211.0,20.0,10.0,Gjerstad,Agder,farm
+56,397566103,1520.0,170.0,9.0,Storestandal,Møre og Romsdal,farm
+57,457788970,5544.0,86.0,11.0,Hamneidet,Troms,house
+58,475976360,5056.0,204.0,19.0,Hemnskjela,Trøndelag,farm
+59,475873934,1866.0,1.0,12.0,Kvitnes,Nordland,house
+60,473054867,4637.0,89.0,5.0,Leirvik i Sogn,Vestland,farm
+61,476643025,1506.0,458.0,11.0,Midsund,Møre og Romsdal,farm
+62,475855755,3448.0,142.0,26.0,Dokka,Innlandet,house
+63,464103876,4620.0,34.0,8.0,Ulvik,Vestland,house
+64,467122671,5026.0,41.0,1.0,Ålen,Trøndelag,farm
+65,473138516,5056.0,87.0,6.0,Ansnes,Trøndelag,house
+66,477022491,3338.0,18.0,2.0,Uvdal,Buskerud,farm
+67,476612002,4631.0,430.0,5.0,Manger,Vestland,farm
+68,465703822,5532.0,10.0,1.0,Laksvatn,Troms,farm
+69,449805105,5014.0,51.0,7.0,Dyrvik,Trøndelag,house
+70,474573639,1539.0,147.0,3.0,Mittet,Møre og Romsdal,farm
+71,427635750,5506.0,104.0,33.0,Lundenes,Troms,house
+72,376844704,4645.0,4.0,3.0,Stongfjorden,Vestland,farm
+73,457326307,1576.0,69.0,15.0,Lesund,Møre og Romsdal,farm
+74,475873889,1815.0,7.0,4.0,Vega,Nordland,house
+75,473049581,5038.0,217.0,6.0,Vuku,Trøndelag,house
+76,467677544,5054.0,140.0,53.0,Fevåg,Trøndelag,farm
+77,469330058,1579.0,170.0,14.0,Lyngstad,Møre og Romsdal,house
+78,362005029,4637.0,59.0,4.0,Leirvik i Sogn,Vestland,house
+79,473271448,5057.0,68.0,1.0,Lysøysundet,Trøndelag,farm
+80,473333678,1508.0,814.0,11.0,Myklebust,Møre og Romsdal,farm
+81,474643619,4602.0,4.0,4.0,Barekstad,Vestland,farm
+82,468468311,1508.0,550.0,76.0,Skodje,Møre og Romsdal,farm
+83,475458624,5054.0,74.0,7.0,Vanvikan,Trøndelag,house
+84,467480104,5006.0,230.0,8.0,Steinkjer,Trøndelag,house
+85,476375061,3448.0,143.0,8.0,Dokka,Innlandet,house
+86,475518116,1508.0,529.0,4.0,Skodje,Møre og Romsdal,house
+87,476050011,1573.0,65.0,5.0,Smøla,Møre og Romsdal,farm
+88,476788515,1576.0,50.0,7.0,Kjørsvikbugen,Møre og Romsdal,house
+89,469440662,4211.0,6.0,21.0,Sundebru,Agder,house
+90,476392471,3425.0,161.0,42.0,Engerdal,Innlandet,farm
+91,464235480,5059.0,531.0,2.0,Jerpstad,Trøndelag,farm
+92,474068215,4217.0,39.0,35.0,Åmli,Agder,house
+93,385752750,1742.0,42.0,2.0,Harran,Trøndelag,farm
+94,464454931,4024.0,108.0,3.0,Tuddal,Telemark,farm
+95,464864606,4616.0,6.0,22.0,Flatråker,Vestland,house
+96,474071722,5061.0,51.0,54.0,Rindalsskogen,Trøndelag,farm
+97,430857754,5060.0,6.0,19.0,Ottersøy,Trøndelag,farm
+98,474767311,5054.0,171.0,3.0,Råkvåg,Trøndelag,house
+99,472090363,4613.0,84.0,21.0,Foldrøyhamn,Vestland,house
+100,467709596,5628.0,10.0,48.0,Tana,Finnmark,farm
+101,473993975,5053.0,318.0,26.0,Mosvik,Trøndelag,house
+102,464376719,5007.0,44.0,23.0,Fosslandsosen,Trøndelag,house
+103,475541991,1133.0,139.0,8.0,Årdal i Ryfylke,Rogaland,farm
+104,466444841,4631.0,424.0,71.0,Bøvågen,Vestland,farm
+105,477144785,5520.0,52.0,1.0,Bardu,Troms,farm
+106,464143373,4020.0,6.0,6.0,Bø i Telemark,Telemark,farm
+107,473268523,3449.0,50.0,2.0,Bagn,Innlandet,farm
+108,404193110,5622.0,6.0,60.0,Indre Billefjord,Finnmark,house
+109,475576893,3424.0,18.0,2.0,Rendalen,Innlandet,farm
+110,475987647,5034.0,7.0,7.0,Meråker,Trøndelag,house
+111,461976533,1833.0,175.0,3.0,Utskarpen,Nordland,house
+112,470008888,3441.0,92.0,11.0,Svatsum,Innlandet,farm
+113,466362101,1579.0,87.0,68.0,Farstad,Møre og Romsdal,house
+114,468180497,1827.0,50.0,28.0,Dønna,Nordland,house
+115,477261803,4016.0,41.0,22.0,Drangedal,Telemark,farm
+116,473772466,5059.0,257.0,51.0,Orkanger,Trøndelag,farm
+117,476679723,1804.0,102.0,2.0,Saltstraumen,Nordland,farm
+118,473322165,1506.0,254.0,4.0,Eidsvåg i Romsdal,Møre og Romsdal,house
+119,469995524,5054.0,106.0,19.0,Rissa,Trøndelag,farm
+120,475976093,3234.0,22.0,2.0,Lunner,Akershus,farm
+121,356085804,1837.0,14.0,19.0,Ågskardet,Nordland,house
+122,455741590,5530.0,76.0,47.0,Gibostad,Troms,house
+123,465708748,5054.0,160.0,10.0,Husbysjøen,Trøndelag,farm
+124,475969154,1506.0,104.0,7.0,Sekken,Møre og Romsdal,house
+125,355847711,8110.0,13.0,3.0,Moldjord,81,farm
+126,467294160,5007.0,35.0,13.0,Bangsund,Trøndelag,farm
+127,455103396,5601.0,4.0,20.0,Langfjordbotn,Finnmark,house
+128,476131238,3419.0,5.0,3.0,Braskereidfoss,Innlandet,farm
+129,476099750,1871.0,28.0,3.0,Dverberg,Nordland,farm
+130,471316257,3414.0,20.0,24.0,Sagstua,Innlandet,house
+131,468419268,3401.0,143.0,8.0,Hokkåsen,Innlandet,farm
+132,473648025,1875.0,10.0,8.0,Ulvsvåg,Nordland,house
+133,476623521,1101.0,21.0,10.0,Egersund,Rogaland,farm
+134,297876802,5059.0,557.0,23.0,Storås,Trøndelag,farm
+135,475313132,3425.0,165.0,181.0,Drevsjø,Innlandet,house
+136,476716806,3448.0,20.0,4.0,Dokka,Innlandet,farm
+137,468822575,5526.0,5.0,5.0,Sørreisa,Troms,house
+138,467973698,1837.0,31.0,1.0,Halsa,Nordland,farm
+139,428146220,1514.0,11.0,10.0,Gursken,Møre og Romsdal,house
+140,465587427,1815.0,30.0,8.0,Vega,Nordland,farm
+141,476618265,5027.0,173.0,4.0,Budalen,Trøndelag,farm
+142,436086225,6570.0,46.0,11.0,Smøla,65,house
+143,476027590,5532.0,43.0,210.0,Storsteinnes,Troms,house
+144,465827656,4612.0,36.0,23.0,Auklandshamn,Vestland,house
+145,474548983,1579.0,42.0,387.0,Elnesvågen,Møre og Romsdal,house
+146,474203425,5603.0,121.0,42.0,Kokelv,Finnmark,house
+147,413279463,539.0,187.0,61.0,Lena,Innlandet,house
+148,473264029,4036.0,39.0,10.0,Vinje,Telemark,farm
+149,472266654,4034.0,47.0,20.0,Høydalsmo,Telemark,house
+150,473870317,1822.0,69.0,9.0,Leirfjord,Nordland,house
+151,333118850,1822.0,98.0,2.0,Bardal,Nordland,farm
+152,395869579,9734.0,6.0,7.0,Karasjok,97,farm
+153,468145058,5056.0,106.0,10.0,Hestvika,Trøndelag,house
+154,401209430,1825.0,56.0,3.0,Trofors,Nordland,house
+155,460730121,1857.0,14.0,22.0,Værøy,Nordland,house
+156,464337117,4612.0,107.0,6.0,Førde i Hordaland,Vestland,farm
+157,473993348,1806.0,338.0,92.0,Ballangen,Nordland,house
+158,468604662,3439.0,169.0,7.0,Fåvang,Innlandet,house
+159,443583241,1547.0,5.0,98.0,kvm - Regulert til boligformål,Møre og Romsdal,house
+160,357150286,1875.0,22.0,15.0,Tranøy,Nordland,house
+161,475740389,1853.0,25.0,24.0,Bogen i Ofoten,Nordland,house
+162,472018590,5524.0,25.0,4.0,Moen,Troms,farm
+163,475912239,5054.0,228.0,6.0,Leksvik,Trøndelag,farm
+164,424440806,1577.0,233.0,2.0,Bjørke,Møre og Romsdal,farm
+165,356020678,5057.0,168.0,32.0,Brekstad,Trøndelag,farm
+166,469440153,5025.0,72.0,2.0,- Engesvollen.,Trøndelag,farm
+167,472437010,3907.0,258.0,67.0,Andebu,Vestfold,house
+168,475804613,5060.0,228.0,4.0,Rørvik,Trøndelag,house
+169,474594205,4014.0,10.0,44.0,Stabbestad,Telemark,house
+170,475167699,5027.0,276.0,11.0,Singsås,Trøndelag,farm
+171,476554822,1868.0,76.0,80.0,Myre,Nordland,house
+172,475434352,1149.0,8.0,8.0,Sævelandsvik,Rogaland,house
+173,475275627,3423.0,17.0,55.0,Koppang,Innlandet,farm
+174,475178028,1837.0,77.0,13.0,Meløy,Nordland,farm
+175,460126018,4648.0,92.0,3.0,Rugsund,Vestland,farm
+176,474769148,1833.0,99.0,13.0,Mo i Rana,Nordland,house
+177,409942924,1111.0,82.0,13.0,Hauge i Dalane,Rogaland,house
+178,438988756,1806.0,370.0,26.0,Kjeldebotn,Nordland,house
+179,477507645,3448.0,67.0,63.0,Nord-Torpa,Innlandet,farm
+180,477282236,1806.0,305.0,2.0,Ballangen,Nordland,farm
+181,460914389,1531.0,66.0,1.0,Mauseidvåg,Møre og Romsdal,farm
+182,476740935,4626.0,141.0,3.0,Skogsvåg,Vestland,house
+183,465163704,4020.0,18.0,17.0,Bø i Telemark,Telemark,house
+184,446096428,1160.0,255.0,17.0,Bjoa,Rogaland,farm
+185,468123954,3437.0,181.0,41.0,Heidal,Innlandet,farm
+186,473860827,4639.0,7.0,9.0,Vik i Sogn,Vestland,house
+187,476632199,1859.0,22.0,12.0,Fredvang,Nordland,house
+188,472390885,1554.0,52.0,81.0,Averøy,Møre og Romsdal,farm
+189,476117522,4201.0,5.0,12.0,Risør,Agder,house
+190,416709615,1860.0,36.0,14.0,Leknes,Nordland,farm
+191,474861015,4005.0,242.0,216.0,Notodden,Telemark,house
+192,470565732,4030.0,5.0,17.0,Nissedal,Telemark,farm
+193,472302780,1886.0,84.0,7.0,Hattfjelldal,Nordland,farm
+194,474830340,3415.0,53.0,45.0,Disenå,Innlandet,farm
+195,476452323,3418.0,40.0,6.0,Gjesåsen,Innlandet,house
+196,476102695,3421.0,53.0,94.0,Slettås,Innlandet,house
+197,423220256,3421.0,81.0,3.0,Søre Osen,Innlandet,farm
+198,413038308,1860.0,122.0,7.0,Bøstad,Nordland,house
+199,466811008,5037.0,332.0,8.0,Ytterøy,Trøndelag,house
+200,475953512,4630.0,71.0,4.0,Lonevåg,Vestland,farm
+201,405480303,5532.0,68.0,10.0,Meistervik,Troms,house
+202,476993122,5501.0,49.0,3.0,Vikran,Troms,farm
+203,468279699,4028.0,67.0,9.0,Morgedal,Telemark,farm
+204,465191471,4214.0,82.0,27.0,Risdal,Agder,house
+205,459986959,4647.0,49.0,7.0,Førde,Vestland,farm
+206,476134536,3419.0,86.0,11.0,Gravberget,Innlandet,farm
+207,475981266,1149.0,82.0,54.0,Avaldsnes,Rogaland,house
+208,459773412,3417.0,11.0,11.0,Namnå,Innlandet,house
+209,473226872,1860.0,15.0,56.0,Ballstad,Nordland,house
+210,452853474,4217.0,25.0,409.0,Åmli,Agder,farm
+211,475499104,3417.0,46.0,24.0,Grinder,Innlandet,farm
+212,408849592,1834.0,46.0,5.0,Konsvikosen,Nordland,house
+213,469302668,4221.0,68.0,29.0,Rysstad,Agder,farm
+214,475506915,1866.0,68.0,19.0,Stokmarknes,Nordland,house
+215,457702261,4024.0,77.0,8.0,Sauland,Telemark,farm
+216,471512912,3118.0,663.0,362.0,Trøgstad,Østfold,house
+217,472129925,1505.0,139.0,53.0,Frei,Møre og Romsdal,house
+218,465095687,1838.0,20.0,22.0,Inndyr,Nordland,house
+219,325600631,1867.0,17.0,4.0,Bø i Vesterålen,Nordland,house
+220,452600298,5607.0,5.0,167.0,Vestre Jakobselv,Finnmark,house
+221,450258996,4625.0,18.0,11.0,Stolmen,Vestland,house
+222,475966797,3413.0,404.0,41.0,Åsvang,Innlandet,house
+223,472017495,3421.0,45.0,12.0,Jordet,Innlandet,house
+224,380330192,3420.0,123.0,104.0,Hernes,Innlandet,house
+225,467201752,3324.0,8.0,18.0,Gol,Buskerud,farm
+226,467414431,5036.0,66.0,9.0,Frosta,Trøndelag,house
+227,471947373,1506.0,29.0,823.0,Molde,Møre og Romsdal,house
+228,467077812,3415.0,32.0,35.0,Slåstad,Innlandet,house
+229,365548794,5532.0,17.0,5.0,Nordkjosbotn,Troms,farm
+230,467478150,4636.0,18.0,9.0,Ytrøygrend,Vestland,farm
+231,475465429,3419.0,27.0,16.0,Våler i Solør,Innlandet,farm
+232,399785558,3420.0,39.0,20.0,Heradsbygd,Innlandet,house
+233,410904334,1547.0,5.0,27.0,Aukra,Møre og Romsdal,farm
+234,467956016,1860.0,123.0,12.0,Bøstad,Nordland,house
+235,461110658,4644.0,20.0,317.0,Skjolden,Vestland,house
+236,475517405,3411.0,593.0,22.0,Stavsjø,Innlandet,house
+237,427828013,4014.0,9.0,19.0,Stabbestad,Telemark,house
+238,473025763,3423.0,10.0,279.0,Koppang,Innlandet,house
+239,476532413,3336.0,75.0,8.0,Rollag,Buskerud,house
+240,350081495,1824.0,99.0,15.0,Mosjøen,Nordland,farm
+241,474864987,5038.0,67.0,2.0,Verdal,Trøndelag,farm
+242,466662732,1506.0,515.0,1.0,Midsund,Møre og Romsdal,farm
+243,472374565,3422.0,12.0,43.0,Rena,Innlandet,house
+244,477563352,4219.0,56.0,169.0,Evje,Agder,farm
+245,394601595,1576.0,96.0,1.0,Foldfjorden,Møre og Romsdal,farm
+246,473995618,5524.0,122.0,20.0,Moen,Troms,house
+247,475920152,1866.0,76.0,51.0,Stokmarknes,Nordland,house
+248,476150391,3324.0,38.0,39.0,Gol,Buskerud,house
+249,475393649,3101.0,178.0,27.0,Tistedal,Østfold,house
+250,468076297,4225.0,438.0,17.0,Konsmo,Agder,house
+251,457500910,5054.0,71.0,9.0,Rissa,Trøndelag,farm
+252,465634805,3401.0,1.0,12.0,Kongsvinger,Innlandet,farm
+253,419923473,3423.0,17.0,26.0,Koppang,Innlandet,house
+254,476018387,1824.0,179.0,1.0,Elsfjord,Nordland,farm
+255,439328840,3419.0,50.0,12.0,Braskereidfoss,Innlandet,house
+256,473280055,3414.0,43.0,10.0,Knapper,Innlandet,house
+257,438947605,3118.0,263.0,11.0,Mysen,Østfold,house
+258,476467455,3414.0,40.0,30.0,Gardvik,Innlandet,house
+259,465163683,5544.0,62.0,14.0,Storslett,Troms,farm
+260,475577122,1860.0,133.0,21.0,Valberg,Nordland,house
+261,467085501,5542.0,69.0,188.0,Skjervøy,Troms,house
+262,463912402,1134.0,110.0,120.0,Foldøy,Rogaland,house
+263,473643110,5038.0,196.0,2.0,Vuku,Trøndelag,farm
+264,468046894,1838.0,72.0,18.0,Sandhornøy,Nordland,house
+265,472804759,3116.0,7.0,9.0,Skiptvet,Østfold,house
+266,463365021,3418.0,34.0,8.0,Åsnes Finnskog,Innlandet,farm
+267,419046312,4626.0,149.0,9.0,Skogsvåg,Vestland,house
+268,415359177,7383.0,195.0,10.0,Haltdalen,73,house
+269,469153168,1804.0,73.0,31.0,Tverlandet,Nordland,house
+270,461176997,3438.0,121.0,38.0,Sør-Fron,Innlandet,farm
+271,477589884,3305.0,284.0,46.0,Hallingby,Buskerud,farm
+272,412175521,4617.0,58.0,2.0,Mauranger,Vestland,farm
+273,454102397,554.0,65.0,34.0,Storslett,Innlandet,farm
+274,441338222,5532.0,44.0,1.0,Storsteinnes,Troms,farm
+275,475464069,3435.0,27.0,7.0,Vågå,Innlandet,farm
+276,459626325,3907.0,90.0,10.0,Sandefjord,Vestfold,house
+277,467999745,3448.0,85.0,8.0,Nord-Torpa,Innlandet,farm
+278,398524817,522.0,71.0,21.0,Begnadalen,Innlandet,farm
+279,477070845,4640.0,29.0,9.0,Sogndal,Vestland,farm
+280,476978961,4218.0,45.0,3.0,Iveland,Agder,farm
+281,476738337,5526.0,33.0,8.0,Sørreisa,Troms,farm
+282,474088235,3316.0,53.0,25.0,Åmot,Buskerud,house
+283,466087779,4212.0,42.0,119.0,Vegårshei,Agder,house
+284,462879314,3420.0,180.0,163.0,Sørskogbygda,Innlandet,farm
+285,476460346,1865.0,10.0,32.0,Kabelvåg,Nordland,house
+286,463773705,1119.0,102.0,30.0,Brusand,Rogaland,farm
+287,368122313,4620.0,58.0,1.0,Ulvik,Vestland,farm
+288,467123276,5628.0,38.0,8.0,Tana,Finnmark,house
+289,463577409,1133.0,14.0,34.0,Skiftun,Rogaland,house
+290,461894151,4221.0,68.0,4.0,- et herlig småbruk på Rysstad,Agder,farm
+291,477071513,3451.0,22.0,180.0,Fagernes,Innlandet,farm
+292,461823727,1824.0,117.0,498.0,Mosjøen,Nordland,house
+293,467476176,5057.0,60.0,37.0,Storfosna,Trøndelag,farm
+294,432485187,5022.0,83.0,1.0,Rennebu,Trøndelag,farm
+295,471014354,5057.0,15.0,5.0,Bjugn,Trøndelag,house
+296,474666834,3417.0,93.0,8.0,Kirkenær,Innlandet,farm
+297,464836830,1837.0,26.0,16.0,Halsa,Nordland,house
+298,474919337,3433.0,10.0,1.0,Skjåk,Innlandet,farm
+299,475957070,3419.0,71.0,2.0,Våler i Solør,Innlandet,house
+300,474102429,3441.0,106.0,3.0,Svatsum,Innlandet,farm
+301,464026933,4206.0,96.0,16.0,Vanse,Agder,farm
+302,472807091,1525.0,80.0,2.0,Hellesylt,Møre og Romsdal,farm
+303,477278258,3312.0,81.0,50.0,Lier,Buskerud,farm
+304,465940673,5053.0,14.0,8.0,Inderøy,Trøndelag,farm
+305,464474256,3446.0,257.0,10.0,Gran,Innlandet,house
+306,461880089,5622.0,16.0,8.0,Lakselv,Finnmark,house
+307,476355127,3903.0,283.0,9.0,Hof,Vestfold,farm
+308,476705616,3420.0,131.0,12.0,Hernes,Innlandet,house
+309,465596482,4003.0,335.0,36.0,Skien,Telemark,farm
+310,476704385,5001.0,323.0,756.0,Tiller,Trøndelag,house
+311,463732982,3907.0,90.0,10.0,Sandefjord,Vestfold,house
+312,464221711,3437.0,172.0,10.0,Heidal,Innlandet,farm
+313,463504358,4003.0,2.0,1166.0,Skien,Telemark,house
+314,466464506,1146.0,56.0,2.0,Tysværvåg,Rogaland,farm
+315,465291046,3240.0,181.0,4.0,Minnesund,Akershus,farm
+316,475275737,3105.0,2014.0,14.0,Sarpsborg,Østfold,farm
+317,475554655,3110.0,40.0,102.0,Vesterøy,Østfold,house
+318,473650016,3411.0,602.0,20.0,Nes på Hedmarken,Innlandet,house
+319,474854227,5047.0,78.0,2.0,Overhalla,Trøndelag,farm
+320,376854021,3808.0,433.0,5.0,Notodden,38,farm
+321,473868683,4612.0,35.0,10.0,Auklandshamn,Vestland,farm
+322,471281976,4635.0,95.0,296.0,Byrknesøy,Vestland,house
+323,412113698,3436.0,212.0,9.0,Skåbu,Innlandet,farm
+324,475309867,1832.0,64.0,9.0,Hemnesberget,Nordland,house
+325,463488941,5501.0,174.0,10.0,Kvaløya,Troms,farm
+326,459356087,3112.0,66.0,25.0,Råde,Østfold,house
+327,476980719,3415.0,90.0,5.0,Skarnes,Innlandet,farm
+328,465626317,3411.0,700.0,10.0,Brumunddal,Innlandet,farm
+329,475818592,3328.0,44.0,12.0,Ål,Buskerud,farm
+330,472945043,3105.0,1028.0,5.0,Klavestadhaugen,Østfold,house
+331,468824491,3420.0,180.0,42.0,Sørskogbygda,Innlandet,farm
+332,474557027,4619.0,22.0,1.0,Øvre Eidfjord,Vestland,farm
+333,473020002,3420.0,100.0,124.0,Hernes,Innlandet,farm
+334,474642321,4203.0,45.0,19.0,Saltrød,Agder,house
+335,475819057,3103.0,197.0,296.0,Moss,Østfold,house
+336,467174939,3437.0,172.0,12.0,Heidal,Innlandet,farm
+337,476133570,3107.0,439.0,265.0,Kråkerøy,Østfold,house
+338,466353828,3226.0,267.0,9.0,Rømskog,Akershus,farm
+339,476125936,3907.0,132.0,349.0,Sandefjord,Vestfold,house
+340,473327518,4003.0,1.0,546.0,Skien,Telemark,house
+341,448512878,3421.0,58.0,119.0,Trysil,Innlandet,house
+342,476534151,3435.0,21.0,12.0,Vågå,Innlandet,farm
+343,476064235,3234.0,41.0,9.0,Roa,Akershus,house
+344,463342646,3238.0,141.0,11.0,Maura,Akershus,house
+345,434857490,3240.0,9.0,17.0,Eidsvoll,Akershus,house
+346,473289405,4001.0,382.0,199.0,Porsgrunn,Telemark,house
+347,411761611,3905.0,45.0,7.0,Sem,Vestfold,farm
+348,465702226,3122.0,86.0,125.0,Ørje,Østfold,house
+349,473302622,3415.0,35.0,25.0,Skarnes,Innlandet,farm
+350,319405905,3427.0,14.0,2.0,Tynset,Innlandet,farm
+351,461655181,3420.0,15.0,40.0,Elverum,Innlandet,house
+352,472805825,3403.0,25.0,60.0,Ingeberg,Innlandet,house
+353,454081109,3420.0,149.0,125.0,Hernes,Innlandet,farm
+354,476470938,3118.0,476.0,3.0,Spydeberg,Østfold,farm
+355,476269015,3107.0,601.0,404.0,Gamle Fredrikstad,Østfold,house
+356,462746774,3407.0,59.0,50.0,Gjøvik,Innlandet,house
+357,477065018,3401.0,16.0,20.0,Granli,Innlandet,farm
+358,477215401,3443.0,25.0,3.0,Bøverbru,Innlandet,farm
+359,467799293,4036.0,33.0,1.0,Vinje,Telemark,farm
+360,465916721,4203.0,437.0,354.0,Bjorbekk,Agder,farm
+361,476562738,3228.0,163.0,21.0,Årnes,Akershus,farm
+362,475937782,3421.0,60.0,37.0,Trysil,Innlandet,farm
+363,476056018,3443.0,149.0,27.0,Eina,Innlandet,house
+364,475890844,3905.0,81.0,1.0,Tønsberg,Vestfold,house
+365,404662779,3405.0,67.0,91.0,Lillehammer,Innlandet,house
+366,475220151,3118.0,431.0,72.0,Spydeberg,Østfold,house
+367,474683753,3226.0,154.0,157.0,Setskog,Akershus,house
+368,467978789,3907.0,209.0,19.0,Andebu,Vestfold,farm
+369,462408912,3314.0,135.0,14.0,Fiskum,Buskerud,farm
+370,468150605,3418.0,79.0,4.0,Gjesåsen,Innlandet,farm
+371,463485539,3240.0,21.0,14.0,Eidsvoll,Akershus,farm
+372,477258046,4619.0,13.0,1.0,Øvre Eidfjord,Vestland,farm
+373,462402533,3403.0,193.0,6.0,Ridabu,Innlandet,farm
+374,438112393,3414.0,49.0,83.0,Knapper,Innlandet,farm
+375,474457072,3418.0,203.0,26.0,Arneberg,Innlandet,farm
+376,467299134,4617.0,143.0,141.0,Husnes,Vestland,house
+377,476048151,4203.0,26.0,11.0,Arendal,Agder,house
+378,465623446,3411.0,245.0,12.0,Rudshøgda,Innlandet,farm
+379,434373622,4001.0,121.0,46.0,Porsgrunn,Telemark,house
+380,476537593,4005.0,18.0,2.0,Notodden,Telemark,farm
+381,459343202,3305.0,55.0,2.0,Hønefoss,Buskerud,farm
+382,477129829,3205.0,251.0,37.0,Sørum,Akershus,farm
+383,465018697,3441.0,133.0,27.0,Follebu,Innlandet,house
+384,367294690,3441.0,58.0,5.0,Vestre Gausdal,Innlandet,farm
+385,474473166,3107.0,201.0,18.0,Fredrikstad,Østfold,house
+386,475156582,3420.0,188.0,1.0,Sørskogbygda,Innlandet,farm
+387,421499946,1826.0,84.0,3.0,Hattfjelldal,Nordland,farm
+388,469935354,5540.0,32.0,8.0,Samuelsberg,Troms,farm
+389,466580179,3446.0,276.0,14.0,Gran,Innlandet,farm
+390,475899576,3451.0,4.0,13.0,Fagernes,Innlandet,farm
+391,437936630,3209.0,95.0,3.0,Nordkisa,Akershus,farm
+392,472352898,3316.0,59.0,37.0,Åmot,Buskerud,house
+393,473734704,3905.0,145.0,110.0,Tønsberg,Vestfold,house
+394,459063072,5605.0,19.0,119.0,Svanvik,Finnmark,farm
+395,474248433,3320.0,28.0,5.0,Flå,Buskerud,farm
+396,468355635,5605.0,6.0,19.0,Neiden,Finnmark,farm
+397,428908734,3421.0,16.0,160.0,Østby,Innlandet,farm
+398,361324472,3422.0,43.0,136.0,Rena,Innlandet,house
+399,476453806,3314.0,204.0,14.0,Skotselv,Buskerud,house
+400,420427982,3437.0,190.0,18.0,Heidal,Innlandet,farm
+401,402885508,3312.0,81.0,44.0,Lier,Buskerud,farm
+402,475356878,3226.0,65.0,39.0,Bjørkelangen,Akershus,house
+403,467685895,3226.0,24.0,18.0,Løken,Akershus,farm
+404,468057142,3412.0,197.0,4.0,Løten,Innlandet,house
+405,475450960,4622.0,1.0,2.0,Tørvikbygd,Vestland,house
+406,465900965,3418.0,133.0,2.0,Flisa,Innlandet,farm
+407,475559882,3230.0,54.0,220.0,Gjerdrum,Akershus,house
+408,471404606,3401.0,54.0,49.0,Kongsvinger,Innlandet,house
+409,445933763,3205.0,408.0,10.0,Lillestrøm,Akershus,house
+410,473305467,3314.0,115.0,92.0,Vestfossen,Buskerud,house
+411,458933013,3330.0,61.0,41.0,Geilo,Buskerud,house
+412,476392191,3303.0,8616.0,190.0,Kongsberg,Buskerud,house
+413,471932241,3240.0,96.0,143.0,Råholt,Akershus,house
+414,475376185,3301.0,22.0,258.0,Drammen,Buskerud,house
